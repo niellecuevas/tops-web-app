@@ -5,5 +5,6 @@ urlpatterns = [
     path('dashboard/', views.admin_dashboard, name='admin_dashboard'),  # Admin dashboard view
     path('bookings/', views.bookings, name='bookings'),                # View for bookings
     path('statistics/', views.statistics, name='statistics'),          # View for statistics
-    path('login/', views.login, name='login'),  
+    path('login/', views.admin_login, name='login'),  # Admin login view
+    path('admin_logout/', views.logout, name='admin_logout'), 
 ]
