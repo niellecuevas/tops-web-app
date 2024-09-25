@@ -59,7 +59,8 @@ ROOT_URLCONF = 'tops_platform.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'admin_app/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'admin_app/templates'),
+                 os.path.join(BASE_DIR, 'customer_app/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,7 +123,9 @@ USE_TZ = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Add the static directory path
+    os.path.join(BASE_DIR, 'static'), 
+    os.path.join(BASE_DIR, 'customer_app/static'),  # Include your customer_app static directory
+    os.path.join(BASE_DIR, 'admin_app/static'),  # Add the static directory path
 ]
 
 # Default primary key field type
