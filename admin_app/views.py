@@ -8,3 +8,6 @@ def bookings(request):
 
 def statistics(request):
     return render(request, 'admin_app/adminstatistics.html')   # Render the statistics page
+
+def login(request):
+    return render(request, 'admin_app/adminlogin.html')

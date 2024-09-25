@@ -1,16 +1,17 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="css/adminlogin.css">
+    <link rel="stylesheet" href="{% static 'admin_app/css/adminlogin.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap">
 </head>
 <body>
     <div class="container">
         <div class="form-section">
-            <img src="img/capstoneLogoB.png" alt="Capstone Logo" class="logo">
+            <img src="{% static 'images/capstoneLogoB.png' %}" alt="Capstone Logo" class="logo">
             <h2>Admin Login</h2>
             <form>
                 <label for="adminid">Admin ID:</label>
@@ -21,7 +22,7 @@
             </form>
         </div>
         <div class="image-section">
-            <img src="img/mariovon2.jpg" alt="Decorative Image">
+            <img src="{% static 'images/mariovon1.jpg' %}" alt="Decorative Image">
         </div>
     </div>
 </body>
