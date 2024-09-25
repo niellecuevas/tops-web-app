@@ -60,7 +60,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'admin_app/templates'),
-                 os.path.join(BASE_DIR, 'customer_app/templates'),],
+                 os.path.join(BASE_DIR, 'customer_app/templates'),
+                 os.path.join(BASE_DIR, 'driver_app/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,6 +127,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'), 
     os.path.join(BASE_DIR, 'customer_app/static'),  # Include your customer_app static directory
     os.path.join(BASE_DIR, 'admin_app/static'),  # Add the static directory path
+    os.path.join(BASE_DIR, 'driver_app/static'),
 ]
 
 # Default primary key field type

@@ -20,5 +20,6 @@ from django.urls import path, include  # Import include
 urlpatterns = [
     path('admin/', admin.site.urls),                   # Default admin URL
     path('admin_app/', include('admin_app.urls')), 
-    path('customer_app/', include('customer_app.urls')),   # Include the admin_app URLs
+    path('customer_app/', include('customer_app.urls')),  
+    path('driver_app/', include('driver_app.urls')),
 ]
