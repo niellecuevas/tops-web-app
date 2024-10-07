@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('driverdashboard/', views.driverdashboard, name='driverdashboard'),  
-    path('driverlogin/', views.driverlogin, name='driverlogin'),  
-    
+    path('login/', views.driver_login, name='driver_login'),
+    path('dashboard/<str:driver_id>/', views.driver_dashboard, name='driver_dashboard'),
 ]
