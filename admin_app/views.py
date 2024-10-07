@@ -27,6 +27,10 @@ def bookings(request):
     return render(request, 'admin_app/adminbookings.html')
 
 @login_required
+def driver_management(request):
+    return render(request, 'admin_app/admindriver.html')
+
+@login_required
 def statistics(request):
     return render(request, 'admin_app/adminstatistics.html')
 
@@ -34,3 +38,23 @@ def statistics(request):
 def logout(request):
     auth_logout(request)  # Logs out the user
     return redirect('login')  # Redirect to login
+
+
+from .forms import DriverForm
+from .models import Driver
+
+def driver_management(request):
+    # Handle form submission
+    if request.method == 'POST':
+        form = DriverForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the new driver to the database
+            return redirect('driver_management')  # Redirect to the same page after successful registration
+    else:
+        form = DriverForm()  # Empty form if no form submission
+
+    # Fetch all drivers to display in the list
+    drivers = Driver.objects.all()
+
+    # Pass both the form and the driver list to the template
+    return render(request, 'admin_app/driver_management.html', {'form': form, 'drivers': drivers})

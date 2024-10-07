@@ -1,0 +1,64 @@
+<!-- adminbookings.html -->
+{% extends 'admin_app/admindashboard.html' %}
+{% block content %}
+<head>
+    <style>
+        /* Add some basic styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Driver Management</h1>
+
+    <!-- Driver Registration Form -->
+    <div class="form-container">
+        <h2>Register a Driver</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Displays the form fields -->
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <!-- Driver List -->
+    <h2>List of Registered Drivers</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Driver ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in drivers %}
+                <tr>
+                    <td>{{ driver.driver_id }}</td>  <!-- Driver ID -->
+                    <td>{{ driver.name }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No drivers registered yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+{% endblock %}
