@@ -17,96 +17,95 @@
 
 <div class="form-wrapper">
   <div class="form-container">
-    <!-- Add form tag with action and method -->
     <form method="POST" action="{% url 'customerform' %}" enctype="multipart/form-data">
-      {% csrf_token %}
-      <!-- First Row: Full Name, Passenger Count, With Infant/PWD/Senior, Contact Number -->
-      <div class="form-row">
-        <div class="form-group">
-          <label for="full-name">Full Name</label>
-          <input type="text" id="full-name" name="full-name" class="form-control" required>
+        {% csrf_token %}
+        
+        <!-- First Row: Full Name, Passenger Count, With Infant/PWD/Senior, Contact Number -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" name="full_name" class="form-control" value="{{ form.full_name.value|default_if_none:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="passenger-count">Passenger Count</label>
+                <input type="number" id="passenger-count" name="passenger_count" class="form-control" value="{{ form.passenger_count.value|default_if_none:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label>With Infant/PWD/Senior Citizen?</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="with_infant" {% if form.with_infant.value %}checked{% endif %}> Infant</label>
+                    <label><input type="checkbox" name="with_pwd" {% if form.with_pwd.value %}checked{% endif %}> PWD</label>
+                    <label><input type="checkbox" name="with_senior" {% if form.with_senior.value %}checked{% endif %}> Senior</label>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contact-number">Contact Number</label>
+                <input type="text" id="contact-number" name="contact_number" class="form-control" value="{{ form.contact_number.value|default_if_none:'' }}" required>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="passenger-count">Passenger Count</label>
-          <input type="number" id="passenger-count" name="passenger-count" class="form-control" required>
+    
+        <!-- Second Row: Pick Up Date & Time, Pick Up Address, Drop Off Address, Select Driver/Van -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="pickup-datetime">Pick Up Date & Time</label>
+                <input type="datetime-local" id="pickup-datetime" name="pickup_datetime" class="form-control" value="{{ form.pickup_datetime.value|default_if_none:'' }}" required>
+            </div>
+         
+            <div class="form-group">
+                <label for="pickup-address">Pick Up Address</label>
+                <input type="text" id="pickup-address" name="pickup_address" class="form-control" value="{{ form.pickup_address.value|default_if_none:'' }}" required>
+            </div>
+             
+            <div class="form-group">
+                <label for="dropoff-address">Drop Off Address</label>
+                <input type="text" id="dropoff-address" name="dropoff_address" class="form-control" value="{{ form.dropoff_address.value|default_if_none:'' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="driver-van">Select Driver/Van</label>
+                <select id="driver-van" name="driver_van" class="form-control" required>
+                    <option value="driver1" {% if form.driver_van.value == 'driver1' %}selected{% endif %}>Juan Dela Cruz - Toyota HiAce Super Grandia</option>
+                </select>
+            </div>
         </div>
-        <div class="form-group">
-          <label>With Infant/PWD/Senior Citizen?</label>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="infant"> Infant</label>
-            <label><input type="checkbox" name="pwd"> PWD</label>
-            <label><input type="checkbox" name="senior"> Senior</label>
-          </div>
+    
+        <!-- Third Row: Additional Notes 
+        <div class="form-row">
+            <div class="form-group full-width">
+                <label for="additional-notes">Additional Notes</label>
+                <textarea id="additional-notes" name="additional_notes" class="form-control">{{ form.additional_notes.value|default_if_none:'' }}</textarea>
+            </div>
+        </div>-->
+    
+        <!-- Fourth Row: Round Trip, Grand Total, Mode of Payment, Proof of Payment 
+        <div class="form-row">
+            <div class="form-group">
+                <label for="round-trip">Round Trip</label>
+                <input type="checkbox" id="round-trip" name="round_trip" {% if form.round_trip.value %}checked{% endif %}>
+            </div>
+            <div class="form-group">
+                <label for="grand-total">Grand Total</label>
+                <input type="text" id="grand-total" name="grand_total" class="form-control" value="{{ form.grand_total.value|default_if_none:'PHP 0' }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="payment-mode">Mode of Payment</label>
+                <select id="payment-mode" name="payment_mode" class="form-control" required>
+                    <option value="bpi" {% if form.payment_mode.value == 'bpi' %}selected{% endif %}>BPI Online</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="proof-of-payment">Proof of Payment</label>
+                <input type="file" id="proof-of-payment" name="proof_of_payment" class="form-control">
+            </div>
+        </div>-->
+    
+        <!-- Submit Button -->
+        <div class="form-row submit-row">
+            <button type="submit" class="submit-btn">SUBMIT</button>
         </div>
-        <div class="form-group">
-          <label for="contact-number">Contact Number</label>
-          <input type="text" id="contact-number" name="contact-number" class="form-control" required>
-        </div>
-      </div>
+    </form>
+    
   
-      <!-- Second Row: Pick Up Date & Time, Pick Up Address, Drop Off Address, Select Driver/Van -->
-      <div class="form-row">
-        <div class="form-group">
-          <label for="pickup-datetime">Pick Up Date & Time</label>
-          <input type="datetime-local" id="pickup-datetime" name="pickup-datetime" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="pickup-address">Pick Up Address</label>
-          <input type="text" id="pickup-address" name="pickup-address" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="dropoff-address">Drop Off Address</label>
-          <input type="text" id="dropoff-address" name="dropoff-address" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="driver-van">Select Driver/Van</label>
-          <select id="driver-van" name="driver-van" class="form-control" required>
-            <option value="driver1">Juan Dela Cruz - Toyota HiAce Super Grandia</option>
-          </select>
-        </div>
-      </div>
-  
-      <!-- Third Row: Additional Notes -->
-      <div class="form-row">
-        <div class="form-group full-width">
-          <label for="additional-notes">Additional Notes</label>
-          <textarea id="additional-notes" name="additional-notes" class="form-control"></textarea>
-        </div>
-      </div>
-  
-      <!-- Fourth Row: Round Trip, Grand Total, Mode of Payment, Proof of Payment -->
-      <div class="form-row">
-        <div class="form-group">
-          <label for="round-trip">Round Trip</label>
-          <input type="checkbox" id="round-trip" name="round-trip">
-        </div>
-        <div class="form-group">
-          <label for="grand-total">Grand Total</label>
-          <input type="text" id="grand-total" name="grand-total" class="form-control" value="PHP 0" readonly>
-        </div>
-        <div class="form-group">
-          <label for="payment-mode">Mode of Payment</label>
-          <select id="payment-mode" name="payment-mode" class="form-control" required>
-            <option value="bpi">BPI Online</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="proof-of-payment">Proof of Payment</label>
-          <input type="file" id="proof-of-payment" name="proof-of-payment" class="form-control">
-        </div>
-      </div>
-  
-      <!-- Fifth Row: Note -->
-      <div class="form-row">
-        <p class="form-note">
-          Note: Over the counter payments must be made within 48 hours of submitting this form. This is strictly implemented, and settling at a later time may risk your booking to be declared cancelled or moved to a later date.
-        </p>
-      </div>
-  
-      <!-- Sixth Row: Submit Button -->
-      <div class="form-row submit-row">
-        <button type="submit" class="submit-btn">SUBMIT</button>
-      </div>
-    </form> <!-- Close form tag -->
   </div>
 </div>
