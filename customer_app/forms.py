@@ -6,4 +6,9 @@ class Booking(forms.ModelForm):
         model = Booking
         fields = ['full_name', 'passenger_count', 'with_infant', 'with_pwd', 'with_senior',
                   'contact_number', 'pickup_datetime', 'pickup_address', 'dropoff_address',
-                  'driver_van']
+                  'driver_van','additional_notes','round_trip','grand_total']
+    def __init__(self, *args, **kwargs):
+        super(Booking, self).__init__(*args, **kwargs)
+        # Set initial values to empty for pickup_address and drop_off_address
+        self.fields['pickup_address'].initial = ''
+        self.fields['dropoff_address'].initial = ''

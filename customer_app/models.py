@@ -11,9 +11,9 @@ class Booking(models.Model):
     pickup_address = models.CharField(max_length=255, default='Not Specified')
     dropoff_address = models.CharField(max_length=255, default='Not Specified')
     driver_van = models.CharField(max_length=255, default='driver1') # You can use a ForeignKey to a Driver model if needed
-    #additional_notes = models.TextField(blank=True, null=True)
-    #round_trip = models.BooleanField(default=False)
-    #grand_total = models.DecimalField(max_digits=10, decimal_places=2)
+    additional_notes = models.TextField(blank=True, null=True)
+    round_trip = models.BooleanField(default=False)
+    grand_total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     #payment_mode = models.CharField(max_length=50)
     #proof_of_payment = models.FileField(upload_to='payments/', blank=True, null=True)
 

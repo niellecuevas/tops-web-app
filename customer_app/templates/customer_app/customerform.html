@@ -1,5 +1,6 @@
+<html>
+{% load static %}
 <head>
-  {% load static %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
@@ -15,6 +16,7 @@
   <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage.css' %}">
 </head>
 
+<body>
 <div class="form-wrapper">
   <div class="form-container">
     <form method="POST" action="{% url 'customerform' %}" enctype="multipart/form-data">
@@ -28,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label for="passenger-count">Passenger Count</label>
-                <input type="number" id="passenger-count" name="passenger_count" class="form-control" value="{{ form.passenger_count.value|default_if_none:'' }}" required>
+                <input type="number" id="passenger-count" name="passenger_count" class="form-control" value="{{ form.passenger_count.value|default_if_none:'' }}" min="1" required>
             </div>
             <div class="form-group">
                 <label>With Infant/PWD/Senior Citizen?</label>
@@ -70,24 +72,26 @@
             </div>
         </div>
     
-        <!-- Third Row: Additional Notes 
+        <!-- Third Row: Additional Notes -->
         <div class="form-row">
             <div class="form-group full-width">
                 <label for="additional-notes">Additional Notes</label>
                 <textarea id="additional-notes" name="additional_notes" class="form-control">{{ form.additional_notes.value|default_if_none:'' }}</textarea>
             </div>
-        </div>-->
+        </div>
     
-        <!-- Fourth Row: Round Trip, Grand Total, Mode of Payment, Proof of Payment 
+        <!-- Fourth Row: Round Trip, Grand Total, Mode of Payment, Proof of Payment -->
         <div class="form-row">
             <div class="form-group">
                 <label for="round-trip">Round Trip</label>
                 <input type="checkbox" id="round-trip" name="round_trip" {% if form.round_trip.value %}checked{% endif %}>
             </div>
+            
             <div class="form-group">
-                <label for="grand-total">Grand Total</label>
-                <input type="text" id="grand-total" name="grand_total" class="form-control" value="{{ form.grand_total.value|default_if_none:'PHP 0' }}" readonly>
+                <label for="grand-total">Grand Total (PHP)</label>
+                <input type="text" id="grand-total" name="grand_total" class="form-control" value="{{ form.grand_total.value|default_if_none:'0' }}" readonly>
             </div>
+            <!--
             <div class="form-group">
                 <label for="payment-mode">Mode of Payment</label>
                 <select id="payment-mode" name="payment_mode" class="form-control" required>
@@ -105,7 +109,8 @@
             <button type="submit" class="submit-btn">SUBMIT</button>
         </div>
     </form>
-    
-  
   </div>
 </div>
+
+</body>
+</html>

@@ -38,43 +38,63 @@
           </div>
           
         </div>        
-<script>
-  // Wait for the document to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Get the BOOK NOW button and form container
-    const bookNowButton = document.getElementById('bookNowButton');
-    const formContainer = document.getElementById('formContainer');
-
-    // Add event listener for the button click
-    bookNowButton.addEventListener('click', function() {
-        // Fetch the customer form HTML
-        fetch('/customer_app/customerform/')
-            .then(response => response.text())
-            .then(html => {
-                // Inject the form HTML into the form container
-                formContainer.innerHTML = html;
-
-                // Add a class to animate the form appearance
-                formContainer.style.display = 'none'; // Initially hidden
-                formContainer.style.opacity = 0;
-                formContainer.style.transition = 'opacity 0.8s ease-out';
-
-                // Smooth scroll to the form container
-                formContainer.style.display = 'block';
-                window.scrollTo({
-                    top: formContainer.offsetTop,
-                    behavior: 'smooth'
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const bookNowButton = document.getElementById('bookNowButton');
+                const formContainer = document.getElementById('formContainer');
+            
+                bookNowButton.addEventListener('click', function() {
+                    fetch('/customer_app/customerform/')
+                        .then(response => response.text())
+                        .then(html => {
+                            // Inject the form HTML into the form container
+                            formContainer.innerHTML = html;
+            
+                            // Add a class to animate the form appearance
+                            formContainer.style.display = 'none'; // Initially hidden
+                            formContainer.style.opacity = 0;
+                            formContainer.style.transition = 'opacity 0.8s ease-out';
+            
+                            // Smooth scroll to the form container
+                            formContainer.style.display = 'block';
+                            window.scrollTo({
+                                top: formContainer.offsetTop,
+                                behavior: 'smooth'
+                            });
+            
+                            // Fade in the form with animation
+                            setTimeout(() => {
+                                formContainer.style.opacity = 1;
+                            }, 100);
+            
+                            // Call setupGrandTotal after the form is loaded
+                            setupGrandTotal();
+                        })
+                        .catch(error => console.error('Error loading the form:', error));
                 });
-
-                // Fade in the form with animation
-                setTimeout(() => {
-                    formContainer.style.opacity = 1;
-                }, 100);
-            })
-            .catch(error => console.error('Error loading the form:', error));
-    });
-});
-
-</script>
+            
+                function setupGrandTotal() {
+                    const passengerCountInput = document.getElementById('passenger-count');
+                    const grandTotalInput = document.getElementById('grand-total');
+            
+                    // Ensure these IDs match the ones in your form
+                    if (passengerCountInput && grandTotalInput) {
+                        function updateGrandTotal() {
+                            let passengerCount = parseInt(passengerCountInput.value) || 0;
+                            let grandTotal = passengerCount * 1000; // Adjust price per passenger
+            
+                            // Update the grand total input value
+                            grandTotalInput.value = grandTotal; // Store plain number for form submission
+                        }
+            
+                        // Bind the event listener for input changes
+                        passengerCountInput.addEventListener('input', updateGrandTotal);
+                        updateGrandTotal(); // Run once to set the initial value
+                    }
+                }
+            });
+            </script>
+                  
+          
 </body>
 </html>
