@@ -1,0 +1,207 @@
+
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+body {
+  font-family: "roboto";
+}
+nav {
+  background: #ce40b0;
+  height: 80px;
+  width: 100%;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2); /* Shadow below navbar */
+  position: relative; /* Add this to position the shadow correctly */
+  z-index: 10;
+}
+label.logo {
+  color: white;
+  font-size: 25px;
+  line-height: 80px;
+  padding: 0 100px;
+  font-weight: bold;
+}
+
+nav ul {
+  float: right;
+  margin-right: 20px;
+}
+nav ul li {
+  display: inline-block;
+  line-height: 80px;
+  margin: 0 5px;
+}
+nav ul li a {
+  color: white;
+  font-size: 17px;
+  padding: 7px 13px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+a.active,
+a:hover {
+  color: #fcd23c;
+  transition: .5s;
+}
+.checkbtn {
+  font-size: 22px;
+  color: white;
+  float: right;
+  line-height: 80px;
+  margin-right: 30px;
+  cursor: pointer;
+  display: none;
+}
+#check {
+  display: none;
+}
+@media (max-width: 1050px) {
+  label.logo {
+    padding-left: 30px;
+  }
+  nav ul li a {
+    font-size: 16px;
+  }
+}
+/* Responsive media query code for small screen */
+@media (max-width: 890px) {
+  .checkbtn {
+    display: block;
+  }
+  label.logo {
+    font-size: 22px;
+  }
+  ul {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #2c3e50;
+    top: 80px;
+    left: -100%;
+    text-align: center;
+    transition: all .5s;
+  }
+  nav ul li {
+    display: block;
+    margin: 50px 0;
+    line-height: 30px;
+  }
+  nav ul li a {
+    font-size: 20px;
+  }
+  a:hover,
+  a.active {
+    background: none;
+    color: #0082e6;
+  }
+  #check:checked~ul {
+    left: 0;
+  }
+}
+.trip-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    z-index: 5; /* Ensure the image appears below the navbar */
+  }
+
+
+  /* Text styling */
+.booking-text {
+    font-family: 'Roboto';
+    font-weight: 300;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px; /* Adds space below the text */
+    font-size: 24px;
+    color: #333;
+  }
+  .see-more {
+    font-size: 16px; /* Smaller font size for "See More" */
+    color: #333; /* Text color */
+    float: right;
+}
+
+.van-card-container {
+    margin-top: 30px;
+    display: flex; /* Flex for horizontal alignment */
+    gap: 20px;
+    overflow-x: auto; /* Allows horizontal scrolling if necessary */
+    justify-content: center; /* Center the cards */
+}
+
+.see-more-container {
+    text-align: center; /* Center the "See More" link */
+    width: 100%; /* Ensure full width for centering */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center content horizontally */
+    margin-top: 20px; /* Space above the button */
+}
+
+.see-more {
+    font-size: 16px; /* Font size for "See More" */
+    color: #333; /* Text color */
+    text-decoration: none; /* Remove underline */
+    padding: 10px; /* Space around the link */
+    border: 1px solid #ddd; /* Border for visibility */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* Background color */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.see-more:hover {
+    background-color: #ce40b0; /* Background color on hover */
+    color: white; /* Text color on hover */
+}
+
+.van-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 250px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.van-img {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.van-img img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: cover;
+}
+
+.van-details p {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.book-btn {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.book-btn button {
+    background-color: #ce40b0;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.book-btn button:hover {
+    background-color: #a7328c;
+}

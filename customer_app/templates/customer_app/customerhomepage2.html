@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFS Travelista</title>
+    <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage2.css' %}">
+</head>
+<body>
+    <nav>
+        <!-- Checkbox for toggling menu -->
+        <input type="checkbox" id="check">
+        <!-- Menu icon -->
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <!-- Site logo -->
+        <label class="logo">GFS Travelista</label>
+        <!-- Navigation links -->
+        <ul>
+          <li><a class="active" href="#">Home</a></li>
+          <li><a href="#">Private Ride</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </nav>
+      <!-- Section for image -->
+      <section>
+        <img src="{% static 'images/tripsched.png' %}" alt="Trip Schedule Image" class="trip-image">
+      </section>
+
+      <h2 class="booking-text">Want to book a private ride?</h2>
+
+      <div class="van-card-container">
+        <div class="van-card">
+            <div class="van-img">
+                <img src="{% static 'images/MAXUS_V80.jpg' %}" alt="Van Image">
+            </div>
+            <div class="van-details">
+                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Max Pax:</strong> 10</p>
+                <p><strong>Driver:</strong> Juan</p>
+                <p><strong>Min Price:</strong> ₱5000</p>
+            </div>
+            <div class="book-btn">
+                <button>Book</button>
+            </div>
+        </div>
+
+        <div class="van-card">
+            <div class="van-img">
+                <img src="{% static 'images/FOTON_TRANSVAN.jpg' %}" alt="Van Image">
+            </div>
+            <div class="van-details">
+                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Max Pax:</strong> 10</p>
+                <p><strong>Driver:</strong> Juan</p>
+                <p><strong>Min Price:</strong> ₱5000</p>
+            </div>
+            <div class="book-btn">
+                <button>Book</button>
+            </div>
+        </div>
+
+        <div class="van-card">
+            <div class="van-img">
+                <img src="{% static 'images/TOYOTA_HIACE.jpg' %}" alt="Van Image">
+            </div>
+            <div class="van-details">
+                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Max Pax:</strong> 10</p>
+                <p><strong>Driver:</strong> Juan</p>
+                <p><strong>Min Price:</strong> ₱5000</p>
+            </div>
+            <div class="book-btn">
+                <button>Book</button>
+            </div>
+        </div>
+
+        <div class="van-card">
+            <div class="van-img">
+                <img src="{% static 'images/NISSAN_URVAN.jpg' %}" alt="Van Image">
+            </div>
+            <div class="van-details">
+                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Max Pax:</strong> 10</p>
+                <p><strong>Driver:</strong> Juan</p>
+                <p><strong>Min Price:</strong> ₱5000</p>
+            </div>
+            <div class="book-btn">
+                <button>Book</button>
+            </div>
+        </div>
+
+        <!-- Repeat the van-card for more vans -->
+    </div>
+
+    <div class="see-more-container">
+        <a href="#" class="see-more">See More</a>
+    </div>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const bookNowButton = document.getElementById('bookNowButton');
+                const formContainer = document.getElementById('formContainer');
+            
+                bookNowButton.addEventListener('click', function() {
+                    fetch('/customer_app/customerform/')
+                        .then(response => response.text())
+                        .then(html => {
+                            // Inject the form HTML into the form container
+                            formContainer.innerHTML = html;
+            
+                            // Add a class to animate the form appearance
+                            formContainer.style.display = 'none'; // Initially hidden
+                            formContainer.style.opacity = 0;
+                            formContainer.style.transition = 'opacity 0.8s ease-out';
+            
+                            // Smooth scroll to the form container
+                            formContainer.style.display = 'block';
+                            window.scrollTo({
+                                top: formContainer.offsetTop,
+                                behavior: 'smooth'
+                            });
+            
+                            // Fade in the form with animation
+                            setTimeout(() => {
+                                formContainer.style.opacity = 1;
+                            }, 100);
+            
+                            // Call setupGrandTotal after the form is loaded
+                            setupGrandTotal();
+                        })
+                        .catch(error => console.error('Error loading the form:', error));
+                });
+            
+                function setupGrandTotal() {
+                    const passengerCountInput = document.getElementById('passenger-count');
+                    const grandTotalInput = document.getElementById('grand-total');
+            
+                    // Ensure these IDs match the ones in your form
+                    if (passengerCountInput && grandTotalInput) {
+                        function updateGrandTotal() {
+                            let passengerCount = parseInt(passengerCountInput.value) || 0;
+                            let grandTotal = passengerCount * 1000; // Adjust price per passenger
+            
+                            // Update the grand total input value
+                            grandTotalInput.value = grandTotal; // Store plain number for form submission
+                        }
+            
+                        // Bind the event listener for input changes
+                        passengerCountInput.addEventListener('input', updateGrandTotal);
+                        updateGrandTotal(); // Run once to set the initial value
+                    }
+                }
+            });
+            </script>
+                  
+          
+</body>
+</html>

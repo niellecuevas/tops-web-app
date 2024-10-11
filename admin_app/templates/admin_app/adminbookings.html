@@ -1,6 +1,56 @@
 <!-- adminbookings.html -->
 {% extends 'admin_app/admindashboard.html' %}
 {% block content %}
-<h2>Bookings Page</h2>
-<p>Details about bookings will go here.</p>
+<h1>Admin Bookings</h1>
+
+<form method="GET" action="{% url 'admin_bookings' %}">
+    <input type="text" name="q" placeholder="Search bookings..." required>
+    <button type="submit">Search</button>
+</form>
+    
+<table>
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Full Name</th>
+            <th>Passenger Count</th>
+            <th>With Infant</th>
+            <th>With PWD</th>
+            <th>With Senior</th>
+            <th>Contact Number</th>
+            <th>Pickup DateTime</th>
+            <th>Pickup Address</th>
+            <th>Dropoff Address</th>
+            <th>Driver Van</th>
+            <th>Additional Notes</th>
+            <th>Round Trip</th>
+            <th>Grand Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ booking.full_name }}</td>
+            <td>{{ booking.passenger_count }}</td>
+            <td>{{ booking.with_infant|yesno:"Yes,No" }}</td>
+            <td>{{ booking.with_pwd|yesno:"Yes,No" }}</td>
+            <td>{{ booking.with_senior|yesno:"Yes,No" }}</td>
+            <td>{{ booking.contact_number }}</td>
+            <td>{{ booking.pickup_datetime }}</td>
+            <td>{{ booking.pickup_address }}</td>
+            <td>{{ booking.dropoff_address }}</td>
+            <td>{{ booking.driver_van }}</td>
+            <td>{{ booking.additional_notes }}</td>
+            <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
+            <td>{{ booking.grand_total }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="14">No bookings available.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

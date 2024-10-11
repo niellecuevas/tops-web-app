@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFS Travelista</title>
+    <title>Booking Form Layout</title>
+    <link rel="stylesheet" href="{% static 'customer_app/css/bookvan.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Book a Van</h2>
+    <div class="form-section">
+        <div class="column">
+            <label for="driver">Van Driver</label>
+            <input type="text" id="driver" placeholder="Enter Driver Name">
+
+            <label for="booking-date">Booking Date</label>
+            <input type="date" id="booking-date">
+        </div>
+        
+        <div class="column">
+            <label for="payment-method">Mode of Payment</label>
+            <select id="payment-method">
+                <option value="cash">Cash</option>
+                <option value="qr-code">QR Code</option>
+            </select>
+
+            <label for="proof">Proof of Payment</label>
+            <input type="file" id="proof">
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="column">
+            <label for="terms">Terms and Conditions</label>
+            <input type="checkbox" id="terms"> I have read the T&C
+        </div>
+    </div>
+
+    <div class="submit-container">
+        <button type="submit">Submit</button>
+    </div>
+</div>
+
+</body>
+</html>

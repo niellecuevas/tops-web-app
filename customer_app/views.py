@@ -51,4 +51,10 @@ def success(request):
     # Optionally, you can pass more context if needed
     return render(request, 'customer_app/success.html')
 
+def customerhomepage2_view(request):
+    return render(request, 'customer_app/customerhomepage2.html')
+
+def bookvan(request):
+    return render(request, 'customer_app/bookvan.html')
+
 
