@@ -86,6 +86,20 @@
 
     <!-- Driver List -->
     <h2>List of Registered Drivers</h2>
+    <div>
+        <label for="sortDrivers">Sort by Driver ID:</label>
+        <select id="sortDrivers" onchange="sortTable()">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="searchDriver">Search by Driver Name:</label>
+        <input type="text" id="searchDriver" oninput="searchTable()" placeholder="Enter driver name...">
+    </div>
+    
+    
     <table>
         <thead>
             <tr>
@@ -184,6 +198,48 @@
         }
     });
 };
+
+// SORT
+function sortTable() {
+    const table = document.querySelector("table tbody");
+    const rows = Array.from(table.querySelectorAll("tr"));
+
+    // Determine the sort order
+    const sortOrder = document.getElementById("sortDrivers").value;
+
+    // Sort rows based on the Driver ID (assuming Driver ID is in the first cell)
+    rows.sort((a, b) => {
+        const idA = a.cells[0].innerText;  // Driver ID in the first column
+        const idB = b.cells[0].innerText;
+        
+        // Remove 'DRV' prefix for numeric comparison
+        const numA = parseInt(idA.replace('DRV', ''));
+        const numB = parseInt(idB.replace('DRV', ''));
+
+        return sortOrder === "asc" ? numA - numB : numB - numA;
+    });
+
+    // Remove existing rows from the table
+    rows.forEach(row => table.appendChild(row)); // Re-append sorted rows to the table
+}
+
+
+// SEARCH BY DRIVER NAME
+function searchTable() {
+    const searchInput = document.getElementById("searchDriver").value.toLowerCase();
+    const table = document.querySelector("table tbody");
+    const rows = Array.from(table.querySelectorAll("tr"));
+
+    rows.forEach(row => {
+        const driverName = row.cells[1].innerText.toLowerCase(); // Assuming the name is in the second cell
+        if (driverName.includes(searchInput)) {
+            row.style.display = ""; // Show row if it matches
+        } else {
+            row.style.display = "none"; // Hide row if it doesn't match
+        }
+    });
+}
+
 
 </script>
 
