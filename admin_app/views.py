@@ -70,3 +70,19 @@ def admin_bookings(request):
         # Filter bookings based on the search query
         bookings = bookings.filter(full_name__icontains=query)
     return render(request, 'admin_app/adminbookings.html', {'bookings': bookings})
+
+from django.shortcuts import get_object_or_404, redirect
+from django.http import JsonResponse
+
+def updateDriverForm(request):
+    if request.method == 'POST':
+        driver_id = request.POST.get('driver_id')  # Get the custom driver ID from the form
+        driver = get_object_or_404(Driver, driver_id=driver_id)  # Fetch by driver_id, not the primary key
+        
+        form = DriverForm(request.POST, instance=driver)
+        if form.is_valid():
+            form.save()  # Save the updated driver details
+            return JsonResponse({'status': 'success', 'message': 'Driver updated successfully.'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form validation failed.'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request.'})

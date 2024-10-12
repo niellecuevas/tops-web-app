@@ -4,6 +4,7 @@ class Driver(models.Model):
     DRIVER_ID_PREFIX = 'DRV'  # Prefix for the driver ID
 
     # Driver ID will be auto-generated with prefix and unique number
+    id = models.AutoField(primary_key=True)
     driver_id = models.CharField(max_length=10, unique=True, editable=False)
     name = models.CharField(max_length=100)
     license = models.CharField(max_length=50, default='N/A')  # Default value set

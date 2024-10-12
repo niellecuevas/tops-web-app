@@ -10,4 +10,5 @@ urlpatterns = [
     path('admin_logout/', views.logout, name='admin_logout'), 
     path('driver_management/', driver_management, name='driver_management'), 
     path('admin_bookings/', admin_bookings, name='admin_bookings'),
+    path('update-driver/', views.updateDriverForm, name='update_driver'), 
 ]

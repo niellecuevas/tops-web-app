@@ -20,6 +20,43 @@
         .form-container {
             margin-bottom: 20px;
         }
+        .action-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -35,13 +72,13 @@
             {{ form.name }}
     
             <label for="{{ form.license.id_for_label }}">{{ form.license.label }}</label>
-            {{ form.license }}  <!-- This will render without "N/A" visible -->
+            {{ form.license }}
             
             <label for="{{ form.van_model.id_for_label }}">{{ form.van_model.label }}</label>
-            {{ form.van_model }}  <!-- Same here -->
+            {{ form.van_model }}
             
             <label for="{{ form.plate_number.id_for_label }}">{{ form.plate_number.label }}</label>
-            {{ form.plate_number }}  <!-- Same here -->
+            {{ form.plate_number }}
             
             <button type="submit">Register</button>
         </form>
@@ -57,24 +94,99 @@
                 <th>License</th>
                 <th>Van Model</th>
                 <th>Plate Number</th>
+                <th>Action</th>  <!-- Added Action column -->
             </tr>
         </thead>
         <tbody>
             {% for driver in drivers %}
-                <tr>
-                    <td>{{ driver.driver_id }}</td>  <!-- Driver ID -->
-                    <td>{{ driver.name }}</td>
-                    <td>{{ driver.license }}</td>
-                    <td>{{ driver.van_model }}</td>
-                    <td>{{ driver.plate_number }}</td>
+                <tr data-id="{{ driver.driver_id }}">
+                    <td>{{ driver.driver_id }}</td>
+                    <td class="name">{{ driver.name }}</td>
+                    <td class="license">{{ driver.license }}</td>
+                    <td class="van_model">{{ driver.van_model }}</td>
+                    <td class="plate_number">{{ driver.plate_number }}</td>
+                    <td>
+                        <button onclick="openModal('{{ driver.driver_id }}', '{{ driver.name }}', '{{ driver.license }}', '{{ driver.van_model }}', '{{ driver.plate_number }}')">Update</button>
+                    </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="5">No drivers registered yet.</td>
+                    <td colspan="6">No drivers registered yet.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+  <!-- Modal Content -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Update Driver</h2>
+        <!-- Inside the popup form -->
+        <form id="updateDriverForm" method="POST">
+            {% csrf_token %}
+            
+            <input type="hidden" name="driver_id" id="driver_id">  <!-- Hidden field for driver_id -->
+            
+            <label for="modal_name">Name</label>
+            <input type="text" id="modal_name" name="name"> <!-- Add an input field for name -->
+            
+            <label for="modal_license">License</label>
+            <input type="text" id="modal_license" name="license"> <!-- Add an input field for license -->
+            
+            <label for="modal_van_model">Van Model</label>
+            <input type="text" id="modal_van_model" name="van_model"> <!-- Add an input field for van model -->
+            
+            <label for="modal_plate_number">Plate Number</label>
+            <input type="text" id="modal_plate_number" name="plate_number"> <!-- Add an input field for plate number -->
+            
+            <button type="submit">Update Driver</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function openModal(driverId, name, license, vanModel, plateNumber) {
+    document.getElementById('myModal').style.display = 'block';
+    
+    // Populate the modal form with the respective row data
+    document.getElementById('driver_id').value = driverId;
+    document.getElementById('modal_name').value = name;
+    document.getElementById('modal_license').value = license;
+    document.getElementById('modal_van_model').value = vanModel;
+    document.getElementById('modal_plate_number').value = plateNumber;
+}
+
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    document.getElementById('updateDriverForm').onsubmit = function(event) {
+    event.preventDefault();
+    
+    let formData = new FormData(this);
+    
+    fetch("{% url 'update_driver' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert(data.message);
+            location.reload();  // Reload the page to reflect the changes in the table
+        } else {
+            alert(data.message);
+        }
+    });
+};
+
+</script>
+
 
 </body>
 
