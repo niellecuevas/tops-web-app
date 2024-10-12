@@ -47,13 +47,15 @@
                 <img src="{% static 'images/MAXUS_V80.jpg' %}" alt="Van Image">
             </div>
             <div class="van-details">
-                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Van Model:</strong>Maxus V80</p>
                 <p><strong>Max Pax:</strong> 10</p>
-                <p><strong>Driver:</strong> Juan</p>
+                <p><strong>Driver:</strong> Random</p>
                 <p><strong>Min Price:</strong> ₱5000</p>
             </div>
             <div class="book-btn">
-                <button>Book</button>
+                <form action="{% url 'bookvanform' %}" method="get">
+                    <button type="submit">Book</button>
+                </form>
             </div>
         </div>
 
@@ -62,13 +64,15 @@
                 <img src="{% static 'images/FOTON_TRANSVAN.jpg' %}" alt="Van Image">
             </div>
             <div class="van-details">
-                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Van Model:</strong> Foton Transvan</p>
                 <p><strong>Max Pax:</strong> 10</p>
                 <p><strong>Driver:</strong> Juan</p>
                 <p><strong>Min Price:</strong> ₱5000</p>
             </div>
             <div class="book-btn">
-                <button>Book</button>
+                <form action="{% url 'bookvanform' %}" method="get">
+                    <button type="submit">Book</button>
+                </form>
             </div>
         </div>
 
@@ -77,13 +81,15 @@
                 <img src="{% static 'images/TOYOTA_HIACE.jpg' %}" alt="Van Image">
             </div>
             <div class="van-details">
-                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Van Model:</strong> Toyota Hiace</p>
                 <p><strong>Max Pax:</strong> 10</p>
                 <p><strong>Driver:</strong> Juan</p>
                 <p><strong>Min Price:</strong> ₱5000</p>
             </div>
             <div class="book-btn">
-                <button>Book</button>
+                <form action="{% url 'bookvanform' %}" method="get">
+                    <button type="submit">Book</button>
+                </form>
             </div>
         </div>
 
@@ -92,13 +98,15 @@
                 <img src="{% static 'images/NISSAN_URVAN.jpg' %}" alt="Van Image">
             </div>
             <div class="van-details">
-                <p><strong>Van Model:</strong> MMM</p>
+                <p><strong>Van Model:</strong> Nissan Urvan</p>
                 <p><strong>Max Pax:</strong> 10</p>
                 <p><strong>Driver:</strong> Juan</p>
                 <p><strong>Min Price:</strong> ₱5000</p>
             </div>
             <div class="book-btn">
-                <button>Book</button>
+                <form action="{% url 'bookvanform' %}" method="get">
+                    <button type="submit">Book</button>
+                </form>
             </div>
         </div>
 

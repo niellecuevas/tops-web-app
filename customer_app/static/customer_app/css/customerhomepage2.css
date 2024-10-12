@@ -117,20 +117,12 @@ a:hover {
     margin-top: 50px;
     margin-bottom: 20px; /* Adds space below the text */
     font-size: 24px;
-    color: #333;
+    color: #005;
   }
   .see-more {
     font-size: 16px; /* Smaller font size for "See More" */
     color: #333; /* Text color */
     float: right;
-}
-
-.van-card-container {
-    margin-top: 30px;
-    display: flex; /* Flex for horizontal alignment */
-    gap: 20px;
-    overflow-x: auto; /* Allows horizontal scrolling if necessary */
-    justify-content: center; /* Center the cards */
 }
 
 .see-more-container {
@@ -155,6 +147,14 @@ a:hover {
 .see-more:hover {
     background-color: #ce40b0; /* Background color on hover */
     color: white; /* Text color on hover */
+}
+
+.van-card-container {
+    margin-top: 30px;
+    display: flex; /* Flex for horizontal alignment */
+    gap: 20px;
+    overflow-x: auto; /* Allows horizontal scrolling if necessary */
+    justify-content: center; /* Center the cards */
 }
 
 .van-card {

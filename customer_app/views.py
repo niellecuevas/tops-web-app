@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from .forms import Booking  # Import your form here
 
-def customer_form_view(request):
+def bookvanform(request):
     if request.method == 'POST':
         form = Booking(request.POST, request.FILES)  # Include request.FILES if you're handling file uploads
         if form.is_valid():
@@ -33,11 +33,11 @@ def customer_form_view(request):
             # If the form is not valid, it will render the form again with errors
             print(form.errors)
             print("Form is not valid")
-            return render(request, 'customer_app/customerform.html', {'form': form})
+            return render(request, 'customer_app/bookvanform.html', {'form': form})
     else:
         # Show empty form if it's a GET request
         form = Booking()
-        return render(request, 'customer_app/customerform.html', {'form': form})
+        return render(request, 'customer_app/bookvanform.html', {'form': form})
 
 
 
@@ -56,5 +56,6 @@ def customerhomepage2_view(request):
 
 def bookvan(request):
     return render(request, 'customer_app/bookvan.html')
+
 
 
