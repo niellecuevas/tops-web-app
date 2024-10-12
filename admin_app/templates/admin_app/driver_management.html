@@ -1,4 +1,3 @@
-<!-- adminbookings.html -->
 {% extends 'admin_app/admindashboard.html' %}
 {% block content %}
 <head>
@@ -31,7 +30,19 @@
         <h2>Register a Driver</h2>
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}  <!-- Displays the form fields -->
+            
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+    
+            <label for="{{ form.license.id_for_label }}">{{ form.license.label }}</label>
+            {{ form.license }}  <!-- This will render without "N/A" visible -->
+            
+            <label for="{{ form.van_model.id_for_label }}">{{ form.van_model.label }}</label>
+            {{ form.van_model }}  <!-- Same here -->
+            
+            <label for="{{ form.plate_number.id_for_label }}">{{ form.plate_number.label }}</label>
+            {{ form.plate_number }}  <!-- Same here -->
+            
             <button type="submit">Register</button>
         </form>
     </div>
@@ -43,6 +54,9 @@
             <tr>
                 <th>Driver ID</th>
                 <th>Name</th>
+                <th>License</th>
+                <th>Van Model</th>
+                <th>Plate Number</th>
             </tr>
         </thead>
         <tbody>
@@ -50,6 +64,9 @@
                 <tr>
                     <td>{{ driver.driver_id }}</td>  <!-- Driver ID -->
                     <td>{{ driver.name }}</td>
+                    <td>{{ driver.license }}</td>
+                    <td>{{ driver.van_model }}</td>
+                    <td>{{ driver.plate_number }}</td>
                 </tr>
             {% empty %}
                 <tr>
