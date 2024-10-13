@@ -1,0 +1,211 @@
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+.section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.upload-files-container {
+    background-color: #f7fff7;
+    width: 100%; /* Set width to 100% */
+    height: 200px; /* Set height to 200px */
+    padding: 10px; /* Keep padding */
+    border-radius: 10px; /* Keep border-radius */
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 5px; /* Soft shadow */
+    overflow: hidden; /* Hide overflow for better appearance */
+    position: relative; /* Allows child positioning */
+}
+
+/* Maintain properties for drag-file-area to ensure consistency */
+.drag-file-area {
+    border: 2px dashed #7b2cbf;
+    border-radius: 10px; /* Keep border-radius */
+    margin: 5px 0; /* Adjusted margin */
+    padding: 10px; /* Adjusted padding */
+    width: 160px; /* Ensure width matches */
+    height: 150px; /* Set height for visual consistency */
+    text-align: center;
+    transition: background-color 0.3s; /* Added hover effect */
+}
+
+.drag-file-area:hover {
+    background-color: #e6e6e6; /* Light background on hover */
+}
+
+.drag-file-area .upload-icon {
+    font-size: 30px; /* Adjusted icon size */
+}
+
+.drag-file-area h3 {
+    font-size: 12px; /* Reduced font size */
+    margin: 5px 0; /* Reduced margin */
+}
+
+.drag-file-area label {
+    font-size: 10px; /* Adjusted font size */
+}
+
+.drag-file-area label .browse-files-text {
+    color: #7b2cbf;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.default-file-input {
+    opacity: 0;
+}
+
+.cannot-upload-message {
+    background-color: #ffc6c4;
+    font-size: 10px; /* Adjusted font size */
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px 5px; /* Adjusted padding */
+    border-radius: 5px;
+    color: #BB0000;
+    display: none; /* Keep as is, display when needed */
+}
+
+.file-block {
+    color: #f7fff7; /* Text color */
+    background-color: #7b2cbf; /* Background color */
+    transition: all 0.3s; /* Softer transition effect */
+    width: 175px; /* Set width to match drag area and button */
+    height: 30px; /* Increased height for better appearance */
+    position: relative; /* Keep for positioning */
+    display: none; /* Keep as is, show when needed */
+    flex-direction: column; /* Maintain column layout */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    margin: 5px 0; /* Space above and below */
+    padding: 5px; /* Adjusted padding for better appearance */
+    border-radius: 5px; /* Keep border-radius consistent */
+    cursor: pointer; /* Pointer cursor for clickable element */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px; /* Add subtle shadow */
+}
+
+.file-block:hover {
+    background-color: #6f1f91; /* Darker shade on hover */
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    font-size: 10px; /* Adjusted font size */
+}
+
+.file-icon {
+    margin-right: 5px; /* Reduced margin */
+}
+
+.file-name, .file-size {
+    padding: 0 2px; /* Adjusted padding */
+}
+
+.remove-file-icon {
+    cursor: pointer;
+}
+
+.progress-bar {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; /* Initial width */
+    height: 2px; /* Set height for the progress bar */
+    border-radius: 25px;
+    background-color: #4BB543;
+}
+
+.upload-button {
+    font-family: 'Montserrat';
+    background-color: #7b2cbf;
+    color: #f7fff7;
+    display: block; /* Change to block to take full width */
+    font-size: 10px; /* Adjusted font size */
+    border: none;
+    border-radius: 5px; /* Adjusted border-radius */
+    margin: 10px 0; /* Add space above and below */
+    padding: 5px; /* Adjusted padding */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Added hover effect */
+    width: 185px; /* Set to match drag-file-area width */
+    height: 30px; /* Set height for better appearance */
+}
+
+.upload-button:hover {
+    background-color: #6f1f91; /* Darker shade on hover */
+}
+
+.form-container {
+    position: absolute; /* Allows positioning relative to the parent */
+    top: 10px; /* Adjusted top position */
+    right: 10px; /* Adjusted right position */
+    width: 260px; /* Increase width for a better fit */
+    background-color: #fff; /* Set a background color */
+    padding: 10px; /* Add padding */
+    border-radius: 5px; /* Add border radius */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px; /* Add shadow for depth */
+    font-size: 12px; /* Smaller font size for the container */
+}
+
+.form-group {
+    display: flex;
+    align-items: center; /* Aligns label and input vertically */
+    margin-bottom: 10px; /* Space between form groups */
+}
+
+.form-group label {
+    flex: 0 0 100px; /* Fixed width for labels */
+    margin-right: 10px; /* Space between label and input */
+    font-size: 12px; /* Smaller font size for labels */
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    border: 2px solid #7b2cbf; /* Box border */
+    border-radius: 5px; /* Rounded corners for the input box */
+    padding: 5px; /* Padding inside the input */
+    flex: 1; /* Allows the input to take the remaining space */
+    outline: none; /* Remove outline on focus */
+    font-size: 12px; /* Smaller font size for inputs */
+    min-width: 0; /* Prevents overflow by ensuring the box fits */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus {
+    border-color: #4BB543; /* Change border color on focus */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+}

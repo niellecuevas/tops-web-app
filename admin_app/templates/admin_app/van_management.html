@@ -1,0 +1,148 @@
+<!-- adminstatistics.html -->
+{% extends 'admin_app/admindashboard.html' %}
+{% block content %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Van Management</title>
+    <link rel="stylesheet" href="{% static 'admin_app/css/van.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="section-title">Van Management</h2>
+    
+        <!-- Add a Van Section -->
+        <h3>Add a Van</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="upload-and-form-container">
+                <div class="upload-files-container">
+                    <div class="drag-file-area">
+                        <span class="material-icons-outlined upload-icon">file_upload</span>
+                        <h3 class="dynamic-message">Drag & drop any file here</h3>
+                        <label class="label"> or 
+                            <span class="browse-files">
+                                <input type="file" class="default-file-input"/> 
+                                <span class="browse-files-text">browse file</span> 
+                                <span>from device</span> 
+                            </span>
+                        </label>
+                    </div>
+                    <span class="cannot-upload-message"> 
+                        <span class="material-icons-outlined">error</span> 
+                        Please select a file first 
+                        <span class="material-icons-outlined cancel-alert-button">cancel</span> 
+                    </span>
+                    <div class="file-block">
+                        <div class="file-info"> 
+                            <span class="material-icons-outlined file-icon">description</span> 
+                            <span class="file-name"></span> | 
+                            <span class="file-size"></span> 
+                        </div>
+                        <span class="material-icons remove-file-icon">delete</span>
+                        <div class="progress-bar"></div>
+                    </div>
+                    <button type="button" class="upload-button">Upload</button>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="model">Model:</label>
+                            <input type="text" id="model" name="model" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plate">Plate Number:</label>
+                            <input type="text" id="plate" name="plate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="seats">Seats:</label>
+                            <input type="number" id="seats" name="seats" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driver">Driver:</label>
+                            <select id="driver" name="driver">
+                                <option value="">Select Driver</option>
+                                {% for driver in drivers %}
+                                <option value="{{ driver.id }}">{{ driver.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="is_company_van">Company Van:</label>
+                            <input type="checkbox" id="is_company_van" name="is_company_van">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Add a Van</button>
+                        </div>
+                    </div>
+                </div>
+    
+                
+            </div>
+            
+        </form>
+    
+        <!-- List of Vans -->
+        <h3>List of Vans</h3>
+    
+        <!-- Company Vans Table -->
+        <h4>Company Vans</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Picture</th>
+                    <th>Model</th>
+                    <th>Plate</th>
+                    <th>Seats</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for van in company_vans %}
+                <tr>
+                    <td><img src="{{ van.van_image.url }}" alt="van image" width="100"></td>
+                    <td>{{ van.model }}</td>
+                    <td>{{ van.plate }}</td>
+                    <td>{{ van.seats }}</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+        <!-- Drivers' Vans Table -->
+        <h4>Drivers' Vans</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Picture</th>
+                    <th>Model</th>
+                    <th>Plate</th>
+                    <th>Seats</th>
+                    <th>Driver</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for van in drivers_vans %}
+                <tr>
+                    <td><img src="{{ van.van_image.url }}" alt="van image" width="100"></td>
+                    <td>{{ van.model }}</td>
+                    <td>{{ van.plate }}</td>
+                    <td>{{ van.seats }}</td>
+                    <td>{{ van.driver.name }}</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'admin_app/js/van.js' %}"></script>
+    
+    
+</body>
+</html>
+
+{% endblock %}

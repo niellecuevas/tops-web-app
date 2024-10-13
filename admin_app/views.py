@@ -31,6 +31,10 @@ def statistics(request):
     return render(request, 'admin_app/adminstatistics.html')
 
 @login_required
+def van_management(request):
+    return render(request, 'admin_app/van_management.html')
+
+@login_required
 def logout(request):
     auth_logout(request)  # Logs out the user
     return redirect('login')  # Redirect to login
