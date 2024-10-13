@@ -359,24 +359,36 @@ const cameFromPayment = JSON.parse('{{ came_from_payment|default:"false"|escapej
     };
 
     document.addEventListener("DOMContentLoaded", function () {
-        // Get the close button
+        // Get the modal and close button elements
+        const modal = document.getElementById("bookingModal");
         const closeButton = document.querySelector(".close-button");
 
-        // When the modal is closed, update the URL and reload the page
-        closeButton.addEventListener("click", function () {
-            // Check if there are query parameters (?came_from_payment=true)
+        // Function to update the URL and reload the page
+        function updateUrlAndReload() {
             const currentUrl = window.location.href;
 
             if (currentUrl.includes('?came_from_payment=true')) {
                 // Replace the current URL to remove the query parameter
                 const newUrl = currentUrl.split('?')[0];
                 history.replaceState(null, null, newUrl);
-                
+
                 // Reload the page after the URL has been updated
                 window.location.reload();
             } else {
-                // If no query parameter, just close the modal
-                document.getElementById("bookingModal").style.display = "none";
+                // Hide the modal if no query parameter
+                modal.style.display = "none";
+            }
+        }
+
+        // Event listener for closing the modal with the close button
+        closeButton.addEventListener("click", function () {
+            updateUrlAndReload();
+        });
+
+        // Event listener for clicking outside the modal to close it
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                updateUrlAndReload();
             }
         });
     });
