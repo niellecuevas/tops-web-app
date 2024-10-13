@@ -8,11 +8,10 @@ body {
 
 .go-back-container {
     text-align: right;
-    margin-bottom: 20px;
-    margin-top: 10px;
+    margin: 10px 0 20px; /* Combined margin settings */
 }
 
-button.go-back {
+button.go-back, .book-now-btn {
     background-color: #8a1170; /* Same color as Submit button */
     color: #ffffff;
     border: none;
@@ -32,11 +31,36 @@ button.go-back:hover {
     justify-content: space-between;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 30px; /* Space between Payment Form and Order Summary */
+    gap: 5px; /* Space between Payment Form and Booking Summary */
 }
 
-.payment-method {
-    width: 48%;
+/* Mobile styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: stretch; /* Ensure full width of each child */
+    }
+
+    .payment-method,
+    .booking-summary {
+        width: 90%; /* Ensure both sections are full width */
+        margin-bottom: 20px; /* Add space between sections */
+    }
+
+    .payment-option-card {
+        width: 25%;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center;
+    }
+
+    .payment-logo{
+        max-width: 100%; /* Ensure the logo is responsive */
+        height: auto; /* Maintain aspect ratio */
+        align-items: center;
+    }
+}
+
+.payment-method, .booking-summary {
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -44,24 +68,47 @@ button.go-back:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.payment-method h2 {
+.payment-method h2,
+.booking-summary h2 {
     color: #ce40b0;
     font-size: 30px; /* Increased title font size */
 }
 
+/* Payment options styles */
 .payment-options {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap; /* Allows wrapping to new lines if there's not enough space */
 }
 
 .payment-option {
     text-align: center;
-    width: 45%;
-    font-size: 18px;
+    width: calc(33.33% - 20px); /* Adjust width to fit three cards with some margin */
+    margin-bottom: 20px; /* Space between rows */
+    margin-right: 10px; /* Space between cards */
 }
 
-.payment-option input[type="radio"] {
-    margin-right: 5px;
+.payment-option-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    background-color: #f9f9f9; /* Light background for better visibility */
+    flex: 1; /* Allow cards to take equal space */
+    margin: 10px; /* Keep margins consistent */
+}
+
+.payment-option-card.selected {
+    border-color: #4CAF50; /* Highlight the selected card */
+}
+
+.payment-option-card img {
+    width: 50px;
+    margin-right: 20px;
 }
 
 .payment-details {
@@ -83,9 +130,11 @@ button.go-back:hover {
     color: #333;
 }
 
-input[type="text"] {
+/* Input styles */
+input[type="text"],
+input[type="file"] {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     margin-top: 5px;
     font-size: 16px; /* Increased font size for input fields */
     border: 1px solid #ce40b0;
@@ -93,70 +142,49 @@ input[type="text"] {
 }
 
 /* Additional styling for COD, proof of payment, and terms */
-.cod-option, .proof-of-payment, .terms {
+.cod-option,
+.proof-of-payment,
+.terms {
     margin-top: 15px;
     font-size: 18px;
 }
 
-input[type="file"] {
-    font-size: 16px;
-    padding: 10px;
-    border: 1px solid #ce40b0;
-    border-radius: 4px;
-    margin-top: 5px;
-}
-
-.buttons-section {
-    margin-top: 20px;
-}
-
-button.submit {
-    background-color: #8a1170;
+/* Button styles */
+button.submit,
+button.go-back,
+.button.book-now-btn {
+    background-color: #8a1170; /* Same color for consistency */
     color: #fff;
     border: none;
     padding: 10px 20px;
     font-size: 18px; /* Increased font size */
     border-radius: 5px;
     cursor: pointer;
+    width: 100%; /* Full width for better mobile usability */
 }
 
-button.submit:hover {
-    background-color: #b03594;
+button.submit:hover,
+button.go-back:hover {
+    background-color: #b03594; /* Same hover effect */
 }
 
-.order-summary {
-    width: 48%;
-    padding: 20px;
-    background-color: #fff;
-    border: 4px solid #450154; /* Adding border */
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.order-summary h2 {
-    color: #ce40b0;
+/* Booking summary styles */
+.booking-summary h2 {
     font-size: 24px; /* Increased title font size */
 }
 
-.reservation {
-    font-style: italic;
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-
-.order-item {
+.reservation,
+.summary-item,
+.price,
+.summary-total p,
+.total {
     margin-bottom: 15px;
+    font-size: 18px;
 }
 
 .price {
     color: #ce40b0;
     font-weight: bold;
-    font-size: 18px;
-}
-
-.order-total p {
-    margin: 5px 0;
-    font-size: 18px;
 }
 
 .total {
@@ -165,22 +193,34 @@ button.submit:hover {
     font-size: 20px;
 }
 
-.credit-card-promo ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    font-size: 18px;
-}
-
 /* Reference number fields for GCash and BPI */
-#gcash-reference label, #bpi-reference label {
+#gcash-reference label,
+#bpi-reference label {
     font-size: 18px; /* Increased font size for reference labels */
 }
 
-input[type="text"], input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    font-size: 16px; /* Increased font size for input fields */
-    border: 1px solid #ce40b0;
-    border-radius: 4px;
+/* Horizontal rules */
+hr {
+    border: none;
+    border-top: 1px solid #ccc; /* Style for horizontal rules */
+    margin: 10px 0; /* Spacing for hr */
+}
+
+
+.van-details {
+    width: 65%; /* Set width for the van details container */
+    float: left; /* Float it to the left so it aligns next to the image */
+}
+
+.van-image {
+    width: 30%; /* Set width for the image */
+    float: right; /* Float the image to the right side */
+    margin-left: 20px; /* Adds some space between the text and the image */
+    margin-right: 20px;
+    max-width: 100%; /* Ensure the image remains responsive */
+    margin-top: -10px;
+    border-radius: 10px;
+}
+.van-details, .van-image {
+    vertical-align: middle; /* Ensures both text and image are aligned at the same height */
 }

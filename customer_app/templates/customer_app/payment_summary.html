@@ -6,55 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Form</title>
     <link rel="stylesheet" href="{% static 'customer_app/css/payment_summary.css' %}">
+    <style>
+        
+        
+    </style>
 </head>
 <body>
-
-    <!-- Go Back Button -->
-    <div class="go-back-container">
-        <button class="go-back">Go Back</button>
-    </div>
-
+    
     <div class="container">
         <!-- Payment Method Section -->
         <div class="payment-method">
             <h2>Payment Form</h2>
+            <h4>Choose a payment method</h4>
             <div class="payment-options">
-                <div class="payment-option">
-                    <input type="radio" id="gcash" name="payment-method" value="gcash" onchange="toggleReferenceField()">
-                    <label for="gcash">GCash</label>
+                <!-- GCash Payment Option Card -->
+                <div id="gcash-card" class="payment-option-card" onclick="selectPaymentMethod('gcash')">
+                    <img src="{% static 'images/gcash.png' %}" alt="GCash Icon" class="payment-logo"> <!-- GCash Image -->
+                    <h3 class="payment-text">GCash</h3>
                 </div>
-                <div class="payment-option">
-                    <input type="radio" id="bpi" name="payment-method" value="bpi" onchange="toggleReferenceField()">
-                    <label for="bpi">BPI</label>
+
+                <!-- BPI Payment Option Card -->
+                <div id="bpi-card" class="payment-option-card" onclick="selectPaymentMethod('bpi')">
+                    <img src="{% static 'images/bpi.png' %}" alt="BPI Icon" class="payment-logo"> <!-- BPI Image -->
+                    <h3 class="payment-text">BPI</h3>
                 </div>
+
+                <!-- Cash Payment Option Card -->
+                <div id="cash-card" class="payment-option-card" onclick="selectPaymentMethod('cash')">
+                    <img src="{% static 'images/cash.png' %}" alt="Cash Icon" class="payment-logo"> <!-- Cash Image -->
+                    <h3 class="payment-text">Cash</h3>
+                </div>
+                
             </div>
 
-            <!-- GCash Details (initially hidden) -->
+            <!-- GCash Details (Initially Hidden) -->
             <div id="gcash-details" class="payment-details">
-                <img src="gcash-qr-code.png" alt="GCash QR Code"> <!-- Replace with actual QR code image -->
+                <img src="{% static 'images/gcash_qrcode.jpg' %}" alt="GCash QR Code"> <!-- Replace with actual QR code image -->
                 <p><strong>GCash Number: 09123456789</strong></p>
-                <div id="gcash-reference">
-                    <label for="gcash-reference-number">Enter GCash Reference Number:</label>
-                    <input type="text" id="gcash-reference-number" name="gcash-reference-number" placeholder="Reference Number">
-                </div>
             </div>
 
-            <!-- BPI Details (initially hidden) -->
+            <!-- BPI Details (Initially Hidden) -->
             <div id="bpi-details" class="payment-details">
-                <img src="bpi-qr-code.png" alt="BPI QR Code"> <!-- Replace with actual QR code image -->
+                <img src="{% static 'images/bpi_qrcode.jpeg' %}" alt="BPI QR Code"> <!-- Replace with actual QR code image -->
                 <p><strong>BPI Account Number: 1234-5678-9012</strong></p>
-                <div id="bpi-reference">
-                    <label for="bpi-reference-number">Enter BPI Reference Number:</label>
-                    <input type="text" id="bpi-reference-number" name="bpi-reference-number" placeholder="Reference Number">
-                </div>
             </div>
 
-            <div class="cod-option">
-                <input type="checkbox" id="cod" name="cod">
-                <label for="cod">Cash on Delivery (COD)</label>
-            </div>
-
-            <div class="proof-of-payment">
+            <!-- Proof of Payment -->
+            <div id="proof-of-payment" class="proof-of-payment">
                 <label for="proof">Proof of Payment (upload):</label>
                 <input type="file" id="proof" name="proof">
             </div>
@@ -63,63 +61,84 @@
                 <input type="checkbox" id="terms" name="terms">
                 <label for="terms">I have read the Terms and Conditions</label>
             </div>
-
-            <div class="buttons-section">
-                <button class="submit">Submit</button>
+            <div class="go-back-container">
+                <button class="go-back">Go Back</button>
             </div>
         </div>
 
-        <!-- Order Summary Section -->
-        <div class="order-summary">
-            <h2>Order Summary</h2>
-            <p class="reservation">Your items are being reserved for: 19:18</p>
-            <div class="order-item">
-                <p><strong>Le Creuset Signature Enameled Cast Iron Saucepan, 1 3/4-Qt., White</strong></p>
-                <p>Quantity: 1</p>
-                <p class="price">$215</p>
+        <!-- Booking Summary -->
+        <div class="booking-summary">
+            <h2>Booking Summary</h2>
+
+            <div class="summary-section" class="van-details">
+                <img src="{% static 'images/NISSAN_URVAN.jpg' %}" alt="Van Image" class="van-image">
+                <p><strong>Van Model:</strong> [Van Model]</p>
+                <p><strong>Van Seats:</strong> [Van Seats]</p>
+                <p><strong>Driver Name:</strong> [Driver Name]</p>
+                
+                <hr>
             </div>
-            <div class="order-total">
-                <p>Subtotal: $215</p>
-                <p>Shipping & Processing: Free</p>
-                <p>Tax: $15.05</p>
-                <p class="total">Total: $230.05</p>
+            
+            
+            <div class="summary-section">
+                <h3>Trip Schedule</h3>
+                <p><strong>Date:</strong> 01/01/2024</p>
+                <p><strong>Time:</strong> 1:00 AM</p>
+                <p><strong>Destination:</strong> Palawan - El Nido</p>
+                <hr>
             </div>
-            <div class="credit-card-promo">
-                <p><strong>Apply for the Williams Sonoma Key Rewards Credit Card</strong></p>
-                <ul>
-                    <li>Earn 5% back in rewards on purchases across our collection of brands</li>
-                    <li>Earn double rewards for the first 30 days</li>
-                </ul>
+
+            <div class="summary-section">
+                <h3>Personal Information</h3>
+                <p><strong>Full Name:</strong> [Full Name]</p>
+                <p><strong>Contact No:</strong> [Contact Number]</p>
+                <p><strong>No. of Passengers:</strong> [No. of Passengers]</p>
+                <p><strong>Additional Notes:</strong> [Notes]</p>
+                <p><strong>Round Trip:</strong> [Yes/No]</p>
+                <hr>
+            </div>
+
+            <div class="summary-section">
+                <h3>Price Breakdown</h3>
+                <p><strong>Package Price:</strong> ₱5000</p>
+                <p><strong>With Infant:</strong> ₱500</p>
+                <p><strong>Total Amount:</strong> ₱5500</p>
+                <hr>
+            </div>
+
+            <div class="summary-section">
+                <p><strong>Mode of Payment:</strong> GCash</p>
+                <button class="book-now-btn">BOOK NOW</button>
+                <hr>
             </div>
         </div>
     </div>
 
     <script>
-        function toggleReferenceField() {
-            // Get the GCash and BPI radio buttons
-            const gcashOption = document.getElementById('gcash');
-            const bpiOption = document.getElementById('bpi');
-            
-            // Get the GCash and BPI detail sections
-            const gcashDetails = document.getElementById('gcash-details');
-            const bpiDetails = document.getElementById('bpi-details');
-            
-            // Toggle visibility based on the selected payment method
-            if (gcashOption.checked) {
-                gcashDetails.style.display = 'block';
-                bpiDetails.style.display = 'none';
-            } else if (bpiOption.checked) {
-                bpiDetails.style.display = 'block';
-                gcashDetails.style.display = 'none';
-            } else {
-                gcashDetails.style.display = 'none';
-                bpiDetails.style.display = 'none';
+        function selectPaymentMethod(method) {
+            // Reset all cards
+            document.getElementById('gcash-card').classList.remove('selected');
+            document.getElementById('bpi-card').classList.remove('selected');
+            document.getElementById('cash-card').classList.remove('selected');
+
+            // Hide all payment details
+            document.getElementById('gcash-details').style.display = 'none';
+            document.getElementById('bpi-details').style.display = 'none';
+            document.getElementById('proof-of-payment').style.display = 'block';  // Show Proof of Payment by default
+
+            // Show the correct payment details and highlight the selected card
+            if (method === 'gcash') {
+                document.getElementById('gcash-details').style.display = 'block';
+                document.getElementById('gcash-card').classList.add('selected');
+            } else if (method === 'bpi') {
+                document.getElementById('bpi-details').style.display = 'block';
+                document.getElementById('bpi-card').classList.add('selected');
+            } else if (method === 'cash') {
+                // Hide Proof of Payment if "Cash" is selected
+                document.getElementById('proof-of-payment').style.display = 'none';
+                document.getElementById('cash-card').classList.add('selected');
             }
         }
-
-        // Initially hide all payment details
-        document.getElementById('gcash-details').style.display = 'none';
-        document.getElementById('bpi-details').style.display = 'none';
     </script>
 </body>
 </html>
