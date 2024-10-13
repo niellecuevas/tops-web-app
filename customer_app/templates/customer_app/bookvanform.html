@@ -32,11 +32,11 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="full-name">Full Name</label>
-                    <input type="text" id="full-name" name="full_name" class="form-control" required>
+                    <input type="text" id="full-name" name="full_name" class="form-control" required value="{{ full_name }}">
                 </div>
                 <div class="form-group">
                     <label for="passenger-count">Passenger Count</label>
-                    <input type="number" id="passenger-count" name="passenger_count" class="form-control" min="1" required>
+                    <input type="number" id="passenger-count" name="passenger_count" class="form-control" min="1" required value="{{ passenger_count }}">
                 </div>
             </div>
 
@@ -44,9 +44,9 @@
             <div class="form-group">
                 <label>With Infant/PWD/Senior Citizen?</label>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" name="with_infant"> Infant</label>
-                    <label><input type="checkbox" name="with_pwd"> PWD</label>
-                    <label><input type="checkbox" name="with_senior"> Senior</label>
+                    <label><input type="checkbox" name="with_infant" {% if with_infant == 'True' %}checked{% endif %}> Infant</label>
+                    <label><input type="checkbox" name="with_pwd" {% if with_pwd == 'True' %}checked{% endif %}> PWD</label>
+                    <label><input type="checkbox" name="with_senior" {% if with_senior == 'True' %}checked{% endif %}> Senior</label>
                 </div>
             </div>
 
@@ -54,22 +54,22 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="contact-number">Contact Number</label>
-                    <input type="text" id="contact-number" name="contact_number" class="form-control" required>
+                    <input type="text" id="contact-number" name="contact_number" class="form-control" required value="{{ contact_number }}">
                 </div>
                 <div class="form-group">
                     <label for="pickup-datetime">Pick Up Date & Time</label>
-                    <input type="datetime-local" id="pickup-datetime" name="pickup_datetime" class="form-control" required>
+                    <input type="datetime-local" id="pickup-datetime" name="pickup_datetime" class="form-control" required value="{{ pickup_datetime }}">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="pickup-address">Pick Up Address</label>
-                    <input type="text" id="pickup-address" name="pickup_address" class="form-control" required>
+                    <input type="text" id="pickup-address" name="pickup_address" class="form-control" required value="{{ pickup_address }}">
                 </div>
                 <div class="form-group">
                     <label for="dropoff-address">Drop Off Address</label>
-                    <input type="text" id="dropoff-address" name="dropoff_address" class="form-control" required>
+                    <input type="text" id="dropoff-address" name="dropoff_address" class="form-control" required value="{{ dropoff_address }}">
                 </div>
             </div>
 
@@ -77,13 +77,13 @@
             <div class="form-row">
                 <div class="form-group full-width">
                     <label for="additional-notes">Additional Notes</label>
-                    <textarea id="additional-notes" name="additional_notes" class="form-control"></textarea>
+                    <textarea id="additional-notes" name="additional_notes" class="form-control">{{ additional_notes }}</textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="round-trip">Round Trip</label>
-                <input type="checkbox" id="round-trip" name="round_trip">
+                <input type="checkbox" id="round-trip" name="round_trip" {% if round_trip == 'True' %}checked{% endif %}>
             </div>
 
             <!-- Submit button -->

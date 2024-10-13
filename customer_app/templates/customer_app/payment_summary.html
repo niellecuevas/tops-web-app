@@ -6,10 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Form</title>
     <link rel="stylesheet" href="{% static 'customer_app/css/payment_summary.css' %}">
-    <style>
-        
-        
-    </style>
 </head>
 <body>
     
@@ -19,39 +15,30 @@
             <h2>Payment Form</h2>
             <h4>Choose a payment method</h4>
             <div class="payment-options">
-                <!-- GCash Payment Option Card -->
                 <div id="gcash-card" class="payment-option-card" onclick="selectPaymentMethod('gcash')">
-                    <img src="{% static 'images/gcash.png' %}" alt="GCash Icon" class="payment-logo"> <!-- GCash Image -->
+                    <img src="{% static 'images/gcash.png' %}" alt="GCash Icon" class="payment-logo">
                     <h3 class="payment-text">GCash</h3>
                 </div>
-
-                <!-- BPI Payment Option Card -->
                 <div id="bpi-card" class="payment-option-card" onclick="selectPaymentMethod('bpi')">
-                    <img src="{% static 'images/bpi.png' %}" alt="BPI Icon" class="payment-logo"> <!-- BPI Image -->
+                    <img src="{% static 'images/bpi.png' %}" alt="BPI Icon" class="payment-logo">
                     <h3 class="payment-text">BPI</h3>
                 </div>
-
-                <!-- Cash Payment Option Card -->
                 <div id="cash-card" class="payment-option-card" onclick="selectPaymentMethod('cash')">
-                    <img src="{% static 'images/cash.png' %}" alt="Cash Icon" class="payment-logo"> <!-- Cash Image -->
+                    <img src="{% static 'images/cash.png' %}" alt="Cash Icon" class="payment-logo">
                     <h3 class="payment-text">Cash</h3>
                 </div>
-                
             </div>
 
-            <!-- GCash Details (Initially Hidden) -->
             <div id="gcash-details" class="payment-details">
-                <img src="{% static 'images/gcash_qrcode.jpg' %}" alt="GCash QR Code" class="qrcode"> <!-- Replace with actual QR code image -->
+                <img src="{% static 'images/gcash_qrcode.jpg' %}" alt="GCash QR Code" class="qrcode">
                 <p><strong>GCash Number: 09123456789</strong></p>
             </div>
 
-            <!-- BPI Details (Initially Hidden) -->
             <div id="bpi-details" class="payment-details">
-                <img src="{% static 'images/bpi_qrcode.jpeg' %}" alt="BPI QR Code" class="qrcode"> <!-- Replace with actual QR code image -->
+                <img src="{% static 'images/bpi_qrcode.jpeg' %}" alt="BPI QR Code" class="qrcode">
                 <p><strong>BPI Account Number: 1234-5678-9012</strong></p>
             </div>
 
-            <!-- Proof of Payment -->
             <div id="proof-of-payment" class="proof-of-payment">
                 <label for="proof">Proof of Payment (upload):</label>
                 <input type="file" id="proof" name="proof">
@@ -62,7 +49,7 @@
                 <label for="terms">I have read the Terms and Conditions</label>
             </div>
             <div class="go-back-container">
-                <button class="go-back">Go Back</button>
+                <a href="{% url 'customerhomepage2' %}?came_from_payment=true" class="btn btn-secondary">Go Back</a>
             </div>
         </div>
 
@@ -72,36 +59,34 @@
 
             <div class="summary-section" class="van-details">
                 <img src="{% static 'images/NISSAN_URVAN.jpg' %}" alt="Van Image" class="van-image">
-                <p><strong>Van Model:</strong> [Van Model]</p>
-                <p><strong>Van Seats:</strong> [Van Seats]</p>
-                <p><strong>Driver Name:</strong> [Driver Name]</p>
-                
+                <p><strong>Van Model:</strong> Foton Transvan</p>
+                <p><strong>Van Seats:</strong> 15 pax</p>
+                <p><strong>Driver Name:</strong> John Doe</p>
                 <hr>
             </div>
             
-            
             <div class="summary-section">
                 <h3>Trip Schedule</h3>
-                <p><strong>Date:</strong> 01/01/2024</p>
-                <p><strong>Time:</strong> 1:00 AM</p>
-                <p><strong>Destination:</strong> Palawan - El Nido</p>
+                <p><strong>Date and Time:</strong> {{ pickup_datetime }}</p>
+                <p><strong>Pick Up Address:</strong> {{ pickup_address }}</p>
+                <p><strong>Drop Off Address:</strong> {{ dropoff_address }}</p>
                 <hr>
             </div>
 
             <div class="summary-section">
                 <h3>Personal Information</h3>
-                <p><strong>Full Name:</strong> [Full Name]</p>
-                <p><strong>Contact No:</strong> [Contact Number]</p>
-                <p><strong>No. of Passengers:</strong> [No. of Passengers]</p>
-                <p><strong>Additional Notes:</strong> [Notes]</p>
-                <p><strong>Round Trip:</strong> [Yes/No]</p>
+                <p><strong>Full Name:</strong> {{ full_name }}</p>
+                <p><strong>Contact No:</strong> {{ contact_number }}</p>
+                <p><strong>No. of Passengers:</strong> {{ passenger_count }}</p>
+                <p><strong>Additional Notes:</strong> {{ additional_notes }}</p>
+                <p><strong>Round Trip:</strong> {{ round_trip|yesno:"Yes,No" }}</p>
                 <hr>
             </div>
 
             <div class="summary-section">
                 <h3>Price Breakdown</h3>
                 <p><strong>Package Price:</strong> ₱5000</p>
-                <p><strong>With Infant:</strong> ₱500</p>
+                <p><strong>With Infant:</strong> {{ with_infant|yesno:"₱500,₱0" }}</p>
                 <p><strong>Total Amount:</strong> ₱5500</p>
                 <hr>
             </div>
@@ -116,17 +101,14 @@
 
     <script>
         function selectPaymentMethod(method) {
-            // Reset all cards
             document.getElementById('gcash-card').classList.remove('selected');
             document.getElementById('bpi-card').classList.remove('selected');
             document.getElementById('cash-card').classList.remove('selected');
 
-            // Hide all payment details
             document.getElementById('gcash-details').style.display = 'none';
             document.getElementById('bpi-details').style.display = 'none';
             document.getElementById('proof-of-payment').style.display = 'block';  // Show Proof of Payment by default
 
-            // Show the correct payment details and highlight the selected card
             if (method === 'gcash') {
                 document.getElementById('gcash-details').style.display = 'block';
                 document.getElementById('gcash-card').classList.add('selected');
@@ -134,7 +116,6 @@
                 document.getElementById('bpi-details').style.display = 'block';
                 document.getElementById('bpi-card').classList.add('selected');
             } else if (method === 'cash') {
-                // Hide Proof of Payment if "Cash" is selected
                 document.getElementById('proof-of-payment').style.display = 'none';
                 document.getElementById('cash-card').classList.add('selected');
             }
