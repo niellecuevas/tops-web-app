@@ -1,6 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #e39ed8;
+    background-color: #ce40b0;
+    background-image: url('../../../../static/images/foggy-birds.png');
+    background-repeat: repeat;
+    background-size: auto;
     margin: 0;
     padding: 20px;
     font-size: 16px; /* Base font size */
@@ -11,8 +14,8 @@ body {
     margin: 10px 0 20px; /* Combined margin settings */
 }
 
-button.go-back, .book-now-btn {
-    background-color: #8a1170; /* Same color as Submit button */
+.go-back, .book-now-btn {
+    background-color: #b6319e; /* Same color as Submit button */
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -22,8 +25,8 @@ button.go-back, .book-now-btn {
     margin-right: 10px; /* Added margin */
 }
 
-button.go-back:hover {
-    background-color: #b03594; /* Same hover effect as Submit button */
+.book-now-btn:hover {
+    background-color: #ce40b0; 
 }
 
 .container {
@@ -116,6 +119,10 @@ button.go-back:hover {
     margin-top: 20px;
     border-top: 1px solid #ce40b0;
     padding-top: 15px;
+    flex-direction: column; /* Stacks children vertically */
+    align-items: center; /* Centers items horizontally */
+    text-align: center; /* Centers text within the <p> */
+    margin: 20px 0; /* Optional: Adds some margin for spacing */
 }
 
 .payment-details img {
@@ -129,6 +136,12 @@ button.go-back:hover {
     margin: 10px 0;
     color: #333;
 }
+
+.qrcode {
+    max-width: 80%; /* Adjust size of the QR code */
+    height: auto; /* Maintain aspect ratio */
+}
+
 
 /* Input styles */
 input[type="text"],
@@ -153,7 +166,7 @@ input[type="file"] {
 button.submit,
 button.go-back,
 .button.book-now-btn {
-    background-color: #8a1170; /* Same color for consistency */
+    background-color: #b6319e; /* Same color for consistency */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -165,7 +178,7 @@ button.go-back,
 
 button.submit:hover,
 button.go-back:hover {
-    background-color: #b03594; /* Same hover effect */
+    background-color: #ce40b0; /* Same hover effect */
 }
 
 /* Booking summary styles */
