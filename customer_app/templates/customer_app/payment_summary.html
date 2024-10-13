@@ -49,7 +49,7 @@
                 <label for="terms">I have read the Terms and Conditions</label>
             </div>
             <div class="go-back-container">
-                <a href="{% url 'customerhomepage2' %}?came_from_payment=true" class="btn btn-secondary">Go Back</a>
+                <a href="{% url 'customerhomepage2' %}?came_from_payment=true" class="btn btn-secondary">Edit your form details</a>
             </div>
         </div>
 
@@ -92,7 +92,7 @@
             </div>
 
             <div class="summary-section">
-                <p><strong>Mode of Payment:</strong> GCash</p>
+                <p><strong>Mode of Payment:</strong> <span id="selected-payment-method">Cash</span></p>
                 <button class="book-now-btn">BOOK NOW</button>
                 <hr>
             </div>
@@ -101,25 +101,36 @@
 
     <script>
         function selectPaymentMethod(method) {
-            document.getElementById('gcash-card').classList.remove('selected');
-            document.getElementById('bpi-card').classList.remove('selected');
-            document.getElementById('cash-card').classList.remove('selected');
+    // Remove 'selected' class from all cards
+    document.getElementById('gcash-card').classList.remove('selected');
+    document.getElementById('bpi-card').classList.remove('selected');
+    document.getElementById('cash-card').classList.remove('selected');
 
-            document.getElementById('gcash-details').style.display = 'none';
-            document.getElementById('bpi-details').style.display = 'none';
-            document.getElementById('proof-of-payment').style.display = 'block';  // Show Proof of Payment by default
+    // Hide payment details sections
+    document.getElementById('gcash-details').style.display = 'none';
+    document.getElementById('bpi-details').style.display = 'none';
+    document.getElementById('proof-of-payment').style.display = 'block';  // Show Proof of Payment by default
 
-            if (method === 'gcash') {
-                document.getElementById('gcash-details').style.display = 'block';
-                document.getElementById('gcash-card').classList.add('selected');
-            } else if (method === 'bpi') {
-                document.getElementById('bpi-details').style.display = 'block';
-                document.getElementById('bpi-card').classList.add('selected');
-            } else if (method === 'cash') {
-                document.getElementById('proof-of-payment').style.display = 'none';
-                document.getElementById('cash-card').classList.add('selected');
-            }
-        }
+    // Update the booking summary with the selected payment method
+    let paymentMethodText = '';
+
+    if (method === 'gcash') {
+        document.getElementById('gcash-details').style.display = 'block';
+        document.getElementById('gcash-card').classList.add('selected');
+        paymentMethodText = 'GCash';
+    } else if (method === 'bpi') {
+        document.getElementById('bpi-details').style.display = 'block';
+        document.getElementById('bpi-card').classList.add('selected');
+        paymentMethodText = 'BPI';
+    } else if (method === 'cash') {
+        document.getElementById('proof-of-payment').style.display = 'none';
+        document.getElementById('cash-card').classList.add('selected');
+        paymentMethodText = 'Cash';
+    }
+
+    // Update the Mode of Payment in the booking summary
+    document.getElementById('selected-payment-method').innerText = paymentMethodText;
+}
     </script>
 </body>
 </html>

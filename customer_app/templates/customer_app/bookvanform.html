@@ -21,7 +21,7 @@
             <img src="{% static 'images/NISSAN_URVAN.jpg' %}" alt="Van Image">
             <h2>Van Model: Foton Transvan</h2>
             <p>Driver Name: John Doe</p>
-            <p>Van Seater: 15 pax</p>
+            <p>Van Seater: 15 pax  | Min Price: 5000</p>
         </div>
 
         <!-- Form starts here -->
@@ -83,7 +83,7 @@
 
             <div class="form-group">
                 <label for="round-trip">Round Trip</label>
-                <input type="checkbox" id="round-trip" name="round_trip" {% if round_trip == 'True' %}checked{% endif %}>
+                <input type="checkbox" id="round-trip" name="round_trip" {% if round_trip %}checked{% endif %}>
             </div>
 
             <!-- Submit button -->

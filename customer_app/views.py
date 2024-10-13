@@ -54,7 +54,7 @@ def bookvanform(request):
         pickup_address = request.POST.get('pickup_address')
         dropoff_address = request.POST.get('dropoff_address')
         additional_notes = request.POST.get('additional_notes')
-        round_trip = request.POST.get('round_trip', 'False')  # Default to 'False' if not checked
+        round_trip = request.POST.get('round_trip') == 'on'  # This will be True if checked, False otherwise
 
         # Store data in the session
         request.session['full_name'] = full_name
