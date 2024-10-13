@@ -125,8 +125,36 @@ a:hover {
   width: 100%;
   height: auto;
   z-index: 5; /* Ensure the image appears below the navbar */
-  margin-bottom: 30px;
 }
+
+.stats-section {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f0f0f0;
+  padding: 20px 0;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+}
+
+.stat-item {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.stat-item h3 {
+  font-size: 36px;
+  margin: 0;
+  color: #d229a2;
+  transition: color 0.3s ease;
+}
+
+.stat-item p {
+  font-size: 18px;
+  color: #333;
+  margin-top: 5px;
+}
+
+
 
 .booking-text {
   font-family: "Afacad Flux", sans-serif;
@@ -174,14 +202,14 @@ a:hover {
 }
 .van-details {
   padding: 15px;
-  font-family: "Oswald", sans-serif; /* Apply Oswald font */
+  font-family: "Afacad Flux", sans-serif; /* Apply Oswald font */
 }
 .book-btn {
   padding: 10px;
   text-align: center;
 }
 .book-btn button {
-  font-family: "Oswald";
+  font-family: "Afacad Flux";
   background: #ce40b0;
   color: white;
   border: none;
@@ -221,7 +249,7 @@ a:hover {
   margin-top: 20px;
 }
 .see-more {
-  font-family: "Oswald";
+  font-family: "Afacad Flux";
   background: #ce40b0;
   color: white;
   padding: 10px 20px;
