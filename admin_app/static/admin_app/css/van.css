@@ -9,17 +9,17 @@
 }
 
 .upload-files-container {
-    background-color: #f7fff7;
+    background-color: #f8fef8;
     width: 100%; /* Set width to 100% */
-    height: 200px; /* Set height to 200px */
+    height: auto; /* Set height to 200px */
     padding: 10px; /* Keep padding */
     border-radius: 10px; /* Keep border-radius */
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 5px; /* Soft shadow */
     overflow: hidden; /* Hide overflow for better appearance */
     position: relative; /* Allows child positioning */
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Maintain properties for drag-file-area to ensure consistency */
@@ -32,6 +32,7 @@
     height: 150px; /* Set height for visual consistency */
     text-align: center;
     transition: background-color 0.3s; /* Added hover effect */
+    position: static;
 }
 
 .drag-file-area:hover {
@@ -45,15 +46,18 @@
 .drag-file-area h3 {
     font-size: 12px; /* Reduced font size */
     margin: 5px 0; /* Reduced margin */
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .drag-file-area label {
     font-size: 10px; /* Adjusted font size */
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .drag-file-area label .browse-files-text {
     color: #7b2cbf;
     font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
 }
 
@@ -68,10 +72,12 @@
     display: flex;
     align-items: center;
     margin: 5px 0;
-    padding: 5px 5px; /* Adjusted padding */
+    padding: 5px 10px; /* Adjusted padding for better appearance */
     border-radius: 5px;
     color: #BB0000;
     display: none; /* Keep as is, display when needed */
+    width: 168px; /* Adjusts width to fit content */
+    max-width: 100%; /* Ensure it doesn't exceed the container's width */
 }
 
 .file-block {
@@ -97,8 +103,6 @@
 }
 
 .file-info {
-    display: flex;
-    align-items: center;
     font-size: 10px; /* Adjusted font size */
 }
 
@@ -127,10 +131,10 @@
 
 .upload-button {
     font-family: 'Montserrat';
-    background-color: #7b2cbf;
+    background-color: #ce40b0;
     color: #f7fff7;
     display: block; /* Change to block to take full width */
-    font-size: 10px; /* Adjusted font size */
+    font-size: 14px; /* Adjusted font size */
     border: none;
     border-radius: 5px; /* Adjusted border-radius */
     margin: 10px 0; /* Add space above and below */
@@ -139,6 +143,7 @@
     transition: background-color 0.3s; /* Added hover effect */
     width: 185px; /* Set to match drag-file-area width */
     height: 30px; /* Set height for better appearance */
+    font-family: Arial;
 }
 
 .upload-button:hover {
@@ -146,15 +151,15 @@
 }
 
 .form-container {
-    position: absolute; /* Allows positioning relative to the parent */
-    top: 10px; /* Adjusted top position */
-    right: 10px; /* Adjusted right position */
-    width: 260px; /* Increase width for a better fit */
-    background-color: #fff; /* Set a background color */
-    padding: 10px; /* Add padding */
-    border-radius: 5px; /* Add border radius */
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px; /* Add shadow for depth */
-    font-size: 12px; /* Smaller font size for the container */
+    background-color: #f0f4f0;
+    width: 400px; /* Set width to 100% */
+    height: auto; /* Set height to 200px */
+    padding: 20px; /* Keep padding */
+    overflow: hidden; /* Hide overflow for better appearance */
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
 }
 
 .form-group {
@@ -172,7 +177,7 @@
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group select {
-    border: 2px solid #7b2cbf; /* Box border */
+    border: 2px solid #ce40b0; /* Box border */
     border-radius: 5px; /* Rounded corners for the input box */
     padding: 5px; /* Padding inside the input */
     flex: 1; /* Allows the input to take the remaining space */
@@ -184,8 +189,39 @@
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group select:focus {
-    border-color: #4BB543; /* Change border color on focus */
+    border-color: #c1c1c1; /* Change border color on focus */
 }
+
+.form-group button {
+    background-color: #ce40b0; /* Background color */
+    color: #fff; /* Text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for a better size */
+    font-size: 14px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.3s; /* Transition for hover effects */
+    outline: none; /* Remove outline on focus */
+}
+
+/* Hover effect */
+.form-group button:hover {
+    background-color: #6a1b9a; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slightly lift the button on hover */
+}
+
+/* Active effect */
+.form-group button:active {
+    background-color: #4a0072; /* Even darker shade when clicked */
+    transform: translateY(0); /* Reset lift */
+}
+
+/* Disabled state */
+.form-group button:disabled {
+    background-color: #c1c1c1; /* Gray color for disabled */
+    cursor: not-allowed; /* Change cursor to not-allowed */
+}
+
 
 table {
     width: 100%;

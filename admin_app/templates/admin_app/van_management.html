@@ -47,9 +47,11 @@
                         <div class="progress-bar"></div>
                     </div>
                     <button type="button" class="upload-button">Upload</button>
+
+            
                     <div class="form-container">
                         <div class="form-group">
-                            <label for="model">Model:</label>
+                            <label for="model">Van Model:</label>
                             <input type="text" id="model" name="model" required>
                         </div>
                         <div class="form-group">
@@ -61,6 +63,10 @@
                             <input type="number" id="seats" name="seats" required>
                         </div>
                         <div class="form-group">
+                            <label for="is_company_van">Company Van:</label>
+                            <input type="checkbox" id="is_company_van" name="is_company_van">
+                        </div>
+                        <div class="form-group">
                             <label for="driver">Driver:</label>
                             <select id="driver" name="driver">
                                 <option value="">Select Driver</option>
@@ -69,18 +75,15 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="is_company_van">Company Van:</label>
-                            <input type="checkbox" id="is_company_van" name="is_company_van">
-                        </div>
+                        
                         <div class="form-group">
                             <button type="submit">Add a Van</button>
                         </div>
                     </div>
                 </div>
     
-                
-            </div>
+            </div>    
+            
             
         </form>
     
