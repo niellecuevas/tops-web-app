@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <link rel="stylesheet" href="{% static 'customer_app/css/payment_summary.css' %}">
+</head>
+<body>
+
+    <!-- Go Back Button -->
+    <div class="go-back-container">
+        <button class="go-back">Go Back</button>
+    </div>
+
+    <div class="container">
+        <!-- Payment Method Section -->
+        <div class="payment-method">
+            <h2>Payment Form</h2>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <input type="radio" id="gcash" name="payment-method" value="gcash" onchange="toggleReferenceField()">
+                    <label for="gcash">GCash</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="bpi" name="payment-method" value="bpi" onchange="toggleReferenceField()">
+                    <label for="bpi">BPI</label>
+                </div>
+            </div>
+
+            <!-- GCash Details (initially hidden) -->
+            <div id="gcash-details" class="payment-details">
+                <img src="gcash-qr-code.png" alt="GCash QR Code"> <!-- Replace with actual QR code image -->
+                <p><strong>GCash Number: 09123456789</strong></p>
+                <div id="gcash-reference">
+                    <label for="gcash-reference-number">Enter GCash Reference Number:</label>
+                    <input type="text" id="gcash-reference-number" name="gcash-reference-number" placeholder="Reference Number">
+                </div>
+            </div>
+
+            <!-- BPI Details (initially hidden) -->
+            <div id="bpi-details" class="payment-details">
+                <img src="bpi-qr-code.png" alt="BPI QR Code"> <!-- Replace with actual QR code image -->
+                <p><strong>BPI Account Number: 1234-5678-9012</strong></p>
+                <div id="bpi-reference">
+                    <label for="bpi-reference-number">Enter BPI Reference Number:</label>
+                    <input type="text" id="bpi-reference-number" name="bpi-reference-number" placeholder="Reference Number">
+                </div>
+            </div>
+
+            <div class="cod-option">
+                <input type="checkbox" id="cod" name="cod">
+                <label for="cod">Cash on Delivery (COD)</label>
+            </div>
+
+            <div class="proof-of-payment">
+                <label for="proof">Proof of Payment (upload):</label>
+                <input type="file" id="proof" name="proof">
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" id="terms" name="terms">
+                <label for="terms">I have read the Terms and Conditions</label>
+            </div>
+
+            <div class="buttons-section">
+                <button class="submit">Submit</button>
+            </div>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <p class="reservation">Your items are being reserved for: 19:18</p>
+            <div class="order-item">
+                <p><strong>Le Creuset Signature Enameled Cast Iron Saucepan, 1 3/4-Qt., White</strong></p>
+                <p>Quantity: 1</p>
+                <p class="price">$215</p>
+            </div>
+            <div class="order-total">
+                <p>Subtotal: $215</p>
+                <p>Shipping & Processing: Free</p>
+                <p>Tax: $15.05</p>
+                <p class="total">Total: $230.05</p>
+            </div>
+            <div class="credit-card-promo">
+                <p><strong>Apply for the Williams Sonoma Key Rewards Credit Card</strong></p>
+                <ul>
+                    <li>Earn 5% back in rewards on purchases across our collection of brands</li>
+                    <li>Earn double rewards for the first 30 days</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleReferenceField() {
+            // Get the GCash and BPI radio buttons
+            const gcashOption = document.getElementById('gcash');
+            const bpiOption = document.getElementById('bpi');
+            
+            // Get the GCash and BPI detail sections
+            const gcashDetails = document.getElementById('gcash-details');
+            const bpiDetails = document.getElementById('bpi-details');
+            
+            // Toggle visibility based on the selected payment method
+            if (gcashOption.checked) {
+                gcashDetails.style.display = 'block';
+                bpiDetails.style.display = 'none';
+            } else if (bpiOption.checked) {
+                bpiDetails.style.display = 'block';
+                gcashDetails.style.display = 'none';
+            } else {
+                gcashDetails.style.display = 'none';
+                bpiDetails.style.display = 'none';
+            }
+        }
+
+        // Initially hide all payment details
+        document.getElementById('gcash-details').style.display = 'none';
+        document.getElementById('bpi-details').style.display = 'none';
+    </script>
+</body>
+</html>

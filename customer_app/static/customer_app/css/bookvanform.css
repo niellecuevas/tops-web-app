@@ -1,11 +1,15 @@
+/* bookvanform.css */
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
     max-width: 900px;
-    margin: 0 auto;
+    margin: 20px auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -15,11 +19,12 @@ body {
 .form-header {
     text-align: center;
     margin-bottom: 20px;
+    font-family: 'Oswald', sans-serif;
 }
 
 .form-header img {
     width: 100%;
-    max-width: 300px;
+    max-width: 400px;
     height: auto;
     margin-bottom: 10px;
     border-radius: 8px;
@@ -27,13 +32,13 @@ body {
 
 .form-header h2 {
     margin: 0;
-    font-size: 22px;
+    font-size: 24px;
     color: #333;
 }
 
 .form-header p {
-    margin: 0;
-    font-size: 16px;
+    margin: 5px 0;
+    font-size: 18px;
     color: #777;
 }
 
@@ -52,6 +57,8 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box; /* Ensure padding is included in width */
 }
 
 .checkbox-group {
@@ -90,15 +97,32 @@ body {
 }
 
 .submit-btn button {
-    background-color: #007bff;
+    background-color: #ce40b0;
     color: #fff;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Oswald', sans-serif;
 }
 
 .submit-btn button:hover {
-    background-color: #0056b3;
+    background-color: #912078;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .form-header img {
+        max-width: 100%;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-row .form-group {
+        margin-right: 0;
+        min-width: 100%;
+    }
 }

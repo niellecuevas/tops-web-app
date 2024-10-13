@@ -9,4 +9,6 @@ urlpatterns = [
     path('customerhomepage2/', views.customerhomepage2_view, name='customerhomepage2'),
     path('bookvan/', views.bookvan, name='bookvan'),
     path('bookvanform/', views.bookvanform, name='bookvanform'),
+    path('footer/', views.footer, name='footer'),
+    path('payment_summary/', views.payment_summary, name='payment_summary'),
 ]

@@ -57,5 +57,13 @@ def customerhomepage2_view(request):
 def bookvan(request):
     return render(request, 'customer_app/bookvan.html')
 
+def footer(request):
+    return render(request, 'customer_app/footer.html')
+
+def payment_summary(request):
+    return render(request, 'customer_app/payment_summary.html')
+
+
+
 
 

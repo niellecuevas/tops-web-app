@@ -1,0 +1,186 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e39ed8;
+    margin: 0;
+    padding: 20px;
+    font-size: 16px; /* Base font size */
+}
+
+.go-back-container {
+    text-align: right;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+button.go-back {
+    background-color: #8a1170; /* Same color as Submit button */
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px; /* Increased font size */
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px; /* Added margin */
+}
+
+button.go-back:hover {
+    background-color: #b03594; /* Same hover effect as Submit button */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px; /* Space between Payment Form and Order Summary */
+}
+
+.payment-method {
+    width: 48%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 4px solid #450154; /* Adding border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method h2 {
+    color: #ce40b0;
+    font-size: 30px; /* Increased title font size */
+}
+
+.payment-options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-option {
+    text-align: center;
+    width: 45%;
+    font-size: 18px;
+}
+
+.payment-option input[type="radio"] {
+    margin-right: 5px;
+}
+
+.payment-details {
+    display: none; /* Initially hide payment details */
+    margin-top: 20px;
+    border-top: 1px solid #ce40b0;
+    padding-top: 15px;
+}
+
+.payment-details img {
+    width: 120px; /* Set QR code image size */
+    height: 120px;
+    margin-bottom: 10px;
+}
+
+.payment-details p {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px; /* Increased font size for input fields */
+    border: 1px solid #ce40b0;
+    border-radius: 4px;
+}
+
+/* Additional styling for COD, proof of payment, and terms */
+.cod-option, .proof-of-payment, .terms {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+input[type="file"] {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ce40b0;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.buttons-section {
+    margin-top: 20px;
+}
+
+button.submit {
+    background-color: #8a1170;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px; /* Increased font size */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.submit:hover {
+    background-color: #b03594;
+}
+
+.order-summary {
+    width: 48%;
+    padding: 20px;
+    background-color: #fff;
+    border: 4px solid #450154; /* Adding border */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2 {
+    color: #ce40b0;
+    font-size: 24px; /* Increased title font size */
+}
+
+.reservation {
+    font-style: italic;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.order-item {
+    margin-bottom: 15px;
+}
+
+.price {
+    color: #ce40b0;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.order-total p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.total {
+    color: #ce40b0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.credit-card-promo ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 18px;
+}
+
+/* Reference number fields for GCash and BPI */
+#gcash-reference label, #bpi-reference label {
+    font-size: 18px; /* Increased font size for reference labels */
+}
+
+input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px; /* Increased font size for input fields */
+    border: 1px solid #ce40b0;
+    border-radius: 4px;
+}
