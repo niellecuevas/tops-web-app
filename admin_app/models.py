@@ -22,13 +22,13 @@ class Driver(models.Model):
         return f"{self.name} - {self.driver_id}"
     
 
-    class Van(models.Model):
-        van_id = models.AutoField(primary_key=True)  # Unique identifier for the van
-        model = models.CharField(max_length=100)      # Van model
-        plate_number = models.CharField(max_length=20)  # Plate number
-        capacity = models.IntegerField()               # Capacity of the van
-        status = models.CharField(max_length=50, default='available')  # Status (e.g., available, unavailable)
+class Van(models.Model):
+    file_upload = models.ImageField(upload_to='vans/', blank=False)
+    model = models.CharField(max_length=100)  # Ensure this line exists
+    plate = models.CharField(max_length=100)
+    seats = models.IntegerField()
+    is_company_van = models.BooleanField(default=False)
+    driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.model} - {self.plate_number}"
-    
+        return self.model

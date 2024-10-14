@@ -14,146 +14,47 @@
     height: auto; /* Set height to 200px */
     padding: 10px; /* Keep padding */
     border-radius: 10px; /* Keep border-radius */
-    display: flex;
-    flex-direction: column;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 5px; /* Soft shadow */
     overflow: hidden; /* Hide overflow for better appearance */
     position: relative; /* Allows child positioning */
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Maintain properties for drag-file-area to ensure consistency */
-.drag-file-area {
-    border: 2px dashed #7b2cbf;
-    border-radius: 10px; /* Keep border-radius */
-    margin: 5px 0; /* Adjusted margin */
-    padding: 10px; /* Adjusted padding */
-    width: 160px; /* Ensure width matches */
-    height: 150px; /* Set height for visual consistency */
+.file-upload-container {
+    width: 150px;
+    height: auto;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
     text-align: center;
-    transition: background-color 0.3s; /* Added hover effect */
-    position: static;
-}
-
-.drag-file-area:hover {
-    background-color: #e6e6e6; /* Light background on hover */
-}
-
-.drag-file-area .upload-icon {
-    font-size: 30px; /* Adjusted icon size */
-}
-
-.drag-file-area h3 {
-    font-size: 12px; /* Reduced font size */
-    margin: 5px 0; /* Reduced margin */
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.drag-file-area label {
-    font-size: 10px; /* Adjusted font size */
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.drag-file-area label .browse-files-text {
-    color: #7b2cbf;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
 }
 
-
-.default-file-input {
-    opacity: 0;
-}
-
-.cannot-upload-message {
-    background-color: #ffc6c4;
-    font-size: 10px; /* Adjusted font size */
-    display: flex;
-    align-items: center;
-    margin: 5px 0;
-    padding: 5px 10px; /* Adjusted padding for better appearance */
-    border-radius: 5px;
-    color: #BB0000;
-    display: none; /* Keep as is, display when needed */
-    width: 168px; /* Adjusts width to fit content */
-    max-width: 100%; /* Ensure it doesn't exceed the container's width */
-}
-
-.file-block {
-    color: #f7fff7; /* Text color */
-    background-color: #7b2cbf; /* Background color */
-    transition: all 0.3s; /* Softer transition effect */
-    width: 175px; /* Set width to match drag area and button */
-    height: 30px; /* Increased height for better appearance */
-    position: relative; /* Keep for positioning */
-    display: none; /* Keep as is, show when needed */
-    flex-direction: column; /* Maintain column layout */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    margin: 5px 0; /* Space above and below */
-    padding: 5px; /* Adjusted padding for better appearance */
-    border-radius: 5px; /* Keep border-radius consistent */
-    cursor: pointer; /* Pointer cursor for clickable element */
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px; /* Add subtle shadow */
-}
-
-.file-block:hover {
-    background-color: #6f1f91; /* Darker shade on hover */
-}
-
-.file-info {
-    font-size: 10px; /* Adjusted font size */
-}
-
-.file-icon {
-    margin-right: 5px; /* Reduced margin */
-}
-
-.file-name, .file-size {
-    padding: 0 2px; /* Adjusted padding */
-}
-
-.remove-file-icon {
+.file-upload-label {
+    display: block;
     cursor: pointer;
 }
 
-.progress-bar {
-    display: flex;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0; /* Initial width */
-    height: 2px; /* Set height for the progress bar */
-    border-radius: 25px;
-    background-color: #4BB543;
+.upload-icon {
+    font-size: 48px;
+    color: #888;
 }
 
-.upload-button {
-    font-family: 'Montserrat';
-    background-color: #ce40b0;
-    color: #f7fff7;
-    display: block; /* Change to block to take full width */
-    font-size: 14px; /* Adjusted font size */
-    border: none;
-    border-radius: 5px; /* Adjusted border-radius */
-    margin: 10px 0; /* Add space above and below */
-    padding: 5px; /* Adjusted padding */
-    cursor: pointer;
-    transition: background-color 0.3s; /* Added hover effect */
-    width: 185px; /* Set to match drag-file-area width */
-    height: 30px; /* Set height for better appearance */
-    font-family: Arial;
+.browse-files-text {
+    margin-top: 10px;
+    display: block;
+    font-size: 16px;
+    color: #666;
 }
 
-.upload-button:hover {
-    background-color: #6f1f91; /* Darker shade on hover */
+input[type="file"]{
+    display: none;
 }
 
 .form-container {
     background-color: #f0f4f0;
     width: 400px; /* Set width to 100% */
-    height: auto; /* Set height to 200px */
+    height: 300px; /* Set height to 200px */
     padding: 20px; /* Keep padding */
     overflow: hidden; /* Hide overflow for better appearance */
     position: absolute;
@@ -194,9 +95,12 @@
 
 .form-group button {
     background-color: #ce40b0; /* Background color */
+    width: 195px;
     color: #fff; /* Text color */
     border: none; /* Remove default border */
     border-radius: 5px; /* Rounded corners */
+    margin: 10px;
+    margin-left: 0;
     padding: 10px 20px; /* Padding for a better size */
     font-size: 14px; /* Font size */
     cursor: pointer; /* Pointer cursor on hover */
@@ -223,6 +127,40 @@
 }
 
 
+/* Media Queries for Responsive Design */
+@media (max-width: 600px) {
+    .form-container {
+        width: 90%; /* Slightly wider for very small screens */
+        padding: 15px; /* Less padding for compactness */
+        margin: 0;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group select {
+        font-size: 14px; /* Adjusted font size */
+        padding: 10px; /* Increase padding for better usability */
+    }
+
+    .form-group label {
+        font-size: 14px; /* Keep label font size readable */
+    }
+
+    .upload-files-container {
+        margin-bottom: 20px; /* Add space below the upload container */
+    }
+
+    .form-container {
+        margin-top: 20px; /* Ensure some space above the form */
+        position: relative;
+    }
+
+    .file-upload-container,.form-group button {
+        margin-left: 60px;
+    }
+}
+
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -244,4 +182,21 @@ th {
     padding: 5px 10px;
     cursor: pointer;
     border: none;
+}
+
+.alert-container {
+    margin-bottom: 20px;
+}
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+.alert-error {
+    background-color: #f2dede;
+    color: #a94442;
 }

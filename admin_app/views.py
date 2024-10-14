@@ -30,9 +30,25 @@ def driver_management(request):
 def statistics(request):
     return render(request, 'admin_app/adminstatistics.html')
 
+from django.contrib import messages
+from .forms import VanForm
+
 @login_required
 def van_management(request):
-    return render(request, 'admin_app/van_management.html')
+    drivers = Driver.objects.all()  # Get all drivers 
+    if request.method == 'POST':
+        form = VanForm(request.POST, request.FILES)  # Include request.FILES for file uploads
+        if form.is_valid():
+            form.save()  # Save the new van record
+            messages.success(request, 'Van registered successfully!')
+            form = VanForm()  # Reset the form for a new entry after successful registration
+        else:
+            print(form.errors)
+            messages.error(request, 'There was an error registering the van.')
+    else:
+        form = VanForm()  # Create a new form instance for GET requests
+
+    return render(request, 'admin_app/van_management.html', {'drivers': drivers, 'form': form})
 
 @login_required
 def logout(request):

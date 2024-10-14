@@ -17,75 +17,85 @@
     
         <!-- Add a Van Section -->
         <h3>Add a Van</h3>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'van_management' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="upload-and-form-container">
-                <div class="upload-files-container">
-                    <div class="drag-file-area">
-                        <span class="material-icons-outlined upload-icon">file_upload</span>
-                        <h3 class="dynamic-message">Drag & drop any file here</h3>
-                        <label class="label"> or 
-                            <span class="browse-files">
-                                <input type="file" class="default-file-input"/> 
-                                <span class="browse-files-text">browse file</span> 
-                                <span>from device</span> 
-                            </span>
-                        </label>
-                    </div>
-                    <span class="cannot-upload-message"> 
-                        <span class="material-icons-outlined">error</span> 
-                        Please select a file first 
-                        <span class="material-icons-outlined cancel-alert-button">cancel</span> 
-                    </span>
-                    <div class="file-block">
-                        <div class="file-info"> 
-                            <span class="material-icons-outlined file-icon">description</span> 
-                            <span class="file-name"></span> | 
-                            <span class="file-size"></span> 
-                        </div>
-                        <span class="material-icons remove-file-icon">delete</span>
-                        <div class="progress-bar"></div>
-                    </div>
-                    <button type="button" class="upload-button">Upload</button>
-
             
-                    <div class="form-container">
-                        <div class="form-group">
-                            <label for="model">Van Model:</label>
-                            <input type="text" id="model" name="model" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="plate">Plate Number:</label>
-                            <input type="text" id="plate" name="plate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="seats">Seats:</label>
-                            <input type="number" id="seats" name="seats" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="is_company_van">Company Van:</label>
-                            <input type="checkbox" id="is_company_van" name="is_company_van">
-                        </div>
-                        <div class="form-group">
-                            <label for="driver">Driver:</label>
-                            <select id="driver" name="driver">
-                                <option value="">Select Driver</option>
-                                {% for driver in drivers %}
-                                <option value="{{ driver.id }}">{{ driver.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button type="submit">Add a Van</button>
-                        </div>
-                    </div>
+            <!-- Display messages -->
+            {% if messages %}
+                <div class="alert-container">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
                 </div>
-    
-            </div>    
+            {% endif %}
+        
             
+                <div class="upload-files-container">
+                        <!-- File Upload Section -->
+                        <div class="file-upload-container">
+                            <label for="file_upload" class="file-upload-label">
+                                <span class="material-icons-outlined upload-icon">file_upload</span>
+                                <h3>Upload an Image</h3>
+                                <input type="file" id="file_upload" name="file_upload" accept="image/*" required>
+                                <span class="browse-files-text"></span>
+                            </label>
+                            <!-- File name display -->
+                            <div id="file-info" style="display:none;">
+                                <span id="file-name"></span>
+                            </div>
+                            
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Add a Van</button>
+                        </div>
+                        <!-- Van Management Form Section -->
+                        <div class="form-container">
+                    
+                            <!-- Van Model Field -->
+                            <div class="form-group">
+                                <label for="model">Van Model:</label>
+                                <input type="text" id="model" name="model" value="{{ form.model.value }}" required>
+                            </div>
             
+                            <!-- Plate Number Field -->
+                            <div class="form-group">
+                                <label for="plate">Plate Number:</label>
+                                <input type="text" id="plate" name="plate" value="{{ form.plate.value }}" required>
+                            </div>
+            
+                            <!-- Seats Field -->
+                            <div class="form-group">
+                                <label for="seats">Seats:</label>
+                                <input type="number" id="seats" name="seats" value="{{ form.seats.value }}" required>
+                    
+                            </div>
+                
+                            <!-- Company Van Checkbox -->
+                            <div class="form-group">
+                                <label for="is_company_van">Company Van:</label>
+                                <input type="checkbox" id="is_company_van" name="is_company_van" {% if form.is_company_van.value %} checked {% endif %}>
+                            
+                            </div>
+            
+                            <!-- Driver Dropdown -->
+                            <div class="form-group">
+                                <label for="driver">Driver:</label>
+                                <select id="driver" name="driver" required>
+                                    <option value="">Select Driver</option>
+                                    {% for driver in drivers %}
+                                        <option value="{{ driver.id }}" {% if form.driver.value == driver.id %} selected {% endif %}>{{ driver.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+            
+                            
+                     </div>
+                    
+                </div> 
         </form>
+        
+            
     
         <!-- List of Vans -->
         <h3>List of Vans</h3>
