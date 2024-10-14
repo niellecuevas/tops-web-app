@@ -19,12 +19,6 @@
             <label for="{{ form.license.id_for_label }}">{{ form.license.label }}</label>
             {{ form.license }}
             
-            <label for="{{ form.van_model.id_for_label }}">{{ form.van_model.label }}</label>
-            {{ form.van_model }}
-            
-            <label for="{{ form.plate_number.id_for_label }}">{{ form.plate_number.label }}</label>
-            {{ form.plate_number }}
-            
             <button type="submit">Register</button>
         </form>
     </div>
@@ -51,8 +45,6 @@
                 <th>Driver ID</th>
                 <th>Name</th>
                 <th>License</th>
-                <th>Van Model</th>
-                <th>Plate Number</th>
                 <th>Action</th>  <!-- Added Action column -->
             </tr>
         </thead>
@@ -62,8 +54,6 @@
                     <td>{{ driver.driver_id }}</td>
                     <td class="name">{{ driver.name }}</td>
                     <td class="license">{{ driver.license }}</td>
-                    <td class="van_model">{{ driver.van_model }}</td>
-                    <td class="plate_number">{{ driver.plate_number }}</td>
                     <td>
                         <button onclick="openModal('{{ driver.driver_id }}', '{{ driver.name }}', '{{ driver.license }}', '{{ driver.van_model }}', '{{ driver.plate_number }}')">Update</button>
                     </td>
@@ -92,12 +82,6 @@
             
             <label for="modal_license">License</label>
             <input type="text" id="modal_license" name="license"> <!-- Add an input field for license -->
-            
-            <label for="modal_van_model">Van Model</label>
-            <input type="text" id="modal_van_model" name="van_model"> <!-- Add an input field for van model -->
-            
-            <label for="modal_plate_number">Plate Number</label>
-            <input type="text" id="modal_plate_number" name="plate_number"> <!-- Add an input field for plate number -->
             
             <button type="submit">Update Driver</button>
         </form>
