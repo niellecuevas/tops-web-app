@@ -113,9 +113,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for van in company_vans %}
+                {% for van in vans %}
                 <tr>
-                    <td><img src="{{ van.van_image.url }}" alt="van image" width="100"></td>
+                    <td><img src="{{ van.file_upload.url }}" alt="van image" width="100"></td>
                     <td>{{ van.model }}</td>
                     <td>{{ van.plate }}</td>
                     <td>{{ van.seats }}</td>
@@ -139,9 +139,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for van in drivers_vans %}
+                {% for van in vans %}
                 <tr>
-                    <td><img src="{{ van.van_image.url }}" alt="van image" width="100"></td>
+                    <td><img src="{{ van.file_upload.url }}" alt="van image" width="100"></td>
                     <td>{{ van.model }}</td>
                     <td>{{ van.plate }}</td>
                     <td>{{ van.seats }}</td>

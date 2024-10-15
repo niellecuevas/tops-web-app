@@ -32,6 +32,7 @@ def statistics(request):
 
 from django.contrib import messages
 from .forms import VanForm
+from .models import Van
 
 @login_required
 def van_management(request):
@@ -47,8 +48,10 @@ def van_management(request):
             messages.error(request, 'There was an error registering the van.')
     else:
         form = VanForm()  # Create a new form instance for GET requests
-
-    return render(request, 'admin_app/van_management.html', {'drivers': drivers, 'form': form})
+    vans = Van.objects.all()
+    for van in vans:
+        print(van.file_upload.url if van.file_upload else 'No file uploaded')  # Debugging line
+    return render(request, 'admin_app/van_management.html', {'drivers': drivers,'vans': vans,  'form': form})
 
 @login_required
 def logout(request):
