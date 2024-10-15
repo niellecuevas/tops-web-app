@@ -37,6 +37,8 @@ from .models import Van
 @login_required
 def van_management(request):
     drivers = Driver.objects.all()  # Get all drivers
+    company_vans = Van.objects.filter(is_company_van=True)  # Get all company vans
+    driver_vans = Van.objects.filter(is_company_van=False)  # Get all driver vans
     if request.method == 'POST':
         form = VanForm(request.POST, request.FILES)  # Include request.FILES for file uploads
         if form.is_valid():
@@ -50,11 +52,14 @@ def van_management(request):
     else:
         form = VanForm()  # Create a new form instance for GET requests
 
-    vans = Van.objects.all()
-    for van in vans:
-        print(van.file_upload.url if van.file_upload else 'No file uploaded')  # Debugging line
+     # Debugging: Print URLs of uploaded files for all vans
+    for van in company_vans:
+        print(van.file_upload.url if van.file_upload else 'No file uploaded')  # For company vans
+    for van in driver_vans:
+        print(van.file_upload.url if van.file_upload else 'No file uploaded')  # For driver vans
     
-    return render(request, 'admin_app/van_management.html', {'drivers': drivers, 'vans': vans, 'form': form})
+    return render(request, 'admin_app/van_management.html', {'drivers': drivers, 'form': form, 'company_vans': company_vans,
+        'driver_vans': driver_vans,})
 
 @login_required
 def logout(request):
