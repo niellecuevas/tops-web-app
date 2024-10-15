@@ -36,22 +36,25 @@ from .models import Van
 
 @login_required
 def van_management(request):
-    drivers = Driver.objects.all()  # Get all drivers 
+    drivers = Driver.objects.all()  # Get all drivers
     if request.method == 'POST':
         form = VanForm(request.POST, request.FILES)  # Include request.FILES for file uploads
         if form.is_valid():
             form.save()  # Save the new van record
             messages.success(request, 'Van registered successfully!')
-            form = VanForm()  # Reset the form for a new entry after successful registration
+            form = VanForm()  # Reset the form
+            return redirect('van_management')  # Redirect to the same view or a different one
         else:
             print(form.errors)
             messages.error(request, 'There was an error registering the van.')
     else:
         form = VanForm()  # Create a new form instance for GET requests
+
     vans = Van.objects.all()
     for van in vans:
         print(van.file_upload.url if van.file_upload else 'No file uploaded')  # Debugging line
-    return render(request, 'admin_app/van_management.html', {'drivers': drivers,'vans': vans,  'form': form})
+    
+    return render(request, 'admin_app/van_management.html', {'drivers': drivers, 'vans': vans, 'form': form})
 
 @login_required
 def logout(request):
@@ -61,6 +64,7 @@ def logout(request):
 
 from .forms import DriverForm
 from .models import Driver
+from django.contrib import messages
 
 @login_required
 def driver_management(request):
@@ -69,6 +73,8 @@ def driver_management(request):
         form = DriverForm(request.POST)
         if form.is_valid():
             form.save()  # Save the new driver to the database
+            messages.success(request, 'Driver registered successfully!')
+            form = DriverForm()
             return redirect('driver_management')  # Redirect to the same page after successful registration
     else:
         form = DriverForm()  # Empty form if no form submission

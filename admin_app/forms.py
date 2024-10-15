@@ -27,3 +27,8 @@ class VanForm(forms.ModelForm):
         widgets = {
             'driver': forms.Select(attrs={'class': 'form-control'}),
         }
+    def __init__(self, *args, **kwargs):
+        super(VanForm, self).__init__(*args, **kwargs)
+        # Set initial values to empty for van_model and plate_number
+        self.fields['model'].initial = ''  # Set the initial value to empty
+        self.fields['plate'].initial = ''  # Set the initial value to empty
