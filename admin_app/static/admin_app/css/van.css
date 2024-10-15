@@ -176,27 +176,11 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
-.delete-btn {
+.btndelete {
     background-color: #dc3545;
     color: white;
     padding: 5px 10px;
     cursor: pointer;
     border: none;
-}
-
-.alert-container {
-    margin-bottom: 20px;
-}
-.alert {
-    padding: 10px;
-    margin-bottom: 10px;
     border-radius: 5px;
-}
-.alert-success {
-    background-color: #dff0d8;
-    color: #3c763d;
-}
-.alert-error {
-    background-color: #f2dede;
-    color: #a94442;
 }

@@ -120,3 +120,12 @@ def updateDriverForm(request):
         else:
             return JsonResponse({'status': 'error', 'message': 'Form validation failed.'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request.'})
+
+def delete_van(request, van_id):
+    if request.method == 'POST':
+        van = get_object_or_404(Van, id=van_id)  # Get the van object
+        van.delete()  # Delete the van record
+        messages.success(request, 'Van deleted successfully!')  # Show success message
+        return redirect('van_management')  # Redirect to the van management page
+
+    return redirect('van_management')  # Redirect if not a POST request
