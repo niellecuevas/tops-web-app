@@ -11,7 +11,7 @@ def admin_login(request):
 
         if user is not None:
             login(request, user)
-            return redirect('admin_dashboard')
+            return redirect('admin_bookings')
         else:
             error = 'Invalid username or password.'
             return render(request, 'admin_app/adminlogin.html', {'error': error})
