@@ -16,14 +16,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header with van image, model, and driver name -->
-        <div class="form-header">
-            <img src="{% static 'images/NISSAN_URVAN.jpg' %}" alt="Van Image">
-            <h2>Van Model: Foton Transvan</h2>
-            <p>Driver Name: John Doe</p>
-            <p>Van Seater: 15 pax  | Min Price: 5000</p>
-        </div>
-
         <!-- Form starts here -->
         <form method="POST" action="{% url 'bookvanform' %}" enctype="multipart/form-data">
             {% csrf_token %}

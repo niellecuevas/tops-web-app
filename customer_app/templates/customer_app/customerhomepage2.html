@@ -68,35 +68,46 @@
             <div class="carousel-slide">
                 <div class="van-card">
                     <div class="van-img">
-                        <img src="{% static 'images/MAXUS_V80.jpg' %}" alt="Van Image">
+                        <img src="{{ van.file_upload.url }}" alt="Van Image">
                     </div>
                     <div class="van-details">
-                        <p><strong>Van Model:</strong> Maxus V80</p>
-                        <p><strong>Max Pax:</strong> 10</p>
-                        <p><strong>Driver:</strong> Random</p>
+                        <p><strong>Van Model:</strong> {{ van.model }}</p>
+                        <p><strong>Max Pax:</strong> {{ van.seats }}</p>
+                        <p><strong>Driver:</strong> {{ van.driver.name }}</p>
                         <p><strong>Min Price:</strong> ₱5000</p>
                     </div>
                     <div class="book-btn">
-                        
-                            <button type="submit" class="book-button">Book</button>
-                        
+                        <button type="button" class="book-button"
+                                data-van-image="{{ van.file_upload.url }}"
+                                data-van-model="{{ van.model }}"
+                                data-van-driver="{{ van.driver.name }}"
+                                data-van-seats="{{ van.seats }}"
+                                onclick="openModal(event)">
+                            Book
+                        </button>
                     </div>
                 </div>
+                
 
                 <div class="van-card">
                     <div class="van-img">
-                        <img src="{% static 'images/FOTON_TRANSVAN.jpg' %}" alt="Van Image">
+                        <img src="{{ van2.file_upload.url }}" alt="Van Image">
                     </div>
                     <div class="van-details">
-                        <p><strong>Van Model:</strong> Foton Transvan</p>
-                        <p><strong>Max Pax:</strong> 10</p>
-                        <p><strong>Driver:</strong> Juan</p>
+                        <p><strong>Van Model:</strong> {{ van2.model }}</p>
+                        <p><strong>Max Pax:</strong> {{ van2.seats }}</p>
+                        <p><strong>Driver:</strong> {{ van2.driver.name }}</p>
                         <p><strong>Min Price:</strong> ₱5000</p>
                     </div>
                     <div class="book-btn">
-                        
-                            <button type="submit" class="book-button">Book</button>
-                        
+                        <button type="button" class="book-button"
+                                data-van-image="{{ van2.file_upload.url }}"
+                                data-van-model="{{ van2.model }}"
+                                data-van-driver="{{ van2.driver.name }}"
+                                data-van-seats="{{ van2.seats }}"
+                                onclick="openModal(event)">
+                            Book
+                        </button>
                     </div>
                 </div>
             </div>
@@ -160,6 +171,12 @@
 <div id="bookingModal" class="modal">
     <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
+        <div class="form-header">
+            <img id="modal-van-img" src="" alt="Van Image">
+            <h2>Van Model: <span id="modal-van-model"></span></h2>
+            <p>Driver Name: <span id="modal-driver-name"></span></p>
+            <p>Van Seater: <span id="modal-van-seater"></span> | Min Price: ₱5000</p>
+        </div>
         <div id="modal-form-content">
             {% include 'customer_app/bookvanform.html' %}
         </div>
@@ -197,24 +214,50 @@
     showSlide(currentSlide); // Initialize the first slide
 
     // Get the modal and its content area
-    const modal = document.getElementById("bookingModal");
-    const modalContentDiv = document.getElementById("modal-form-content");
+const modal = document.getElementById("bookingModal");
+const modalContentDiv = document.getElementById("modal-form-content");
 
-    // Get the close button inside the modal
-    const closeButton = document.querySelector(".close-button");
+// Function to open the modal and load the form into it
+function openModal(event) {
+    event.preventDefault(); // Prevent the default form action (submitting)
 
-    // Function to open the modal and load the bookvanform.html into it
-    function openModal(event) {
-        event.preventDefault(); // Prevent the default form action (submitting)
-        // Fetch the content from bookvanform.html
-        fetch("{% url 'bookvanform' %}")
-            .then(response => response.text())
-            .then(data => {
-                modalContentDiv.innerHTML = data; // Insert the fetched HTML form into the modal
-                modal.style.display = "block"; // Display the modal
-            })
-            .catch(error => console.error('Error loading the form:', error));
+    // Get data attributes from the clicked button
+    const button = event.currentTarget;
+    const vanImage = button.getAttribute('data-van-image');
+    const vanModel = button.getAttribute('data-van-model');
+    const vanDriver = button.getAttribute('data-van-driver');
+    const vanSeats = button.getAttribute('data-van-seats');
+
+    // Populate modal content
+    document.getElementById("modal-van-img").src = vanImage;
+    document.getElementById("modal-van-model").innerText = vanModel;
+    document.getElementById("modal-driver-name").innerText = vanDriver;
+    document.getElementById("modal-van-seater").innerText = vanSeats;
+
+    // Fetch the content from bookvanform.html (if needed)
+    fetch("{% url 'bookvanform' %}")
+        .then(response => response.text())
+        .then(data => {
+            modalContentDiv.innerHTML = data; // Insert the fetched HTML form into the modal
+            modal.style.display = "block"; // Display the modal
+        })
+        .catch(error => console.error('Error loading the form:', error));
+}
+
+// Function to close the modal
+function closeModal() {
+    modal.style.display = "none"; // Hide the modal
+}
+
+// Close modal when clicking outside of the modal content
+window.onclick = function(event) {
+    if (event.target === modal) {
+        closeModal();
     }
+};
+
+
+    
     document.addEventListener("DOMContentLoaded", function() {
     // Check if the user came from the payment form
     var cameFromPayment = "{{ came_from_payment|default:'false' }}";
