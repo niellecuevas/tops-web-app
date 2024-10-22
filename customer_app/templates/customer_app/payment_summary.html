@@ -6,6 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Form</title>
     <link rel="stylesheet" href="{% static 'customer_app/css/payment_summary.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+            /* styles.css */
+    .summary-section {
+        text-align: center; /* Center the content */
+        padding: 5px;
+    }
+
+    .imageVan {
+        max-width: 200px; /* Set a maximum width for the image */
+        height: auto; /* Maintain the aspect ratio */
+        display: block; /* Make the image a block element */
+        margin: 0 auto; /* Center the image horizontally */
+        border-radius: 10px; /* Add border radius to the image */
+    }
+
+    .container {
+    display: flex;
+    justify-content: center; /* Center all content horizontally */
+    align-items: flex-start; /* Align items to the top */
+    max-width: 1200px;
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
+    gap: 50px; /* Space between Payment Form and Booking Summary */
+    }
+    
+
+.go-back-link {
+    display: inline-flex; /* Allows for icon alignment */
+    align-items: center; /* Center the icon and text vertically */
+    padding: 10px 20px; /* Add padding for a button-like appearance */
+    color: white; /* Text color */
+    background-color: #28a745; /* Green background color */
+    border-radius: 25px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px; /* Font size */
+    font-weight: 600; /* Bold font */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.go-back-link:hover {
+    background-color: #218838; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.go-back-link i {
+    margin-right: 10px; /* Space between the icon and text */
+}
+
+
+    </style>
 </head>
 <body>
     
@@ -49,7 +100,9 @@
                 <label for="terms">I have read the Terms and Conditions</label>
             </div>
             <div class="go-back-container">
-                <a href="{% url 'customerhomepage2' %}?came_from_payment=true" class="btn btn-secondary">Edit your form details</a>
+                <a href="{% url 'customerhomepage2' %}?came_from_payment=true" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> <!-- Left arrow icon -->
+                    Edit your form details</a>
             </div>
         </div>
 
@@ -57,13 +110,13 @@
         <div class="booking-summary">
             <h2>Booking Summary</h2>
 
-            <div class="summary-section" class="van-details">
-                <img src="{% static 'images/NISSAN_URVAN.jpg' %}" alt="Van Image" class="van-image">
-                <p><strong>Van Model:</strong> Foton Transvan</p>
-                <p><strong>Van Seats:</strong> 15 pax</p>
-                <p><strong>Driver Name:</strong> John Doe</p>
+            <div class="summary-section" id="booking-summary">
+                <img src="" alt="Van Image" id="summary-van-image" class="imageVan">
+                <h3>Van Model: <span id="summary-van-model"></span></h3>
+                <p>Driver Name: <span id="summary-van-driver"></span></p>
+                <p>Seating Capacity: <span id="summary-van-seats"></span></p>
                 <hr>
-            </div>
+            </div>            
             
             <div class="summary-section">
                 <h3>Trip Schedule</h3>
@@ -100,6 +153,20 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Retrieve data from localStorage
+            const vanImage = localStorage.getItem('vanImage');
+            const vanModel = localStorage.getItem('vanModel');
+            const vanDriver = localStorage.getItem('vanDriver');
+            const vanSeats = localStorage.getItem('vanSeats');
+
+            // Populate the booking summary
+            document.getElementById('summary-van-image').src = vanImage || ''; // Use a default value if null
+            document.getElementById('summary-van-model').innerText = vanModel || '';
+            document.getElementById('summary-van-driver').innerText = vanDriver || '';
+            document.getElementById('summary-van-seats').innerText = vanSeats || '';
+        });
+
         function selectPaymentMethod(method) {
     // Remove 'selected' class from all cards
     document.getElementById('gcash-card').classList.remove('selected');

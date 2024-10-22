@@ -110,6 +110,50 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="van-card">
+                    <div class="van-img">
+                        <img src="{{ van.file_upload.url }}" alt="Van Image">
+                    </div>
+                    <div class="van-details">
+                        <p><strong>Van Model:</strong> {{ van.model }}</p>
+                        <p><strong>Max Pax:</strong> {{ van.seats }}</p>
+                        <p><strong>Driver:</strong> {{ van.driver.name }}</p>
+                        <p><strong>Min Price:</strong> ₱5000</p>
+                    </div>
+                    <div class="book-btn">
+                        <button type="button" class="book-button"
+                                data-van-image="{{ van.file_upload.url }}"
+                                data-van-model="{{ van.model }}"
+                                data-van-driver="{{ van.driver.name }}"
+                                data-van-seats="{{ van.seats }}"
+                                onclick="openModal(event)">
+                            Book
+                        </button>
+                    </div>
+                </div>
+
+                <div class="van-card">
+                    <div class="van-img">
+                        <img src="{{ van.file_upload.url }}" alt="Van Image">
+                    </div>
+                    <div class="van-details">
+                        <p><strong>Van Model:</strong> {{ van.model }}</p>
+                        <p><strong>Max Pax:</strong> {{ van.seats }}</p>
+                        <p><strong>Driver:</strong> {{ van.driver.name }}</p>
+                        <p><strong>Min Price:</strong> ₱5000</p>
+                    </div>
+                    <div class="book-btn">
+                        <button type="button" class="book-button"
+                                data-van-image="{{ van.file_upload.url }}"
+                                data-van-model="{{ van.model }}"
+                                data-van-driver="{{ van.driver.name }}"
+                                data-van-seats="{{ van.seats }}"
+                                onclick="openModal(event)">
+                            Book
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="carousel-slide">
@@ -233,6 +277,12 @@ function openModal(event) {
     document.getElementById("modal-van-model").innerText = vanModel;
     document.getElementById("modal-driver-name").innerText = vanDriver;
     document.getElementById("modal-van-seater").innerText = vanSeats;
+
+    // Store data in localStorage
+    localStorage.setItem('vanImage', vanImage);
+    localStorage.setItem('vanModel', vanModel);
+    localStorage.setItem('vanDriver', vanDriver);
+    localStorage.setItem('vanSeats', vanSeats);
 
     // Fetch the content from bookvanform.html (if needed)
     fetch("{% url 'bookvanform' %}")

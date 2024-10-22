@@ -8,6 +8,16 @@ body {
     padding: 20px;
     font-size: 16px; /* Base font size */
 }
+.summary-section {
+    text-align: center; /* Center the content */
+}
+
+.imageVan {
+    max-width: 200px; /* Set a maximum width for the image */
+    height: auto; /* Maintain the aspect ratio */
+    display: block; /* Make the image a block element */
+    margin: 0 auto; /* Center the image horizontally */
+}
 
 .go-back-container {
     text-align: right;
@@ -33,7 +43,8 @@ body {
     display: flex;
     justify-content: space-between;
     max-width: 1200px;
-    margin: 0 auto;
+    margin-left: 50px;
+    margin-right: 50px;
     gap: 5px; /* Space between Payment Form and Booking Summary */
 }
 
@@ -184,6 +195,7 @@ button.go-back:hover {
 /* Booking summary styles */
 .booking-summary h2 {
     font-size: 24px; /* Increased title font size */
+    text-align: center;
 }
 
 .reservation,
@@ -217,23 +229,4 @@ hr {
     border: none;
     border-top: 1px solid #ccc; /* Style for horizontal rules */
     margin: 10px 0; /* Spacing for hr */
-}
-
-
-.van-details {
-    width: 65%; /* Set width for the van details container */
-    float: left; /* Float it to the left so it aligns next to the image */
-}
-
-.van-image {
-    width: 30%; /* Set width for the image */
-    float: right; /* Float the image to the right side */
-    margin-left: 20px; /* Adds some space between the text and the image */
-    margin-right: 20px;
-    max-width: 100%; /* Ensure the image remains responsive */
-    margin-top: -10px;
-    border-radius: 10px;
-}
-.van-details, .van-image {
-    vertical-align: middle; /* Ensures both text and image are aligned at the same height */
 }

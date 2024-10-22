@@ -19,7 +19,6 @@
         <!-- Form starts here -->
         <form method="POST" action="{% url 'bookvanform' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            
             <!-- Full Name and Passenger Count -->
             <div class="form-row">
                 <div class="form-group">
@@ -77,6 +76,12 @@
                 <label for="round-trip">Round Trip</label>
                 <input type="checkbox" id="round-trip" name="round_trip" {% if round_trip %}checked{% endif %}>
             </div>
+
+            <!-- Hidden fields for van details -->
+            <input type="hidden" id="hidden-van-image" name="van_image" value="">
+            <input type="hidden" id="hidden-van-model" name="van_model" value="">
+            <input type="hidden" id="hidden-van-driver" name="van_driver" value="">
+            <input type="hidden" id="hidden-van-seats" name="van_seats" value="">
 
             <!-- Submit button -->
             <div class="submit-btn">

@@ -165,7 +165,24 @@ def footer(request):
     return render(request, 'customer_app/footer.html')
 
 def payment_summary(request):
-    return render(request, 'customer_app/payment_summary.html')
+    if request.method == 'POST':
+        van_image = request.POST.get('van_image')
+        van_model = request.POST.get('van_model')
+        van_driver = request.POST.get('van_driver')
+        van_seats = request.POST.get('van_seats')
+
+        # You can pass these values to the template context
+        context = {
+            'van_image': van_image,
+            'van_model': van_model,
+            'van_driver': van_driver,
+            'van_seats': van_seats,
+            # Add any other context data you need
+        }
+        return render(request, 'payment_summary.html', context)
+
+    # Handle GET request or other methods
+    return render(request, 'payment_summary.html')
 
 
 
