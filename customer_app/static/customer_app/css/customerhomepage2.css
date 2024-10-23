@@ -182,19 +182,22 @@ a:hover {
   justify-content: space-around;
   align-items: stretch;
   width: 100%;
+  margin-right: 50px;
+  margin-left: 50px;
   flex-wrap: wrap;
 }
 .van-card {
   background: white;
   border: 1px solid #ccc;
   border-radius: 10px;
-  width: calc(50% - 20px); /* Two cards per row with some margin */
+  width: calc(25% - 20px); /* Four cards per row with some margin */
   margin: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
+
 
 .van-img img {
   width: 100%;
@@ -243,6 +246,44 @@ a:hover {
 }
 .prev:hover, .next:hover {
   background: #fcd23c;
+}
+
+
+/* On small screens, show one card per row and scale down controls */
+@media screen and (max-width: 768px) {
+  .van-card {
+    width: calc(100% - 20px); /* One card per row */
+    margin: 10px auto;
+  }
+
+  .prev, .next {
+    display: none;
+  }
+
+  .book-btn button {
+    padding: 8px 15px; /* Smaller button for booking */
+    font-size: 14px; /* Smaller font size for button */
+  }
+
+  .van-details {
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+}
+
+/* Extra small screens, further adjust if needed */
+@media screen and (max-width: 480px) {
+  .prev, .next {
+    display: none;
+  }
+
+  .book-btn button {
+    padding: 6px 12px; /* Smaller button padding */
+    font-size: 12px; /* Smaller font size */
+  }
+
+  .van-details {
+    padding: 8px; /* More compact padding */
+  }
 }
 .see-more-container {
   text-align: center;
