@@ -3,9 +3,6 @@ from django.utils import timezone
 class Booking(models.Model):
     full_name = models.CharField(max_length=255)
     passenger_count = models.PositiveIntegerField()
-    with_infant = models.BooleanField(default=False)
-    with_pwd = models.BooleanField(default=False)
-    with_senior = models.BooleanField(default=False)
     contact_number = models.CharField(max_length=15)
     pickup_datetime = models.DateTimeField(default=timezone.now)
     pickup_address = models.CharField(max_length=255, default='Not Specified')

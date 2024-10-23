@@ -17,9 +17,6 @@
             <th>Booking ID</th>
             <th>Full Name</th>
             <th>Passenger Count</th>
-            <th>With Infant</th>
-            <th>With PWD</th>
-            <th>With Senior</th>
             <th>Contact Number</th>
             <th>Pickup DateTime</th>
             <th>Pickup Address</th>
@@ -36,9 +33,6 @@
             <td>{{ booking.id }}</td>
             <td>{{ booking.full_name }}</td>
             <td>{{ booking.passenger_count }}</td>
-            <td>{{ booking.with_infant|yesno:"Yes,No" }}</td>
-            <td>{{ booking.with_pwd|yesno:"Yes,No" }}</td>
-            <td>{{ booking.with_senior|yesno:"Yes,No" }}</td>
             <td>{{ booking.contact_number }}</td>
             <td>{{ booking.pickup_datetime }}</td>
             <td>{{ booking.pickup_address }}</td>

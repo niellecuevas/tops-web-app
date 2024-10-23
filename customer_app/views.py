@@ -60,9 +60,6 @@ def bookvanform(request):
         # Store data in the session
         request.session['full_name'] = full_name
         request.session['passenger_count'] = passenger_count
-        request.session['with_infant'] = with_infant
-        request.session['with_pwd'] = with_pwd
-        request.session['with_senior'] = with_senior
         request.session['contact_number'] = contact_number
         request.session['pickup_datetime'] = pickup_datetime
         request.session['pickup_address'] = pickup_address
@@ -74,9 +71,6 @@ def bookvanform(request):
         context = {
             'full_name': full_name,
             'passenger_count': passenger_count,
-            'with_infant': with_infant,
-            'with_pwd': with_pwd,
-            'with_senior': with_senior,
             'contact_number': contact_number,
             'pickup_datetime': pickup_datetime,
             'pickup_address': pickup_address,
@@ -91,9 +85,6 @@ def bookvanform(request):
     context = {
         'full_name': request.session.get('full_name', ''),
         'passenger_count': request.session.get('passenger_count', ''),
-        'with_infant': request.session.get('with_infant', 'False'),
-        'with_pwd': request.session.get('with_pwd', 'False'),
-        'with_senior': request.session.get('with_senior', 'False'),
         'contact_number': request.session.get('contact_number', ''),
         'pickup_datetime': request.session.get('pickup_datetime', ''),
         'pickup_address': request.session.get('pickup_address', ''),
@@ -128,9 +119,6 @@ def customer_homepage2(request):
         'came_from_payment': came_from_payment,
         'full_name': request.session.get('full_name', ''),
         'passenger_count': request.session.get('passenger_count', ''),
-        'with_infant': request.session.get('with_infant', 'False'),
-        'with_pwd': request.session.get('with_pwd', 'False'),
-        'with_senior': request.session.get('with_senior', 'False'),
         'contact_number': request.session.get('contact_number', ''),
         'pickup_datetime': request.session.get('pickup_datetime', ''),
         'pickup_address': request.session.get('pickup_address', ''),
@@ -146,8 +134,7 @@ def customer_homepage2(request):
     if 'came_from_payment' not in request.GET:
         # Clear the session data only when NOT coming from the payment page
         keys_to_clear = [
-            'full_name', 'passenger_count', 'with_infant', 'with_pwd', 
-            'with_senior', 'contact_number', 'pickup_datetime', 
+            'full_name', 'passenger_count', 'contact_number', 'pickup_datetime', 
             'pickup_address', 'dropoff_address', 'additional_notes', 'round_trip'
         ]
         
