@@ -362,3 +362,25 @@ a:hover {
   transform: translateY(-1px); /* Move upward as it hides */
   transition: opacity 1s ease-out, transform 1s ease-out;
 }
+.switch-btn {
+  text-align: center; /* Center the text within the div */
+  margin-top: 5px; /* Space above the switch button */
+  font-family:"Afacad Flux" ;
+}
+
+.switch-btn button {
+  font-family:"Afacad Flux" ;
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  color: darkpink; /* Set text color to dark pink */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-size: 14px; /* Adjust font size if needed */
+  padding: 0; /* Remove padding */
+  margin-bottom: 15px; /* Remove margin */
+  text-decoration: underline; /* Optional: underline for text appearance */
+  color: #d229a2;
+}
+
+.switch-btn button:hover {
+  color: #333; /* Darker shade or different color on hover (optional) */
+}

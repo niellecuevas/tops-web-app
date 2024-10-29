@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from admin_app.models import Van
+from admin_app.models import Destination
 from django.shortcuts import redirect
 from .forms import Booking  # Import your form here
 
@@ -111,6 +112,10 @@ def customer_homepage2(request):
     # Fetch the van with ID 23
     van = get_object_or_404(Van, id=1)
     van2 = get_object_or_404(Van, id=2)
+    dest1 = get_object_or_404(Destination, id=1)
+    dest2 = get_object_or_404(Destination, id=2)
+    dest3 = get_object_or_404(Destination, id=3)
+    dest5 = get_object_or_404(Destination, id=5)
     
     context = {
         'came_from_payment': came_from_payment,
@@ -124,6 +129,10 @@ def customer_homepage2(request):
         'round_trip': request.session.get('round_trip', 'False'),
         'van': van,  # Pass the van with ID 23 to the context
         'van2': van2,
+        'dest1': dest1,
+        'dest2': dest2,
+        'dest3': dest3,
+        'dest5': dest5,
 
     }
 

@@ -54,3 +54,5 @@ class DestinationForm(forms.ModelForm):
         # Set initial values to empty for destination fields
         self.fields['destination1'].initial = ''
         self.fields['destination2'].initial = ''
+
+        

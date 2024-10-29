@@ -68,13 +68,12 @@
             <div class="carousel-slide">
                 <div class="van-card">
                     <div class="van-img">
-                        <img src="{{ van.file_upload.url }}" alt="Van Image">
+                        <img id="destination-image" src="{{ dest1.file_upload.url }}" alt="Destination Image">
                     </div>
                     <div class="van-details">
-                        <p><strong>Van Model:</strong> {{ van.model }}</p>
-                        <p><strong>Max Pax:</strong> {{ van.seats }}</p>
-                        <p><strong>Driver:</strong> {{ van.driver.name }}</p>
-                        <p><strong>Min Price:</strong> ₱5000</p>
+                        <p><strong>Starting Point:</strong> <span id="starting-point">{{ dest1.destination1 }}</span></p>
+                        <p><strong>Target Destination:</strong> <span id="target-destination">{{ dest1.destination2 }}</span></p>
+                        <p><strong>One Way Price:</strong> ₱<span id="one-way-price">{{ dest1.transportationfee }}</span></p>
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
@@ -85,41 +84,21 @@
                                 onclick="openModal(event)">
                             Book
                         </button>
+                    </div>
+                    <div class="switch-btn">
+                        <button type="button" onclick="switchDestinations()">Switch Destination</button>
                     </div>
                 </div>
                 
 
                 <div class="van-card">
                     <div class="van-img">
-                        <img src="{{ van2.file_upload.url }}" alt="Van Image">
+                        <img id="destination-image" src="{{ dest3.file_upload.url }}" alt="Destination Image">
                     </div>
                     <div class="van-details">
-                        <p><strong>Van Model:</strong> {{ van2.model }}</p>
-                        <p><strong>Max Pax:</strong> {{ van2.seats }}</p>
-                        <p><strong>Driver:</strong> {{ van2.driver.name }}</p>
-                        <p><strong>Min Price:</strong> ₱5000</p>
-                    </div>
-                    <div class="book-btn">
-                        <button type="button" class="book-button"
-                                data-van-image="{{ van2.file_upload.url }}"
-                                data-van-model="{{ van2.model }}"
-                                data-van-driver="{{ van2.driver.name }}"
-                                data-van-seats="{{ van2.seats }}"
-                                onclick="openModal(event)">
-                            Book
-                        </button>
-                    </div>
-                </div>
-
-                <div class="van-card">
-                    <div class="van-img">
-                        <img src="{{ van.file_upload.url }}" alt="Van Image">
-                    </div>
-                    <div class="van-details">
-                        <p><strong>Van Model:</strong> {{ van.model }}</p>
-                        <p><strong>Max Pax:</strong> {{ van.seats }}</p>
-                        <p><strong>Driver:</strong> {{ van.driver.name }}</p>
-                        <p><strong>Min Price:</strong> ₱5000</p>
+                        <p><strong>Starting Point:</strong> <span id="starting-point1">{{ dest3.destination1 }}</span></p>
+                        <p><strong>Target Destination:</strong> <span id="target-destination1">{{ dest3.destination2 }}</span></p>
+                        <p><strong>One Way Price:</strong> ₱<span id="one-way-price">{{ dest3.transportationfee }}</span></p>
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
@@ -131,17 +110,19 @@
                             Book
                         </button>
                     </div>
+                    <div class="switch-btn">
+                        <button type="button" onclick="switchDestinations1()">Switch Destination</button>
+                    </div>
                 </div>
 
                 <div class="van-card">
                     <div class="van-img">
-                        <img src="{{ van.file_upload.url }}" alt="Van Image">
+                        <img id="destination-image" src="{{ dest5.file_upload.url }}" alt="Destination Image">
                     </div>
                     <div class="van-details">
-                        <p><strong>Van Model:</strong> {{ van.model }}</p>
-                        <p><strong>Max Pax:</strong> {{ van.seats }}</p>
-                        <p><strong>Driver:</strong> {{ van.driver.name }}</p>
-                        <p><strong>Min Price:</strong> ₱5000</p>
+                        <p><strong>Starting Point:</strong> <span id="starting-point2">{{ dest5.destination1 }}</span></p>
+                        <p><strong>Target Destination:</strong> <span id="target-destination2">{{ dest5.destination2 }}</span></p>
+                        <p><strong>One Way Price:</strong> ₱<span id="one-way-price">{{ dest5.transportationfee }}</span></p>
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
@@ -153,8 +134,10 @@
                             Book
                         </button>
                     </div>
+                    <div class="switch-btn">
+                        <button type="button" onclick="switchDestinations2()">Switch Destination</button>
+                    </div>
                 </div>
-            </div>
 
             <div class="carousel-slide">
                 <div class="van-card">
@@ -491,7 +474,35 @@ const cameFromPayment = JSON.parse('{{ came_from_payment|default:"false"|escapej
         }
     };
 
+    function switchDestinations() {
+    const startingPoint = document.getElementById('starting-point');
+    const targetDestination = document.getElementById('target-destination');
 
+    // Get the current values
+    const temp = startingPoint.innerText;
+    startingPoint.innerText = targetDestination.innerText;
+    targetDestination.innerText = temp;
+}
+
+function switchDestinations1() {
+    const startingPoint1 = document.getElementById('starting-point1');
+    const targetDestination1 = document.getElementById('target-destination1');
+
+    // Get the current values
+    const temp = startingPoint1.innerText;
+    startingPoint1.innerText = targetDestination1.innerText;
+    targetDestination1.innerText = temp;
+}
+
+function switchDestinations2() {
+    const startingPoint2 = document.getElementById('starting-point2');
+    const targetDestination2 = document.getElementById('target-destination2');
+
+    // Get the current values
+    const temp = startingPoint2.innerText;
+    startingPoint2.innerText = targetDestination2.innerText;
+    targetDestination2.innerText = temp;
+}
 
 
     </script>
