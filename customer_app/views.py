@@ -47,9 +47,6 @@ def bookvanform(request):
         # Retrieve data from the form
         full_name = request.POST.get('full_name')
         passenger_count = request.POST.get('passenger_count')
-        with_infant = request.POST.get('with_infant', 'False')  # Default to 'False' if not checked
-        with_pwd = request.POST.get('with_pwd', 'False')  # Default to 'False' if not checked
-        with_senior = request.POST.get('with_senior', 'False')  # Default to 'False' if not checked
         contact_number = request.POST.get('contact_number')
         pickup_datetime = request.POST.get('pickup_datetime')
         pickup_address = request.POST.get('pickup_address')
@@ -112,8 +109,8 @@ def success(request):
 def customer_homepage2(request):
     came_from_payment = request.GET.get('came_from_payment', 'false')  # Defaults to 'false'
     # Fetch the van with ID 23
-    van = get_object_or_404(Van, id=23)
-    van2 = get_object_or_404(Van, id=24)
+    van = get_object_or_404(Van, id=1)
+    van2 = get_object_or_404(Van, id=2)
     
     context = {
         'came_from_payment': came_from_payment,
@@ -144,7 +141,6 @@ def customer_homepage2(request):
                 del request.session[key]
     return render(request, 'customer_app/customerhomepage2.html', context)  # Use the correct path
 
-
 def bookvan(request):
     return render(request, 'customer_app/bookvan.html')
 
@@ -152,25 +148,7 @@ def footer(request):
     return render(request, 'customer_app/footer.html')
 
 def payment_summary(request):
-    if request.method == 'POST':
-        van_image = request.POST.get('van_image')
-        van_model = request.POST.get('van_model')
-        van_driver = request.POST.get('van_driver')
-        van_seats = request.POST.get('van_seats')
-
-        # You can pass these values to the template context
-        context = {
-            'van_image': van_image,
-            'van_model': van_model,
-            'van_driver': van_driver,
-            'van_seats': van_seats,
-            # Add any other context data you need
-        }
-        return render(request, 'payment_summary.html', context)
-
-    # Handle GET request or other methods
     return render(request, 'payment_summary.html')
-
 
 
 

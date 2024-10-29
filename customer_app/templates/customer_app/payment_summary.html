@@ -105,10 +105,24 @@
                     Edit your form details</a>
             </div>
         </div>
-
+        <form method="POST" action="{% url 'bookvanform' %}">
+            {% csrf_token %}
         <!-- Booking Summary -->
         <div class="booking-summary">
             <h2>Booking Summary</h2>
+
+            <!-- Hidden Inputs for Data Submission -->
+        <input type="hidden" name="full_name" value="{{ full_name }}">
+        <input type="hidden" name="passenger_count" value="{{ passenger_count }}">
+        <input type="hidden" name="contact_number" value="{{ contact_number }}">
+        <input type="hidden" name="pickup_datetime" value="{{ pickup_datetime }}">
+        <input type="hidden" name="pickup_address" value="{{ pickup_address }}">
+        <input type="hidden" name="dropoff_address" value="{{ dropoff_address }}">
+        <input type="hidden" name="additional_notes" value="{{ additional_notes }}">
+        <input type="hidden" name="round_trip" value="{{ round_trip }}">
+        <input type="hidden" name="payment_mode" value="{{ payment_mode }}">
+        <input type="hidden" name="package_price" value="{{ package_price }}">
+        <input type="hidden" name="van_id" value="{{ van_id }}">
 
             <div class="summary-section" id="booking-summary">
                 <img src="" alt="Van Image" id="summary-van-image" class="imageVan">
@@ -137,9 +151,8 @@
             </div>
 
             <div class="summary-section">
-                <h3>Price Breakdown</h3>
-                <p><strong>Package Price:</strong> ₱5000</p>
-                <p><strong>Total Amount:</strong> ₱5500</p>
+                <h3>Total Amount</h3>
+                <p><strong>Package Price:</strong> ₱{{ package_price }}</p>
                 <hr>
             </div>
 
@@ -149,6 +162,7 @@
                 <hr>
             </div>
         </div>
+        </form>
     </div>
 
     <script>
