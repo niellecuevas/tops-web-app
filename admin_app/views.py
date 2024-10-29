@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def admin_login(request):
     if request.method == 'POST':
@@ -26,11 +27,41 @@ def admin_dashboard(request):
 def driver_management(request):
     return render(request, 'admin_app/admindriver.html')
 
+from .forms import DestinationForm
+from .models import Destination  # Ensure you have imported your Destination model
+
+@login_required
+def destination(request):
+    if request.method == 'POST':
+        form = DestinationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Destination added successfully!')
+            form = DestinationForm()  # Reset the form
+            return redirect('destination')
+        else:
+            print(form.errors)
+            messages.error(request, 'There was an error adding a destination.')
+    else:
+        form = DestinationForm()  # Use the correct form on GET requests
+
+    # Query all Destination instances
+    destinations = Destination.objects.all()
+
+    # Optional debugging: Print URLs of uploaded files for all destinations
+    for dest in destinations:
+        print(dest.file_upload.url if dest.file_upload else 'No file uploaded')
+
+    return render(request, 'admin_app/destination.html', {
+        'form': form,
+        'destination': destinations,  # Corrected to provide a queryset
+    })
+
 @login_required
 def statistics(request):
     return render(request, 'admin_app/adminstatistics.html')
 
-from django.contrib import messages
+
 from .forms import VanForm
 from .models import Van
 
@@ -129,3 +160,12 @@ def delete_van(request, van_id):
         return redirect('van_management')  # Redirect to the van management page
 
     return redirect('van_management')  # Redirect if not a POST request
+
+def delete_destination(request, destination_id):
+    if request.method == 'POST':
+        destination = get_object_or_404(Destination, id=destination_id)  # Get the van object
+        destination.delete()  # Delete the van record
+        messages.success(request, 'Destination deleted successfully!')  # Show success message
+        return redirect('destination')  # Redirect to the van management page
+
+    return redirect('destination')  # Redirect if not a POST request

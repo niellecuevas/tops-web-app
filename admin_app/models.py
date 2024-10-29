@@ -33,3 +33,9 @@ class Van(models.Model):
 
     def __str__(self):
         return self.model
+    
+class Destination(models.Model):
+    file_upload = models.ImageField(upload_to='destination/', blank=False)
+    destination1 = models.CharField(max_length=100)  # Ensure this line exists
+    destination2 = models.CharField(max_length=100)
+    transportationfee = models.DecimalField(max_digits=10, decimal_places=2, default='0.0')
