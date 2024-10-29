@@ -164,34 +164,19 @@ a:hover {
   margin-bottom: 20px; /* Margin around text */
 }
 
-.carousel {
-  position: relative;
-  max-width: 1200px;
-  margin: 20px auto;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.carousel-container {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-.carousel-slide {
-  display: none;
-  justify-content: space-around;
-  align-items: stretch;
-  width: 100%;
+.carousel{
   margin-right: 50px;
   margin-left: 50px;
-  flex-wrap: wrap;
+  margin-top: 10px;
 }
+
 .van-card {
   background: white;
   border: 1px solid #ccc;
   border-radius: 10px;
-  width: calc(25% - 20px); /* Four cards per row with some margin */
-  margin: 10px;
+  width: calc(33.33% - 20px); /* Three cards per row with some margin */
+  margin: 50px;
+  margin-top: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -225,29 +210,6 @@ a:hover {
 .book-btn button:hover {
   background: #fcd23c;
 }
-.carousel-controls {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50%);
-}
-.prev, .next {
-  background: #ce40b0;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 50%;
-  font-size: 20px;
-  transition: background 0.3s;
-}
-.prev:hover, .next:hover {
-  background: #fcd23c;
-}
-
 
 /* On small screens, show one card per row and scale down controls */
 @media screen and (max-width: 768px) {
@@ -255,11 +217,7 @@ a:hover {
     width: calc(100% - 20px); /* One card per row */
     margin: 10px auto;
   }
-
-  .prev, .next {
-    display: none;
-  }
-
+  
   .book-btn button {
     padding: 8px 15px; /* Smaller button for booking */
     font-size: 14px; /* Smaller font size for button */
@@ -272,9 +230,6 @@ a:hover {
 
 /* Extra small screens, further adjust if needed */
 @media screen and (max-width: 480px) {
-  .prev, .next {
-    display: none;
-  }
 
   .book-btn button {
     padding: 6px 12px; /* Smaller button padding */
@@ -286,23 +241,26 @@ a:hover {
   }
 }
 .see-more-container {
-  text-align: center;
-  margin-top: 20px;
+  text-align: center; /* Center the button */
+  margin-top: 20px; /* Space above the button */
 }
+
 .see-more {
-  font-family: "Afacad Flux";
-  background: #ce40b0;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: background 0.3s;
+  font-family: "Afacad Flux"; /* Custom font */
+  background: #ce40b0; /* Button background color */
+  color: white; /* Button text color */
+  padding: 10px 20px; /* Button padding */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  transition: background 0.3s; /* Smooth background color change */
 }
+
 .see-more:hover {
-  background: #fcd23c;
-  color: white;
-  font-size: 16px;
+  background: #fcd23c; /* Change background color on hover */
+  color: white; /* Keep text color the same on hover */
+  font-size: 16px; /* Font size remains the same */
 }
+
 
 .modal {
   display: none; /* Hidden by default */
