@@ -1,4 +1,4 @@
-function switchDestinations() {
+    function switchDestinations() {
     const startingPoint = document.getElementById('starting-point');
     const targetDestination = document.getElementById('target-destination');
 

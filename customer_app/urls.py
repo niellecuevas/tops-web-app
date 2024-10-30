@@ -10,6 +10,8 @@ urlpatterns = [
     path('customerhomepage2/', customer_homepage2, name='customerhomepage2'), 
     path('bookvan/', views.bookvan, name='bookvan'),
     path('bookvanform/', views.bookvanform, name='bookvanform'),
+    path('bookdestination/', views.bookdestination, name='bookdestination'),
     path('footer/', views.footer, name='footer'),
     path('payment_summary/', views.payment_summary, name='payment_summary'),
+    path('payment_summary_custom/', views.payment_summary_custom, name='payment_summary_custom'),
 ]

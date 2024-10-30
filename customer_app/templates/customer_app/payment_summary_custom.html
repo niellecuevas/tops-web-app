@@ -115,25 +115,17 @@
         <input type="hidden" name="full_name" value="{{ full_name }}">
         <input type="hidden" name="passenger_count" value="{{ passenger_count }}">
         <input type="hidden" name="contact_number" value="{{ contact_number }}">
-        <input type="hidden" name="pickup_datetime" value="{{ pickup_datetime }}">
-        <input type="hidden" name="pickup_address" value="{{ pickup_address }}">
         <input type="hidden" name="dropoff_address" value="{{ dropoff_address }}">
         <input type="hidden" name="additional_notes" value="{{ additional_notes }}">
         <input type="hidden" name="round_trip" value="{{ round_trip }}">
         <input type="hidden" name="payment_mode" value="{{ payment_mode }}">
         <input type="hidden" name="package_price" value="{{ package_price }}">
-        <input type="hidden" name="van_id" value="{{ van_id }}">
-
-        <div class="summary-section" id="booking-summary">
-            <img src="" alt="Destination Image" id="summary-dest-image" class="imageVan">
-            <h3>Destination: <span id="summary-dest1"></span></h3>
-            <p>Starting Point: <span id="summary-dest2"></span></p>
-            <p>Transportation Fee: ₱<span id="summary-fee"></span></p>
-            <hr>
-        </div>            
-                  
+        <input type="hidden" name="van_id" value="{{ van_id }}">         
             
             <div class="summary-section">
+                <h3>Trip Schedule</h3>
+                <p><strong>Pick-Up Address:</strong> {{ pickup_address }}</p>
+                <p><strong>Drop-Off Address:</strong> {{ dropoff_address }}</p>
                 <p><strong>Date and Time:</strong> {{ pickup_datetime }}</p>
                 <hr>
             </div>
@@ -164,7 +156,7 @@
     </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             // Retrieve data from localStorage
             const destImage = localStorage.getItem('destImage');
             const destination1 = localStorage.getItem('destination1');

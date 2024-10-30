@@ -37,25 +37,25 @@ function openModal(event) {
 
     // Get data attributes from the clicked button
     const button = event.currentTarget;
-    const vanImage = button.getAttribute('data-van-image');
-    const vanModel = button.getAttribute('data-van-model');
-    const vanDriver = button.getAttribute('data-van-driver');
-    const vanSeats = button.getAttribute('data-van-seats');
+    const destImage = button.getAttribute('data-destination-image');
+    const destination2 = button.getAttribute('data-destination1');
+    const destination1 = button.getAttribute('data-destination2');
+    const transportationFee = button.getAttribute('data-transportationFee');
 
     // Populate modal content
-    document.getElementById("modal-van-img").src = vanImage;
-    document.getElementById("modal-van-model").innerText = vanModel;
-    document.getElementById("modal-driver-name").innerText = vanDriver;
-    document.getElementById("modal-van-seater").innerText = vanSeats;
+    document.getElementById("modal-destination-img").src = destImage;
+    document.getElementById("modal-destination").innerText = destination2;
+    document.getElementById("modal-starting-point").innerText = destination1;
+    document.getElementById("modal-transportation-fee").innerText = transportationFee;
 
     // Store data in localStorage
-    localStorage.setItem('vanImage', vanImage);
-    localStorage.setItem('vanModel', vanModel);
-    localStorage.setItem('vanDriver', vanDriver);
-    localStorage.setItem('vanSeats', vanSeats);
+    localStorage.setItem('destImage', destImage);
+    localStorage.setItem('destination1', destination2);
+    localStorage.setItem('destination2', destination1);
+    localStorage.setItem('transportationFee', transportationFee);
 
     // Fetch the content from bookvanform.html (if needed)
-    fetch(bookVanFormUrl)
+    fetch(bookDestinationFormUrl)
         .then(response => response.text())
         .then(data => {
             modalContentDiv.innerHTML = data; // Insert the fetched HTML form into the modal
@@ -63,6 +63,8 @@ function openModal(event) {
         })
         .catch(error => console.error('Error loading the form:', error));
 }
+
+
 
 // Function to close the modal
 function closeModal() {
@@ -91,8 +93,6 @@ window.onclick = function(event) {
             <p>Full Name: {{ full_name }}</p>
             <p>Passenger Count: {{ passenger_count }}</p>
             <p>Contact Number: {{ contact_number }}</p>
-            <p>Pickup DateTime: {{ pickup_datetime }}</p>
-            <p>Pickup Address: {{ pickup_address }}</p>
             <p>Dropoff Address: {{ dropoff_address }}</p>
             <p>Additional Notes: {{ additional_notes }}</p>
             <p>Round Trip: {{ round_trip }}</p>

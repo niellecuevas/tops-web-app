@@ -4,43 +4,6 @@ from admin_app.models import Destination
 from django.shortcuts import redirect
 from .forms import Booking  # Import your form here
 
-'''def bookvanform(request):
-    if request.method == 'POST':
-        form = Booking(request.POST, request.FILES)  # Include request.FILES if you're handling file uploads
-        if form.is_valid():
-            print("Form is valid")
-            
-            # Create a new instance of the Booking model but do not save it yet
-            booking = form.save(commit=False)
-            
-            # Manually set boolean values based on the presence of checkboxes
-            booking.with_infant = 'with_infant' in request.POST
-            booking.with_pwd = 'with_pwd' in request.POST
-            booking.with_senior = 'with_senior' in request.POST
-
-            if not form.cleaned_data.get('pickup_address'):
-                booking.pickup_address = 'Not Specified'
-            if not form.cleaned_data.get('drop_off_address'):
-                booking.drop_off_address = 'Not Specified'
-
-            passenger_count = form.cleaned_data.get('passenger_count')
-            booking.grand_total = passenger_count * 1000
-            
-            # Now save the booking instance
-            booking.save()
-            
-            # Redirect to the success page
-            return redirect('success')  # 'success' is the name of your URL pattern for success.html
-        else:
-            # If the form is not valid, it will render the form again with errors
-            print(form.errors)
-            print("Form is not valid")
-            return render(request, 'customer_app/bookvanform.html', {'form': form})
-    else:
-        # Show empty form if it's a GET request
-        form = Booking()
-        return render(request, 'customer_app/bookvanform.html', {'form': form})
-'''
 from django.shortcuts import render
 
 def bookvanform(request):
@@ -77,7 +40,7 @@ def bookvanform(request):
             'round_trip': round_trip,
         }
 
-        return render(request, 'customer_app/payment_summary.html', context)
+        return render(request, 'customer_app/payment_summary_custom.html', context)
 
     # Prepopulate form fields if data exists in the session
     context = {
@@ -92,6 +55,49 @@ def bookvanform(request):
     }
     
     return render(request, 'customer_app/bookvanform.html', context)
+
+
+def bookdestination(request):
+    if request.method == 'POST':
+        # Retrieve data from the form
+        full_name = request.POST.get('full_name')
+        passenger_count = request.POST.get('passenger_count')
+        contact_number = request.POST.get('contact_number')
+        pickup_datetime = request.POST.get('pickup_datetime')
+        additional_notes = request.POST.get('additional_notes')
+        round_trip = request.POST.get('round_trip') == 'on'  # This will be True if checked, False otherwise
+
+        # Store data in the session
+        request.session['full_name'] = full_name
+        request.session['passenger_count'] = passenger_count
+        request.session['contact_number'] = contact_number
+        request.session['pickup_datetime'] = pickup_datetime
+        request.session['additional_notes'] = additional_notes
+        request.session['round_trip'] = round_trip
+
+        # Prepare the context for rendering the summary
+        context = {
+            'full_name': full_name,
+            'passenger_count': passenger_count,
+            'contact_number': contact_number,
+            'pickup_datetime': pickup_datetime,
+            'additional_notes': additional_notes,
+            'round_trip': round_trip,
+        }
+
+        return render(request, 'customer_app/payment_summary.html', context)
+
+    # Prepopulate form fields if data exists in the session
+    context = {
+        'full_name': request.session.get('full_name', ''),
+        'passenger_count': request.session.get('passenger_count', ''),
+        'contact_number': request.session.get('contact_number', ''),
+        'dropoff_address': request.session.get('dropoff_address', ''),
+        'additional_notes': request.session.get('additional_notes', ''),
+        'round_trip': request.session.get('round_trip', 'False'),
+    }
+    
+    return render(request, 'customer_app/bookdestination.html', context)
 
 
 
@@ -158,6 +164,10 @@ def footer(request):
 
 def payment_summary(request):
     return render(request, 'payment_summary.html')
+
+def payment_summary_custom(request):
+    return render(request, 'payment_summary_custom.html')
+
 
 
 

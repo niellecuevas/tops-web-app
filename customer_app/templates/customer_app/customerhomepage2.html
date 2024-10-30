@@ -77,10 +77,10 @@
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
-                                data-van-image="{{ van.file_upload.url }}"
-                                data-van-model="{{ van.model }}"
-                                data-van-driver="{{ van.driver.name }}"
-                                data-van-seats="{{ van.seats }}"
+                                data-destination-image="{{ dest1.file_upload.url }}"
+                                data-destination2="{{ dest1.destination1 }}"
+                                data-destination1="{{ dest1.destination2 }}"
+                                data-transportationFee="{{ dest1.transportationfee }}"
                                 onclick="openModal(event)">
                             Book
                         </button>
@@ -89,8 +89,6 @@
                         <button type="button" onclick="switchDestinations()">Switch Destination</button>
                     </div>
                 </div>
-                
-
                 <div class="van-card">
                     <div class="van-img">
                         <img id="destination-image" src="{{ dest3.file_upload.url }}" alt="Destination Image">
@@ -102,13 +100,13 @@
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
-                                data-van-image="{{ van.file_upload.url }}"
-                                data-van-model="{{ van.model }}"
-                                data-van-driver="{{ van.driver.name }}"
-                                data-van-seats="{{ van.seats }}"
-                                onclick="openModal(event)">
-                            Book
-                        </button>
+                        data-destination-image="{{ dest2.file_upload.url }}"
+                        data-destination2="{{ dest2.destination1 }}"
+                        data-destination1="{{ dest2.destination2 }}"
+                        data-transportationFee="{{ dest2.transportationfee }}"
+                        onclick="openModal(event)">
+                    Book
+                </button>
                     </div>
                     <div class="switch-btn">
                         <button type="button" onclick="switchDestinations1()">Switch Destination</button>
@@ -126,10 +124,10 @@
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
-                                data-van-image="{{ van.file_upload.url }}"
-                                data-van-model="{{ van.model }}"
-                                data-van-driver="{{ van.driver.name }}"
-                                data-van-seats="{{ van.seats }}"
+                                data-destination-image="{{ dest5.file_upload.url }}"
+                                data-destination2="{{ dest5.destination1 }}"
+                                data-destination1="{{ dest5.destination2 }}"
+                                data-transportationFee="{{ dest5.transportationfee }}"
                                 onclick="openModal(event)">
                             Book
                         </button>
@@ -161,13 +159,13 @@
     <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
         <div class="form-header">
-            <img id="modal-van-img" src="" alt="Van Image">
-            <h2>Van Model: <span id="modal-van-model"></span></h2>
-            <p>Driver Name: <span id="modal-driver-name"></span></p>
-            <p>Van Seater: <span id="modal-van-seater"></span> | Min Price: ₱5000</p>
+            <img id="modal-destination-img" src="" alt="Destination Image">
+            <h2><span id="modal-destination"></span></h2>
+            <p>Starting Point: <span id="modal-starting-point"></span></p>
+            <p>Transportation Fee: ₱<span id="modal-transportation-fee"></span></p>
         </div>
         <div id="modal-form-content">
-            {% include 'customer_app/bookvanform.html' %}
+            {% include 'customer_app/bookdestination.html' %}
         </div>
     </div>
 </div>
@@ -182,6 +180,9 @@
 </div>
     <script>
         const bookVanFormUrl = "{% url 'bookvanform' %}";
+    </script>
+    <script>
+        const bookDestinationFormUrl = "{% url 'bookdestination' %}";
     </script>
     <script src="{% static 'customer_app/js/custombooking.js' %}"></script>
     <script src="{% static 'customer_app/js/stats.js' %}"></script>
