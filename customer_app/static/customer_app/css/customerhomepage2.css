@@ -176,6 +176,7 @@ a:hover {
   border-radius: 10px;
   width: calc(33.33% - 20px); /* Three cards per row with some margin */
   margin: 50px;
+  margin-bottom: 40px;
   margin-top: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -240,12 +241,12 @@ a:hover {
     padding: 8px; /* More compact padding */
   }
 }
-.see-more-container {
+.custom-booking-container {
   text-align: center; /* Center the button */
-  margin-top: 20px; /* Space above the button */
+  margin-top: 10px; /* Space above the button */
 }
 
-.see-more {
+.custom-booking {
   font-family: "Afacad Flux"; /* Custom font */
   background: #ce40b0; /* Button background color */
   color: white; /* Button text color */
@@ -255,10 +256,15 @@ a:hover {
   transition: background 0.3s; /* Smooth background color change */
 }
 
-.see-more:hover {
+.custom-booking{
+  border: none;
+}
+
+.custom-booking:hover {
   background: #fcd23c; /* Change background color on hover */
   color: white; /* Keep text color the same on hover */
   font-size: 16px; /* Font size remains the same */
+  cursor: pointer; 
 }
 
 
@@ -285,6 +291,30 @@ a:hover {
   border-radius: 8px; /* Optional rounded corners */
   z-index: 1001;
 }
+
+#bookingCustomModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1001; /* Sit on top of everything */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+}
+
+.custom-modal-content {
+  background-color: #fefefe; /* White background */
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888; /* Optional border */
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 500px; /* Max width for larger screens */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow */
+  border-radius: 8px; /* Optional rounded corners */
+}
+
 
 .close-button {
   color: #aaa; /* Close button color */

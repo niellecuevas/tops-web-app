@@ -140,9 +140,13 @@
                 </div>
     </div>
 
-    <div class="see-more-container">
-        <a href="#" class="see-more">See More</a>
-    </div>
+   <!-- Custom Booking Link -->
+<div class="custom-booking-container">
+    <button class="custom-booking" 
+    onclick="openCustomModal(event)">Custom Booking</button>
+</div>
+
+
     
 </section>
     <div id="footer" style="padding-top: 50px;"></div>
@@ -167,302 +171,22 @@
         </div>
     </div>
 </div>
-
+<!-- Custom Modal Structure -->
+<div id="bookingCustomModal" class="customModal">
+    <div class="custom-modal-content">
+        <span class="close-button" onclick="closeCustomModal()">&times;</span>
+        <div id="custom-modal-form-content">
+            {% include 'customer_app/bookvanform.html' %}
+        </div>
+    </div>
+</div>
     <script>
-        //carousel Jscript
-        let currentSlide = 0;
-
-        function showSlide(index) {
-            const slides = document.querySelectorAll('.carousel-slide');
-            if (index >= slides.length) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = slides.length - 1;
-            } else {
-                currentSlide = index;
-            }
-
-            slides.forEach((slide, i) => {
-                slide.style.display = (i === currentSlide) ? 'flex' : 'none';
-            });
-        }
-
-        function moveSlide(direction) {
-            showSlide(currentSlide + direction);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            showSlide(currentSlide); // Initialize the first slide
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-    showSlide(currentSlide); // Initialize the first slide
-
-    // Get the modal and its content area
-const modal = document.getElementById("bookingModal");
-const modalContentDiv = document.getElementById("modal-form-content");
-
-// Function to open the modal and load the form into it
-function openModal(event) {
-    event.preventDefault(); // Prevent the default form action (submitting)
-
-    // Get data attributes from the clicked button
-    const button = event.currentTarget;
-    const vanImage = button.getAttribute('data-van-image');
-    const vanModel = button.getAttribute('data-van-model');
-    const vanDriver = button.getAttribute('data-van-driver');
-    const vanSeats = button.getAttribute('data-van-seats');
-
-    // Populate modal content
-    document.getElementById("modal-van-img").src = vanImage;
-    document.getElementById("modal-van-model").innerText = vanModel;
-    document.getElementById("modal-driver-name").innerText = vanDriver;
-    document.getElementById("modal-van-seater").innerText = vanSeats;
-
-    // Store data in localStorage
-    localStorage.setItem('vanImage', vanImage);
-    localStorage.setItem('vanModel', vanModel);
-    localStorage.setItem('vanDriver', vanDriver);
-    localStorage.setItem('vanSeats', vanSeats);
-
-    // Fetch the content from bookvanform.html (if needed)
-    fetch("{% url 'bookvanform' %}")
-        .then(response => response.text())
-        .then(data => {
-            modalContentDiv.innerHTML = data; // Insert the fetched HTML form into the modal
-            modal.style.display = "block"; // Display the modal
-        })
-        .catch(error => console.error('Error loading the form:', error));
-}
-
-// Function to close the modal
-function closeModal() {
-    modal.style.display = "none"; // Hide the modal
-}
-
-// Close modal when clicking outside of the modal content
-window.onclick = function(event) {
-    if (event.target === modal) {
-        closeModal();
-    }
-};
-
-
-    
-    document.addEventListener("DOMContentLoaded", function() {
-    // Check if the user came from the payment form
-    var cameFromPayment = "{{ came_from_payment|default:'false' }}";
-    if (cameFromPayment === "true") {
-        // Open the modal
-        var modal = document.getElementById("bookingModal");
-        modal.style.display = "block"; // or use a function to open your modal
-
-        // Populate the modal with data
-        document.getElementById("modal-form-content").innerHTML = `
-            <h2>Booking Details</h2>
-            <p>Full Name: {{ full_name }}</p>
-            <p>Passenger Count: {{ passenger_count }}</p>
-            <p>Contact Number: {{ contact_number }}</p>
-            <p>Pickup DateTime: {{ pickup_datetime }}</p>
-            <p>Pickup Address: {{ pickup_address }}</p>
-            <p>Dropoff Address: {{ dropoff_address }}</p>
-            <p>Additional Notes: {{ additional_notes }}</p>
-            <p>Round Trip: {{ round_trip }}</p>
-        `;
-    }
-});
-    // Attach event listeners to all buttons with class 'book-button'
-    document.querySelectorAll(".book-button").forEach(button => {
-        button.addEventListener("click", openModal);
-    });
-
-    // Close the modal when the close button (x) is clicked
-    closeButton.onclick = function() {
-        modal.style.display = "none";
-        modalContentDiv.innerHTML = ""; // Clear the modal content when it's closed
-    }
-
-    // Close the modal if the user clicks outside the modal
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-            modalContentDiv.innerHTML = ""; // Clear the modal content when closed
-        }
-    }
-});
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll(".hidden-section");
-
-    // Create a new intersection observer
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-            // Section is entering the viewport (scrolling down)
-            if (entry.isIntersecting) {
-                entry.target.classList.add("visible-section");
-                entry.target.classList.remove("exiting-section");
-            } 
-            // Section is leaving the viewport (scrolling up)
-            else {
-                entry.target.classList.add("exiting-section");
-                entry.target.classList.remove("visible-section");
-            }
-        });
-    }, {
-        threshold: 0.2, // Adjust this to determine when the section becomes visible (20% visibility)
-    });
-
-    sections.forEach((section) => {
-        observer.observe(section); // Start observing each section
-    });
-});
-
-
-
-        // Function to set the active class based on the current scroll position
-function setActiveLinkOnScroll() {
-    const sections = document.querySelectorAll('div[id]'); // Select all sections
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    let currentSection = '';
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-
-        // Check if the section is in the viewport
-        if (pageYOffset >= sectionTop - sectionHeight / 3) {
-            currentSection = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active'); // Remove active class from all links
-        if (link.getAttribute('href') === `#${currentSection}`) {
-            link.classList.add('active'); // Add active class to the current link
-        }
-    });
-}
-
-// Call the function on scroll
-window.addEventListener('scroll', setActiveLinkOnScroll);
-
-// Call the function on page load to set the active link initially
-document.addEventListener('DOMContentLoaded', setActiveLinkOnScroll);
-
-document.addEventListener("DOMContentLoaded", function () {
-  const counters = document.querySelectorAll(".stat-item h3");
-
-  counters.forEach(counter => {
-    counter.innerText = '0';
-
-    const updateCounter = () => {
-      const target = +counter.getAttribute('data-target');
-      const current = +counter.innerText.replace(/,/g, ''); // Remove commas for calculation
-
-      const increment = target / 200; // Adjust this value to control the speed
-
-      if (current < target) {
-        counter.innerText = Math.ceil(current + increment).toLocaleString(); // Format with commas
-        setTimeout(updateCounter, 10); // Adjust timing if needed
-      } else {
-        if (target >= 10000) {
-          // Add a + sign for numbers that need it, e.g., 10,000+
-          counter.innerText = target.toLocaleString() + '+'; 
-        } else {
-          counter.innerText = target.toLocaleString(); // Regular formatting for other numbers
-        }
-      }
-    };
-
-    updateCounter();
-  });
-});
-
-const cameFromPayment = JSON.parse('{{ came_from_payment|default:"false"|escapejs }}');
-
-    window.onload = function() {
-        // Check if the user came from the payment success page
-        if (cameFromPayment) {
-            document.getElementById('bookingModal').style.display = 'block'; // Show the modal
-        }
-    };
-
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get the modal and close button elements
-        const modal = document.getElementById("bookingModal");
-        const closeButton = document.querySelector(".close-button");
-
-        // Function to update the URL and reload the page
-        function updateUrlAndReload() {
-            const currentUrl = window.location.href;
-
-            if (currentUrl.includes('?came_from_payment=true')) {
-                // Replace the current URL to remove the query parameter
-                const newUrl = currentUrl.split('?')[0];
-                history.replaceState(null, null, newUrl);
-
-                // Reload the page after the URL has been updated
-                window.location.reload();
-            } else {
-                // Hide the modal if no query parameter
-                modal.style.display = "none";
-            }
-        }
-
-        // Event listener for closing the modal with the close button
-        closeButton.addEventListener("click", function () {
-            updateUrlAndReload();
-        });
-
-        // Event listener for clicking outside the modal to close it
-        window.addEventListener("click", function (event) {
-            if (event.target === modal) {
-                updateUrlAndReload();
-            }
-        });
-    });
-
-    // Optional: Close modal when clicking outside of it
-    window.onclick = function(event) {
-        const modal = document.getElementById('bookingModal');
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-
-    function switchDestinations() {
-    const startingPoint = document.getElementById('starting-point');
-    const targetDestination = document.getElementById('target-destination');
-
-    // Get the current values
-    const temp = startingPoint.innerText;
-    startingPoint.innerText = targetDestination.innerText;
-    targetDestination.innerText = temp;
-}
-
-function switchDestinations1() {
-    const startingPoint1 = document.getElementById('starting-point1');
-    const targetDestination1 = document.getElementById('target-destination1');
-
-    // Get the current values
-    const temp = startingPoint1.innerText;
-    startingPoint1.innerText = targetDestination1.innerText;
-    targetDestination1.innerText = temp;
-}
-
-function switchDestinations2() {
-    const startingPoint2 = document.getElementById('starting-point2');
-    const targetDestination2 = document.getElementById('target-destination2');
-
-    // Get the current values
-    const temp = startingPoint2.innerText;
-    startingPoint2.innerText = targetDestination2.innerText;
-    targetDestination2.innerText = temp;
-}
-
-
+        const bookVanFormUrl = "{% url 'bookvanform' %}";
     </script>
+    <script src="{% static 'customer_app/js/custombooking.js' %}"></script>
+    <script src="{% static 'customer_app/js/stats.js' %}"></script>
+    <script src="{% static 'customer_app/js/switchdestination.js' %}"></script>
+    <script src="{% static 'customer_app/js/modal.js' %}"></script>
+
 </body>
 </html>
