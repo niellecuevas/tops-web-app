@@ -27,7 +27,8 @@
                 </div>
                 <div class="form-group">
                     <label for="passenger-count">Passenger Count</label>
-                    <input type="number" id="passenger-count" name="passenger_count" class="form-control" min="1" required value="{{ passenger_count }}">
+                    <input type="number" id="passenger-count" name="passenger_count" min="1" class="form-control" min="1" required value="{{ passenger_count }}">
+                    <input type="hidden" id="package-price" name="package_price" value="0">
                 </div>
             </div>
 
@@ -66,18 +67,25 @@
                 <label for="round-trip">Round Trip</label>
                 <input type="checkbox" id="round-trip" name="round_trip" {% if round_trip %}checked{% endif %}>
             </div>
-
-            <!-- Hidden fields for van details -->
-            <input type="hidden" id="hidden-van-image" name="van_image" value="">
-            <input type="hidden" id="hidden-van-model" name="van_model" value="">
-            <input type="hidden" id="hidden-van-driver" name="van_driver" value="">
-            <input type="hidden" id="hidden-van-seats" name="van_seats" value="">
-
             <!-- Submit button -->
             <div class="submit-btn">
                 <button type="submit">Reserve Booking</button>
             </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById("passenger-count").addEventListener("input", function() {
+            const passengerCount = document.getElementById("passenger-count").value;
+            const pricePerPassenger = 100;
+            const totalAmount = passengerCount * pricePerPassenger;
+
+            // Set calculated amount in the hidden input field
+            document.getElementById("package-price").value = totalAmount;
+            // Add console log to verify value
+        console.log("Total Amount:", totalAmount);
+        });
+    </script>
+    
 </body>
 </html>

@@ -20,6 +20,7 @@ def bookvanform(request):
         dropoff_address = request.POST.get('dropoff_address')
         additional_notes = request.POST.get('additional_notes')
         round_trip = request.POST.get('round_trip') == 'on'  # This will be True if checked, False otherwise
+        package_price  = request.POST.get('package_price')
 
         # Store data in the session
         request.session['full_name'] = full_name
@@ -30,6 +31,17 @@ def bookvanform(request):
         request.session['dropoff_address'] = dropoff_address
         request.session['additional_notes'] = additional_notes
         request.session['round_trip'] = round_trip
+        request.session['package_price'] = package_price
+
+
+        # Retrieve and calculate package price
+        passenger_count = int(passenger_count) if passenger_count else 0
+        package_price = int(request.POST.get('package_price', 0))
+        
+        # Ensure price is calculated even if JavaScript fails
+        if not package_price:
+            package_price = passenger_count * 100
+
 
         # Prepare the context for rendering the summary
         context = {
@@ -41,6 +53,7 @@ def bookvanform(request):
             'dropoff_address': dropoff_address,
             'additional_notes': additional_notes,
             'round_trip': round_trip,
+            'package_price': package_price,
         }
 
         return render(request, 'customer_app/payment_summary_custom.html', context)
@@ -55,6 +68,7 @@ def bookvanform(request):
         'dropoff_address': request.session.get('dropoff_address', ''),
         'additional_notes': request.session.get('additional_notes', ''),
         'round_trip': request.session.get('round_trip', 'False'),
+        'package_price': request.session.get('package_price', ''),
     }
     
     return render(request, 'customer_app/bookvanform.html', context)
