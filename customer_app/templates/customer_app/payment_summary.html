@@ -2,6 +2,14 @@
 {% load static %}
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Form</title>
@@ -9,6 +17,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
             /* styles.css */
+
+    h2 {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    body {
+        font-family: 'Afacad Flux', sans-serif;
+    }
+
     .summary-section {
         text-align: center; /* Center the content */
         padding: 5px;
@@ -55,6 +72,85 @@
     margin-right: 10px; /* Space between the icon and text */
 }
 
+/*Terms and Conditions Pop up*/
+/* Limit scroll to modal container only */
+/* Modal background */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    max-height: 80%;
+    overflow-y: auto;
+    background-color: #f7f4fb; /* Light background for contrast */
+    border: 2px solid #d5006d; /* Magenta border color */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* Header and Close Button */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #d5006d; /* Magenta border color */
+    padding-bottom: 10px;
+    color: #d5006d; /* Magenta color */
+}
+
+.close {
+    color: #d5006d; /* Magenta color */
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Text Styling */
+#terms-content h3 {
+    font-family: 'Oswald', sans-serif; /* Oswald font for headers */
+    color: #d5006d; /* Magenta color */
+    font-size: 1.5em; /* Increased header size */
+    margin-top: 15px;
+}
+
+#terms-content p {
+    font-family: 'Afacad Flux', sans-serif; /* Afacad Flux font for body content */
+    color: #4a4a4a; /* Darker text color */
+    line-height: 1.6; /* Improved line spacing */
+    margin-bottom: 10px;
+}
+
+#terms-content ul {
+    list-style-type: disc; /* Bulleted list */
+    padding-left: 20px; /* Indentation for the list */
+}
+
+#terms-content li {
+    font-family: 'Afacad Flux', sans-serif; /* Afacad Flux font for list items */
+    color: #4a4a4a; /* Darker text color */
+    margin-bottom: 8px; /* Spacing between list items */
+}
+
+/* Scrollbar Styling */
+.modal::-webkit-scrollbar {
+    width: 8px; /* Scrollbar width */
+}
+
+.modal::-webkit-scrollbar-track {
+    background: #f7f4fb; /* Background of the scrollbar track */
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background-color: #d5006d; /* Magenta scrollbar color */
+    border-radius: 10px; /* Rounded scrollbar */
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background-color: #c70054; /* Darker magenta on hover */
+}
+
 
     </style>
 </head>
@@ -94,11 +190,14 @@
                 <label for="proof">Proof of Payment (upload):</label>
                 <input type="file" id="proof" name="proof">
             </div>
-
             <div class="terms">
                 <input type="checkbox" id="terms" name="terms">
-                <label for="terms">I have read the Terms and Conditions</label>
+                <label for="terms">
+                    I have read the 
+                    <a href="#" id="terms-link">Terms and Conditions</a>
+                </label>
             </div>
+
             <div class="go-back-container">
                 <a href="{% url 'customerhomepage2' %}?came_from_payment=true" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> <!-- Left arrow icon -->
@@ -163,6 +262,18 @@
         </form>
     </div>
 
+    <!-- Modal for Terms and Conditions -->
+<div id="terms-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" id="close-modal">&times;</span>
+        <h2>Terms and Conditions</h2>
+        <div id="terms-content">
+            <!-- Terms and Conditions will be loaded here -->
+        </div>
+    </div>
+</div>
+    
+
     <script>
        document.addEventListener("DOMContentLoaded", function() {
             // Retrieve data from localStorage
@@ -211,6 +322,53 @@
     // Update the Mode of Payment in the booking summary
     document.getElementById('selected-payment-method').innerText = paymentMethodText;
 }
-    </script>
+
+// terms and conditions pop up
+function loadTermsAndConditions() {
+    fetch("/static/customer_app/xml/terms_and_conditions.xml") // Adjust to your path if needed
+        .then(response => response.text())
+        .then(data => {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data, "text/xml");
+            const termsSections = xmlDoc.getElementsByTagName("section");
+            let termsHTML = '';
+
+            Array.from(termsSections).forEach(section => {
+                const title = section.getAttribute("title");
+                const content = section.textContent.trim();
+                
+                // Add each section title and content to the terms HTML
+                termsHTML += `<h3>${title}</h3><p>${content}</p>`;
+            });
+
+            // Insert terms HTML into the modal content div
+            document.getElementById('terms-content').innerHTML = termsHTML;
+        })
+        .catch(error => console.error('Error fetching terms:', error));
+}
+
+// Event listener for opening and closing the modal
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('terms-link').onclick = function(event) {
+        event.preventDefault();
+        loadTermsAndConditions(); // Load the terms
+        document.getElementById('terms-modal').style.display = 'block';
+    };
+
+    document.getElementById('close-modal').onclick = function() {
+        document.getElementById('terms-modal').style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('terms-modal');
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+});
+
+
+</script>
+    <script src="{% static 'customer_app/js/paymentsummarypopup.js' %}"></script>
 </body>
 </html>

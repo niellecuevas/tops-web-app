@@ -1,0 +1,16 @@
+<div id="termsModal" class="modal">
+    <span class="close-btn" onclick="closeModal()">×</span>
+    
+    {% for section in terms %}
+        <h2>{{ section.title }}</h2>
+        <p>{{ section.content }}</p>
+        <ul>
+            {% for item in section.items %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+        {% for note in section.notes %}
+            <p class="note">{{ note }}</p>
+        {% endfor %}
+    {% endfor %}
+</div>

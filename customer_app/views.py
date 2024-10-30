@@ -6,6 +6,9 @@ from .forms import Booking  # Import your form here
 
 from django.shortcuts import render
 
+import xml.etree.ElementTree as ET
+from django.templatetags.static import static
+
 def bookvanform(request):
     if request.method == 'POST':
         # Retrieve data from the form
@@ -164,6 +167,23 @@ def footer(request):
 
 def payment_summary(request):
     return render(request, 'payment_summary.html')
+
+
+def terms_and_conditions(request):
+    # Load the XML file
+    tree = ET.parse(static('xml/terms.xml'))
+    root = tree.getroot()
+
+    # Parse XML into HTML
+    terms = []
+    for section in root.findall('section'):
+        title = section.get('title')
+        items = [item.text for item in section.findall('item')]
+        content = section.find('content').text if section.find('content') is not None else ""
+        notes = [note.text for note in section.findall('note')]
+        terms.append({'title': title, 'content': content, 'items': items, 'notes': notes})
+
+    return render(request, 'terms_modal.html', {'terms': terms})
 
 def payment_summary_custom(request):
     return render(request, 'payment_summary_custom.html')
