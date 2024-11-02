@@ -14,4 +14,5 @@ urlpatterns = [
     path('footer/', views.footer, name='footer'),
     path('payment_summary/', views.payment_summary, name='payment_summary'),
     path('payment_summary_custom/', views.payment_summary_custom, name='payment_summary_custom'),
+    path('save-booking/', views.save_booking, name='save_booking'),
 ]

@@ -204,8 +204,7 @@
                     Edit your form details</a>
             </div>
         </div>
-        <form method="POST" action="{% url 'bookvanform' %}">
-            {% csrf_token %}
+        
         <!-- Booking Summary -->
         <div class="booking-summary">
             <h2>Booking Summary</h2>
@@ -255,11 +254,13 @@
 
             <div class="summary-section">
                 <p><strong>Mode of Payment:</strong> <span id="selected-payment-method">Cash</span></p>
-                <button class="book-now-btn">BOOK NOW</button>
+                <form action="{% url 'save_booking' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="book-now-btn">BOOK NOW</button>
+                </form>
                 <hr>
             </div>
         </div>
-        </form>
     </div>
 
     <!-- Modal for Terms and Conditions -->

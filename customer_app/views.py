@@ -34,15 +34,6 @@ def bookvanform(request):
         request.session['package_price'] = package_price
 
 
-        # Retrieve and calculate package price
-        passenger_count = int(passenger_count) if passenger_count else 0
-        package_price = int(request.POST.get('package_price', 0))
-        
-        # Ensure price is calculated even if JavaScript fails
-        if not package_price:
-            package_price = passenger_count * 100
-
-
         # Prepare the context for rendering the summary
         context = {
             'full_name': full_name,
@@ -83,7 +74,6 @@ def bookdestination(request):
         pickup_datetime = request.POST.get('pickup_datetime')
         additional_notes = request.POST.get('additional_notes')
         round_trip = request.POST.get('round_trip') == 'on'  # This will be True if checked, False otherwise
-
         # Store data in the session
         request.session['full_name'] = full_name
         request.session['passenger_count'] = passenger_count
@@ -117,6 +107,47 @@ def bookdestination(request):
     return render(request, 'customer_app/bookdestination.html', context)
 
 
+from .models import Booking
+from django.http import HttpResponse
+
+def save_booking(request):
+    if request.method == 'POST':
+        # Retrieve data from session (or from the request if you prefer)
+        full_name = request.session.get('full_name')
+        passenger_count = request.session.get('passenger_count')
+        contact_number = request.session.get('contact_number')
+        pickup_datetime = request.session.get('pickup_datetime')
+        additional_notes = request.session.get('additional_notes')
+        round_trip = request.session.get('round_trip', False)
+
+          # Retrieve new data for destination from POST request
+        dest_image = request.POST.get('dest_image')
+        destination1 = request.POST.get('destination1')
+        destination2 = request.POST.get('destination2')
+        transportation_fee = request.POST.get('transportation_fee')
+
+
+        # Create and save the booking
+        booking = Booking.objects.create(
+            full_name=full_name,
+            passenger_count=passenger_count,
+            contact_number=contact_number,
+            pickup_datetime=pickup_datetime,
+            additional_notes=additional_notes,
+            round_trip=round_trip,
+            dest_image=dest_image,  # Assuming this field exists
+            destination1=destination1,
+            destination2=destination2,
+            transportation_fee=transportation_fee,
+        )
+        
+        # Optionally, clear the session data
+        request.session.flush()
+
+        # Redirect or show a success message
+        return redirect('success')  # Create a URL for a confirmation page if desired
+
+    return HttpResponse("Invalid request method.", status=405)
 
 
 def customerhomepage(request):

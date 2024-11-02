@@ -9,13 +9,15 @@ class Booking(models.Model):
     additional_notes = models.TextField(blank=True, null=True)
     round_trip = models.BooleanField(default=False)
     payment_mode = models.CharField(max_length=255, default='Not Specified')
-    van = models.ForeignKey(Van, on_delete=models.CASCADE, default='0')
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, default='0')
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, default='1')
     payment_mode = models.CharField(max_length=50)
     proof_of_payment = models.FileField(upload_to='payments/', blank=True, null=True)
 
-    #def __str__(self):
-    #    return f'Booking: {self.full_name} on {self.pickup_datetime}'
+    # New fields for destination information
+    dest_image = models.URLField(blank=True, null=True)
+    destination1 = models.CharField(max_length=255, blank=True, null=True)
+    destination2 = models.CharField(max_length=255, blank=True, null=True)
+    transportation_fee = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
 class CustomBooking(models.Model):
     full_name = models.CharField(max_length=255)

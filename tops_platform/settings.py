@@ -143,3 +143,9 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'login'
+
+# Set session cookie age (in seconds)
+SESSION_COOKIE_AGE = 3600  # Example: 1 hour (3600 seconds)
+
+# Ensure the session persists across browser restarts
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
