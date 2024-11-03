@@ -211,7 +211,13 @@ def footer(request):
     return render(request, 'customer_app/footer.html')
 
 def payment_summary(request):
-    return render(request, 'payment_summary.html')
+    destination_id = request.GET.get('destination_id')
+    destination = get_object_or_404(Destination, id=destination_id)
+
+    context = {
+        'destination': destination
+    }
+    return render(request, 'payment_summary.html', context)
 
 
 def terms_and_conditions(request):

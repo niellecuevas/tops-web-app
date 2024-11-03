@@ -80,7 +80,7 @@
                                 data-destination-image="{{ dest1.file_upload.url }}"
                                 data-destination2="{{ dest1.destination1 }}"
                                 data-destination1="{{ dest1.destination2 }}"
-                                data-transportationFee="{{ dest1.transportationfee }}"
+                                data-transportation-fee="{{ dest1.transportationfee }}"
                                 onclick="openModal(event)">
                             Book
                         </button>
@@ -103,7 +103,7 @@
                         data-destination-image="{{ dest2.file_upload.url }}"
                         data-destination2="{{ dest2.destination1 }}"
                         data-destination1="{{ dest2.destination2 }}"
-                        data-transportationFee="{{ dest2.transportationfee }}"
+                        data-transportation-fee="{{ dest2.transportationfee }}"
                         onclick="openModal(event)">
                     Book
                 </button>
@@ -127,7 +127,7 @@
                                 data-destination-image="{{ dest5.file_upload.url }}"
                                 data-destination2="{{ dest5.destination1 }}"
                                 data-destination1="{{ dest5.destination2 }}"
-                                data-transportationFee="{{ dest5.transportationfee }}"
+                                data-transportation-fee="{{ dest5.transportationfee }}"
                                 onclick="openModal(event)">
                             Book
                         </button>
@@ -159,10 +159,11 @@
     <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
         <div class="form-header">
-            <img id="modal-destination-img" src="" alt="Destination Image">
-            <h2><span id="modal-destination"></span></h2>
-            <p>Starting Point: <span id="modal-starting-point"></span></p>
+            <img id="modal-destination-image" alt="Destination Image">
+            <h2>Destination: <span id="modal-destination1"></span></h2>
+            <p>Starting Point: <span id="modal-destination2"></span></p>
             <p>Transportation Fee: ₱<span id="modal-transportation-fee"></span></p>
+            <input type="hidden" id="modal-destination-id">
         </div>
         <div id="modal-form-content">
             {% include 'customer_app/bookdestination.html' %}

@@ -256,7 +256,7 @@
                 <p><strong>Mode of Payment:</strong> <span id="selected-payment-method">Cash</span></p>
                 <form action="{% url 'save_booking' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="book-now-btn">BOOK NOW</button>
+                    <button type="submit" class="book-now-btn" onclick="finalizeBooking()">Confirm Booking</button>
                 </form>
                 <hr>
             </div>

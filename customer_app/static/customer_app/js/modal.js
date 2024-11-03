@@ -36,23 +36,26 @@ function openModal(event) {
     event.preventDefault(); // Prevent the default form action (submitting)
 
     // Get data attributes from the clicked button
-    const button = event.currentTarget;
-    const destImage = button.getAttribute('data-destination-image');
-    const destination2 = button.getAttribute('data-destination1');
-    const destination1 = button.getAttribute('data-destination2');
-    const transportationFee = button.getAttribute('data-transportationFee');
+    const destinationId = event.target.getAttribute('data-destination-id');
+    const destinationImage = event.target.getAttribute('data-destination-image');
+    const destination1 = event.target.getAttribute('data-destination1');
+    const destination2 = event.target.getAttribute('data-destination2');
+    const transportationFee = event.target.getAttribute('data-transportation-fee');
 
-    // Populate modal content
-    document.getElementById("modal-destination-img").src = destImage;
-    document.getElementById("modal-destination").innerText = destination2;
-    document.getElementById("modal-starting-point").innerText = destination1;
-    document.getElementById("modal-transportation-fee").innerText = transportationFee;
+    // Populate modal with data
+    document.getElementById('modal-destination-id').value = destinationId;
+    document.getElementById('modal-destination-image').src = destinationImage;
+    document.getElementById('modal-destination1').textContent = destination1;
+    document.getElementById('modal-destination2').textContent = destination2;
+    document.getElementById('modal-transportation-fee').textContent = transportationFee || 'N/A';
 
-    // Store data in localStorage
-    localStorage.setItem('destImage', destImage);
-    localStorage.setItem('destination1', destination2);
-    localStorage.setItem('destination2', destination1);
-    localStorage.setItem('transportationFee', transportationFee);
+    // Store data temporarily
+    sessionStorage.setItem("destinationId", destinationId);
+    sessionStorage.setItem("destination1", destination1);
+    sessionStorage.setItem("destination2", destination2);
+    sessionStorage.setItem("transportationFee", transportationFee);
+
+
 
     // Fetch the content from bookvanform.html (if needed)
     fetch(bookDestinationFormUrl)

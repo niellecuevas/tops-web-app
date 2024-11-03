@@ -64,9 +64,18 @@
 
             <!-- Submit button -->
             <div class="submit-btn">
-                <button type="submit">Reserve Booking</button>
+                <button type="submit" onclick="goToPaymentSummary()">Proceed to Payment</button>
             </div>
         </form>
     </div>
+    <script>
+        function goToPaymentSummary() {
+        const destinationId = document.getElementById('modal-destination-id').value;
+
+        // Redirect to payment summary with destination data as URL parameters
+        window.location.href = `/payment_summary?destination_id=${destinationId}`;
+}
+
+    </script>
 </body>
 </html>
