@@ -134,6 +134,8 @@ def admin_bookings(request):
     if query:
         # Filter bookings based on the search query
         bookings = bookings.filter(full_name__icontains=query)
+
+
     return render(request, 'admin_app/adminbookings.html', {'bookings': bookings})
 
 from django.shortcuts import get_object_or_404, redirect
@@ -169,3 +171,4 @@ def delete_destination(request, destination_id):
         return redirect('destination')  # Redirect to the van management page
 
     return redirect('destination')  # Redirect if not a POST request
+
