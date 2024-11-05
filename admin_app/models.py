@@ -6,6 +6,7 @@ class Driver(models.Model):
     # Driver ID will be auto-generated with prefix and unique number
     id = models.AutoField(primary_key=True)
     driver_id = models.CharField(max_length=10, unique=True, editable=False)
+    file_upload = models.ImageField(upload_to='driver_images/', blank=False, default='N/A')
     name = models.CharField(max_length=100)
     license = models.CharField(max_length=50, default='N/A')  # Default value set
 

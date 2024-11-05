@@ -12,48 +12,74 @@
     <!-- Driver Registration Form -->
     <div class="form-container">
         <h2>Register a Driver</h2>
-        <form method="POST">
-            {% csrf_token %}
-            
-            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-            {{ form.name }}
-    
-            <label for="{{ form.license.id_for_label }}">{{ form.license.label }}</label>
-            {{ form.license }}
-            
-            <button type="submit">Register</button>
-        </form>
+        <div class="driver-registration-container">
+            <form method="POST" class="registration-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Left Side: File Upload -->
+                <div class="file-upload-container">
+                    <label for="file_upload_original" class="file-upload-label">
+                        <span class="material-icons-outlined upload-icon">file_upload</span>
+                        <h3>Upload an Image</h3>
+                        <input type="file" id="file_upload_original" name="file_upload" accept="image/*">
+                    </label>
+                    <!-- Display File Name -->
+                    <div id="file-info-original" style="display: none;">
+                        <span id="file-name-original"></span>
+                    </div>
+                    
+                </div>
+                
+                <!-- Right Side: Form Fields -->
+                <div class="form-fields">
+                    <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                    {{ form.name }}
+                
+                    <label for="{{ form.license.id_for_label }}">{{ form.license.label }}</label>
+                    {{ form.license }}
+                    
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <!-- Driver List -->
+   <!-- Driver List Container -->
+<div class="driver-list-container">
     <h2>List of Registered Drivers</h2>
-    <div>
-        <label for="sortDrivers">Sort by Driver ID:</label>
-        <select id="sortDrivers" onchange="sortTable()">
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="searchDriver">Search by Driver Name:</label>
-        <input type="text" id="searchDriver" oninput="searchTable()" placeholder="Enter driver name...">
+    
+    <!-- Filter and Search Section -->
+    <div class="filter-search">
+        <div class="filter">
+            <label for="sortDrivers">Sort by Driver ID:</label>
+            <select id="sortDrivers" onchange="sortTable()">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        
+        <div class="search">
+            <label for="searchDriver">Search by Driver Name:</label>
+            <input type="text" id="searchDriver" oninput="searchTable()" placeholder="Enter driver name...">
+        </div>
     </div>
     
-    
+    <!-- Driver Table -->
     <table>
         <thead>
             <tr>
                 <th>Driver ID</th>
+                <th>Image</th>
                 <th>Name</th>
                 <th>License</th>
-                <th>Action</th>  <!-- Added Action column -->
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for driver in drivers %}
                 <tr data-id="{{ driver.driver_id }}">
                     <td>{{ driver.driver_id }}</td>
+                    <td><img src="{{ driver.file_upload.url }}" alt="driver image" width="100"></td>
                     <td class="name">{{ driver.name }}</td>
                     <td class="license">{{ driver.license }}</td>
                     <td>
@@ -62,11 +88,13 @@
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="6">No drivers registered yet.</td>
+                    <td colspan="4">No drivers registered yet.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
+
 
   <!-- Modal Content -->
 <div id="myModal" class="modal">
@@ -74,102 +102,27 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Update Driver</h2>
         <!-- Inside the popup form -->
-        <form id="updateDriverForm" method="POST">
+        <form id="updateDriverForm" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             
             <input type="hidden" name="driver_id" id="driver_id">  <!-- Hidden field for driver_id -->
             
+            <label for="modal_file_upload">Upload Image</label>
+            <button type="button" class="upload-btn" onclick="document.getElementById('modal_file_upload').click()">Choose Image</button>
+            <input type="file" id="modal_file_upload" name="file_upload" accept="image/*" onchange="displayFileName()">
+            <div id="file-name-display">No file selected</div>
+
             <label for="modal_name">Name</label>
             <input type="text" id="modal_name" name="name"> <!-- Add an input field for name -->
             
             <label for="modal_license">License</label>
             <input type="text" id="modal_license" name="license"> <!-- Add an input field for license -->
-            
+        
             <button type="submit">Update Driver</button>
         </form>
     </div>
 </div>
-
-<script>
-    function openModal(driverId, name, license, vanModel, plateNumber) {
-    document.getElementById('myModal').style.display = 'block';
-    
-    // Populate the modal form with the respective row data
-    document.getElementById('driver_id').value = driverId;
-    document.getElementById('modal_name').value = name;
-    document.getElementById('modal_license').value = license;
-    document.getElementById('modal_van_model').value = vanModel;
-    document.getElementById('modal_plate_number').value = plateNumber;
-}
-
-    function closeModal() {
-        document.getElementById('myModal').style.display = 'none';
-    }
-
-    document.getElementById('updateDriverForm').onsubmit = function(event) {
-    event.preventDefault();
-    
-    let formData = new FormData(this);
-    
-    fetch("{% url 'update_driver' %}", {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert(data.message);
-            location.reload();  // Reload the page to reflect the changes in the table
-        } else {
-            alert(data.message);
-        }
-    });
-};
-
-// SORT
-function sortTable() {
-    const table = document.querySelector("table tbody");
-    const rows = Array.from(table.querySelectorAll("tr"));
-
-    // Determine the sort order
-    const sortOrder = document.getElementById("sortDrivers").value;
-
-    // Sort rows based on the Driver ID (assuming Driver ID is in the first cell)
-    rows.sort((a, b) => {
-        const idA = a.cells[0].innerText;  // Driver ID in the first column
-        const idB = b.cells[0].innerText;
-        
-        // Remove 'DRV' prefix for numeric comparison
-        const numA = parseInt(idA.replace('DRV', ''));
-        const numB = parseInt(idB.replace('DRV', ''));
-
-        return sortOrder === "asc" ? numA - numB : numB - numA;
-    });
-
-    // Remove existing rows from the table
-    rows.forEach(row => table.appendChild(row)); // Re-append sorted rows to the table
-}
-
-
-// SEARCH BY DRIVER NAME
-function searchTable() {
-    const searchInput = document.getElementById("searchDriver").value.toLowerCase();
-    const table = document.querySelector("table tbody");
-    const rows = Array.from(table.querySelectorAll("tr"));
-
-    rows.forEach(row => {
-        const driverName = row.cells[1].innerText.toLowerCase(); // Assuming the name is in the second cell
-        if (driverName.includes(searchInput)) {
-            row.style.display = ""; // Show row if it matches
-        } else {
-            row.style.display = "none"; // Hide row if it doesn't match
-        }
-    });
-}
-</script>
+<script src="{% static 'admin_app/js/driver.js' %}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <!-- THERE IS NO ERROR HERE IT WORKS! ITS JUST THE CONFUSION OF THE SYNTAXS BUT IT WORKS-->

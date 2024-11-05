@@ -106,7 +106,7 @@ from django.contrib import messages
 def driver_management(request):
     # Handle form submission
     if request.method == 'POST':
-        form = DriverForm(request.POST)
+        form = DriverForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()  # Save the new driver to the database
             messages.success(request, 'Driver registered successfully!')
@@ -143,16 +143,16 @@ from django.http import JsonResponse
 
 def updateDriverForm(request):
     if request.method == 'POST':
-        driver_id = request.POST.get('driver_id')  # Get the custom driver ID from the form
-        driver = get_object_or_404(Driver, driver_id=driver_id)  # Fetch by driver_id, not the primary key
+        driver_id = request.POST.get('driver_id')
+        driver = Driver.objects.get(driver_id=driver_id)
         
-        form = DriverForm(request.POST, instance=driver)
+        form = DriverForm(request.POST, request.FILES, instance=driver)  # Use request.FILES for file handling
         if form.is_valid():
-            form.save()  # Save the updated driver details
-            return JsonResponse({'status': 'success', 'message': 'Driver updated successfully.'})
+            form.save()
+            return JsonResponse({'status': 'success', 'message': 'Driver updated successfully!'})
         else:
-            return JsonResponse({'status': 'error', 'message': 'Form validation failed.'})
-    return JsonResponse({'status': 'error', 'message': 'Invalid request.'})
+            return JsonResponse({'status': 'error', 'message': 'Failed to update driver details.'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
 def delete_van(request, van_id):
     if request.method == 'POST':

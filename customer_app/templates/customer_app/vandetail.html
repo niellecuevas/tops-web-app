@@ -5,7 +5,7 @@
 <div class="van-detail-container">
   <div class="driver-info">
     <h2>Driver Information</h2>
-    <img src="{% static 'images/employee.png' %}" alt="Driver Image" class="driver-image">
+    <img src="{{ driver.file_upload.url }}" alt="Driver Image" class="driver-image">
     <p><strong>Name:</strong> {{ driver.name }}</p>
     <p><strong>Experience:</strong> {{ driver.experience }} years</p>
     <p><strong>Positive Traits:</strong> {{ driver.positive_traits }}</p>

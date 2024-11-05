@@ -4,7 +4,7 @@ from .models import Driver
 class DriverForm(forms.ModelForm):
     class Meta:
         model = Driver
-        fields = ['name', 'license']
+        fields = ['name', 'license', 'file_upload']
 
     def __init__(self, *args, **kwargs):
         super(DriverForm, self).__init__(*args, **kwargs)
