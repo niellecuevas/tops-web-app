@@ -139,6 +139,7 @@ button {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 20px;
 }
 
 button:hover {
@@ -287,6 +288,7 @@ select#sortDrivers, input#searchDriver {
 /* Style for displaying file name */
 #file-name-display {
     margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 14px;
     color: #666;
 }
