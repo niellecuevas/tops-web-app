@@ -43,7 +43,7 @@ document.getElementById('updateDriverForm').onsubmit = function(event) {
     
     let formData = new FormData(this);
 
-    fetch("{% url 'update_driver' %}", {
+    fetch(updateDriverUrl, {
         method: 'POST',
         body: formData,
         headers: {
