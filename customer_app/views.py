@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from admin_app.models import Van
+from admin_app.models import Van, Driver
 from admin_app.models import Destination
 from django.shortcuts import redirect
 from .forms import Booking  # Import your form here
@@ -153,6 +153,16 @@ def save_booking(request):
 def customerhomepage(request):
     return render(request, 'customer_app/customerhomepage.html') 
 
+def customisebook(request):
+    van_type = request.GET.get('van_type', 'all')
+    if van_type == 'company':
+        vans = Van.objects.filter(is_company_van=True)
+    elif van_type == 'driver_owned':
+        vans = Van.objects.filter(is_company_van=False)
+    else:
+        vans = Van.objects.all()
+    return render(request, 'customer_app/customisebook.html', {'vans': vans})
+
 def cstmrbookingdetails(request):
     return render(request, 'customer_app/cstmrbookingdetails.html') 
 
@@ -238,6 +248,20 @@ def terms_and_conditions(request):
 
 def payment_summary_custom(request):
     return render(request, 'payment_summary_custom.html')
+
+ 
+
+def vandetail(request, van_id):
+    van = get_object_or_404(Van, id=van_id)
+    driver = van.driver # Assuming each van has a related driver
+    return render(request, 'customer_app/vandetail.html', {'van': van, 'driver': driver})
+
+def base(request):
+    return render(request, 'customer_app/base.html')
+
+
+
+
 
 
 

@@ -28,7 +28,6 @@ class Van(models.Model):
     plate = models.CharField(max_length=100)
     seats = models.IntegerField()
     is_company_van = models.BooleanField(default=False)
-    package_price = models.DecimalField(max_digits=10, decimal_places=2, default='0.0')
     driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
 
     def __str__(self):

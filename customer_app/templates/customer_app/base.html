@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GFS Travelista{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage2.css' %}">
+</head>
+<body>
+    <nav>
+        <!-- Checkbox for toggling menu -->
+        <input type="checkbox" id="check">
+        <!-- Menu icon -->
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <!-- Site logo -->
+        <label class="logo">GFS Travelista</label>
+        <!-- Navigation links -->
+        <ul>
+            <li><a class="nav-link" href="#home">Home</a></li>
+            <li><a class="nav-link" href="#private-ride">Private Ride</a></li>
+            <li><a class="nav-link" href="#about-us">About Us</a></li>
+            <li><a class="nav-link" href="#contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        {% block content %}
+        <!-- Child template content will go here -->
+        {% endblock %}
+    </div>
+
+    <!-- Include the footer template -->
+    {% include 'customer_app/footer.html' %}
+
+    <!-- JavaScript (optional) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

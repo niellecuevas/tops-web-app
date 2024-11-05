@@ -1,0 +1,131 @@
+{% extends 'customer_app/base.html' %}  <!-- Extend your base template here -->
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'customer_app/css/vandetail.css' %}">
+<div class="van-detail-container">
+  <div class="driver-info">
+    <h2>Driver Information</h2>
+    <img src="{% static 'images/employee.png' %}" alt="Driver Image" class="driver-image">
+    <p><strong>Name:</strong> {{ driver.name }}</p>
+    <p><strong>Experience:</strong> {{ driver.experience }} years</p>
+    <p><strong>Positive Traits:</strong> {{ driver.positive_traits }}</p>
+</div>
+  <div class="left-container">
+      <div class="van-info">
+          <!-- Container for the image gallery -->
+          <div class="container">
+              <!-- Full-width images with number text -->
+              <div class="mySlides">
+                  <div class="numbertext">1 / 4</div>
+                  <img src="{{ van.file_upload.url }}" style="width:100%">
+              </div>
+
+              <div class="mySlides">
+                  <div class="numbertext">2 / 4</div>
+                  <img src="{% static 'images/nissan1.jpg' %}" style="width:100%">
+              </div>
+
+              <div class="mySlides">
+                  <div class="numbertext">3 / 4</div>
+                  <img src="{% static 'images/nissan2.jpg' %}" style="width:100%">
+              </div>
+
+              <div class="mySlides">
+                  <div class="numbertext">4 / 4</div>
+                  <img src="{% static 'images/nissan3.jpg' %}" style="width:100%">
+              </div>
+              <!-- Next and previous buttons -->
+              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+              <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+              <!-- Thumbnail images -->
+              <div class="row">
+                  <div class="column">
+                      <img class="demo cursor" src="{{ van.file_upload.url }}" style="width:100%" onclick="currentSlide(1)" alt="Maxus V80">
+                  </div>
+                  <div class="column">
+                      <img class="demo cursor" src="{% static 'images/nissan1.jpg' %}" style="width:100%" onclick="currentSlide(2)" alt="Nissan Urvan">
+                  </div>
+                  <div class="column">
+                      <img class="demo cursor" src="{% static 'images/nissan2.jpg' %}" style="width:100%" onclick="currentSlide(3)" alt="Toyota Hiace">
+                  </div>
+                  <div class="column">
+                      <img class="demo cursor" src="{% static 'images/nissan3.jpg' %}" style="width:100%" onclick="currentSlide(4)" alt="Foton Transvan">
+                  </div>
+              </div>
+          </div>
+
+          <!-- Van Information Section -->
+          <h2>{{ van.model }}</h2>
+          <p><strong>Description:</strong> The {{ van.model }} is a versatile and reliable van designed for comfort and functionality. Perfect for families, groups, or business transport, it offers a spacious interior and various seating configurations.</p>
+
+          <h3>Van Specifications:</h3>
+          <ul>
+              <li><strong>Model:</strong> {{ van.model }}</li>
+              <li><strong>Seating Capacity:</strong> {{ van.seats }}</li>
+              <li><strong>Engine Type:</strong> Diesel</li>
+              <li><strong>Transmission:</strong> Manual/Automatic</li>
+              <li><strong>Air Conditioning:</strong> Yes</li>
+              <li><strong>Entertainment System:</strong> CD/MP3/Radio</li>
+              <li><strong>Storage Space:</strong> Ample cargo area for luggage</li>
+          </ul>
+      </div>
+  </div>
+
+  <div class="right-container">
+      <h2>Book This Van</h2>
+      <form method="POST" action="">
+          {% csrf_token %}
+          <label for="full_name">Full Name:</label>
+          <input type="text" id="full_name" name="full_name" required>
+
+          <label for="contact_number">Contact Number:</label>
+          <input type="tel" id="contact_number" name="contact_number" required>
+
+          <label for="pickup_date">Pickup Date:</label>
+          <input type="date" id="pickup_date" name="pickup_date" required>
+
+          <label for="pickup_time">Pickup Time:</label>
+          <input type="time" id="pickup_time" name="pickup_time" required>
+
+          <label for="additional_notes">Additional Notes:</label>
+          <textarea id="additional_notes" name="additional_notes"></textarea>
+
+          <button type="submit">Book Now</button>
+      </form>
+  </div>
+</div>
+
+<script>
+  let slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  captionText.innerHTML = dots[slideIndex-1].alt;
+}
+</script>
+{% endblock %}

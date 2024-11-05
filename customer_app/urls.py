@@ -15,4 +15,7 @@ urlpatterns = [
     path('payment_summary/', views.payment_summary, name='payment_summary'),
     path('payment_summary_custom/', views.payment_summary_custom, name='payment_summary_custom'),
     path('save-booking/', views.save_booking, name='save_booking'),
+    path('customisebook/', views.customisebook, name='customisebook'),
+    path('van/<int:van_id>/', views.vandetail, name='vandetail'),
+    path('base/', views.base, name='base'),
 ]

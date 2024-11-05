@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFS Travelista</title>
+    <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage2.css' %}">
+    <link rel="stylesheet" href="{% static 'customer_app/css/customisebook.css' %}">
+</head>
+<body>
+    <nav>
+        <!-- Checkbox for toggling menu -->
+        <input type="checkbox" id="check">
+        <!-- Menu icon -->
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <!-- Site logo -->
+        <label class="logo">GFS Travelista</label>
+        <!-- Navigation links -->
+        <ul>
+            <li><a class="nav-link" href="#home">Home</a></li>
+            <li><a class="nav-link" href="#private-ride">Private Ride</a></li>
+            <li><a class="nav-link" href="#about-us">About Us</a></li>
+            <li><a class="nav-link" href="#contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="custom-booking-container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h2>Customize Your Private Booking</h2>
+            
+            <!-- Filter Buttons -->
+            <div class="filter-buttons">
+                <button onclick="applyFilter('all')" class="{% if request.GET.van_type == 'all' or not request.GET.van_type %}active{% endif %}">All Vans</button>
+                <button onclick="applyFilter('company')" class="{% if request.GET.van_type == 'company' %}active{% endif %}">Company Vans</button>
+                <button onclick="applyFilter('driver_owned')" class="{% if request.GET.van_type == 'driver_owned' %}active{% endif %}">Driver-Owned Vans</button>
+            </div>
+        </div>
+        
+        <!-- Vans Display Section -->
+        <div class="vans-display">
+            {% for van in vans %}
+            <div class="van-card">
+                <img src="{{ van.file_upload.url }}" alt="Van Image" class="van-image">
+                <div class="van-info">
+                    <h3>Model: {{ van.model }}</h3>
+                    <p><strong>Plate:</strong> {{ van.plate }}</p>
+                    <p><strong>Seats:</strong> {{ van.seats }}</p>
+                    <p><strong>Type:</strong> {{ van.is_company_van|yesno:"Company Van,Driver-Owned" }}</p>
+                    {% if van.driver %}
+                    <p>Driver: {{ van.driver.name }}</p>
+                    <a href="{% url 'vandetail' van.id %}" class="view-details-button">View Details</a> <!-- Link to van detail page -->
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p>No vans available based on your filter selection.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        function applyFilter(vanType) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('van_type', vanType);
+        window.location.href = url;  // Redirects to the updated URL
+    }
+
+// Assuming each filter button has a specific class like '.filter-company' or '.filter-driver'
+document.querySelectorAll('.filter-buttons button').forEach(button => {
+    button.addEventListener('click', function() {
+        const filterType = this.getAttribute('data-filter');
+        
+        // Find all van cards
+        const vanCards = document.querySelectorAll('.van-card');
+        
+        vanCards.forEach(card => {
+            // Determine if the card should be shown based on the filter type
+            const isCompanyVan = card.getAttribute('data-company') === 'true';
+            const hasDriver = card.getAttribute('data-driver') === filterType;
+            
+            // Apply transition effect based on filter
+            if (filterType === 'all' || 
+                (filterType === 'company' && isCompanyVan) || 
+                (filterType === 'driver' && hasDriver)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    });
+});
+
+
+
+    </script>
+</body>
+</html>

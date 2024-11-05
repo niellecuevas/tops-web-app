@@ -139,11 +139,21 @@
     </div>
 
    <!-- Custom Booking Link -->
-<div class="custom-booking-container">
-    <button class="custom-booking" 
-    onclick="openCustomModal(event)">Custom Booking</button>
+   <div class="hidden-section" id="full-width-section">
+   <div class="custom-booking-section">
+    <div class="image-container">
+        <img src="{% static 'images/travelista-van1-crop.png' %}" alt="Custom Booking Image">
+    </div>
+    <div class="text-container">
+        <h2>Want to customize your private booking more?</h2>
+        <p>
+            From selecting your vehicle and driver to choosing specific destinations, 
+            we make it easy for you to personalize your experience. Book now and enjoy a tailored journey!
+        </p>
+        <a href="{% url 'customisebook' %}" class="custom-booking-button">Book Here</a>
+    </div>
 </div>
-
+</div>
 
     
 </section>
