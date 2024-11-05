@@ -23,14 +23,11 @@ class CustomBooking(models.Model):
     full_name = models.CharField(max_length=255)
     passenger_count = models.PositiveIntegerField()
     contact_number = models.CharField(max_length=15)
+    email_address = models.EmailField(max_length=254, default='Not Specified')
     pickup_datetime = models.DateTimeField(default=timezone.now)
     pickup_address = models.CharField(max_length=255, default='Not Specified')
     dropoff_address = models.CharField(max_length=255, default='Not Specified')
     additional_notes = models.TextField(blank=True, null=True)
     round_trip = models.BooleanField(default=False)
-    package_price = models.CharField(max_length=255, default='Not Specified')
     van = models.ForeignKey(Van, on_delete=models.CASCADE, default='0')
-    payment_mode = models.CharField(max_length=50)
-    proof_of_payment = models.FileField(upload_to='payments/', blank=True, null=True)
-
 

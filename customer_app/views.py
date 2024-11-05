@@ -259,6 +259,56 @@ def vandetail(request, van_id):
 def base(request):
     return render(request, 'customer_app/base.html')
 
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from .models import CustomBooking, Van
+
+def book_van(request, van_id):
+    if request.method == 'POST':
+        full_name = request.POST['full_name']
+        contact_number = request.POST['contact_number']
+        email_address = request.POST['email']
+        pickup_date = request.POST['pickup_date']
+        pickup_time = request.POST['pickup_time']
+        passenger_count = request.POST['passenger_count']  # Retrieve passenger count from the form
+        pickup_address = request.POST['pickup_address']  # New pickup address
+        dropoff_address = request.POST['dropoff_address']
+        round_trip = 'round_trip' in request.POST
+        additional_notes = request.POST.get('additional_notes', '')
+
+        # Combine pickup_date and pickup_time into a single datetime object
+        pickup_datetime = timezone.make_aware(
+            timezone.datetime.combine(
+                timezone.datetime.strptime(pickup_date, '%Y-%m-%d').date(),
+                timezone.datetime.strptime(pickup_time, '%H:%M').time()
+            )
+        )
+
+        # Get the van instance based on the van_id
+        van = Van.objects.get(id=van_id)
+
+        # Create a new booking instance
+        booking = CustomBooking(
+            full_name=full_name,
+            contact_number=contact_number,
+            email_address=email_address,
+            pickup_datetime=pickup_datetime,
+            passenger_count=passenger_count,  # Add passenger count to the booking instance
+            pickup_address=pickup_address,  # Add pickup address
+            dropoff_address=dropoff_address,  # Add dropoff address
+            additional_notes=additional_notes,
+            round_trip=round_trip,
+            van=van
+        )
+        booking.save()  # Save the booking to the database
+
+        # Redirect to a success page or driver dashboard
+        return redirect('success')
+
+    # If not a POST request, render the booking form (or redirect)
+    van = Van.objects.get(id=van_id)
+    return render(request, 'vandetail.html', {'van': van})
+
 
 
 

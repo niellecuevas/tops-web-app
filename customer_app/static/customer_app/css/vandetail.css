@@ -33,17 +33,24 @@
 }
 
 form label {
-    display: block;
     margin: 10px 0 5px; /* Top margin increased for separation */
 }
 
-form input, form textarea {
+form input,
+form textarea {
     width: 100%; /* Full width */
     padding: 10px;
     margin-bottom: 15px; /* Increased margin for spacing */
     border: 1px solid #ccc; /* Standard border */
     border-radius: 4px; /* Rounded corners */
 }
+
+.error-message {
+    color: red;                    /* Red color for the error message */
+    font-size: 14px;              /* Font size for readability */
+    margin-top: 5px;              /* Space above the error message */
+}
+
 
 button {
     padding: 10px 15px;
@@ -53,6 +60,7 @@ button {
     border-radius: 4px; /* Rounded corners */
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s; /* Smooth transition */
+    margin-top: 20px; /* Add margin to move the button down */
 }
 
 button:hover {
@@ -192,3 +200,5 @@ button:hover {
 .active, .demo:hover {
     opacity: 1; /* Active thumbnail */
 }
+
+

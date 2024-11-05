@@ -5,7 +5,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Dashboard</title>
@@ -17,14 +16,63 @@
             <div class="logo-container">
                 <img src="{% static 'images/capstoneLogo2.png' %}" alt="Capstone Logo">
             </div>
+            <div class="dark-mode-toggle">
+                <input type="checkbox" id="darkModeToggle">
+                <label for="darkModeToggle">🌙 DarkMode</label>
+            </div>
         </header>
         <main>
-            <!-- Content for Driver Dashboard -->
-            <div class="content-box">
-                <h1>Welcome, {{ driver.name }}!</h1>
-                <p>Driver ID: {{ driver.driver_id }}</p>
+            <div class="sidebar">
+                <div class="driver-account">
+                    <h2 class="driveracc-title">Driver Account</h2>
+                    <img src="{{ driver.file_upload.url }}" alt="Profile Picture">
+                    <p><strong>Name:</strong> {{ driver.name }}</p>
+                    <p><strong>License Number:</strong> {{ driver.license }}</p>
+                    <p><strong>Van:</strong> {{ van.model }}</p>
+                </div>
+                <h3>Navigation</h3>
+                <a class="nav-item" href="{% url 'driver_dashboard' driver.driver_id %}">Bookings</a>
+                <a class="nav-item" href="">Van Photos</a>
+                <a class="nav-item logout" href="{% url 'logout' %}">Logout</a>
+            </div>
+            <div class="content">
+                <h2>Your Bookings</h2>
+                {% if bookings %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Pickup Date</th>
+                                <th>Pickup Time</th>
+                                <th>Contact Number</th>
+                                <th>Additional Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                            <tr>
+                                <td>{{ booking.full_name }}</td>
+                                <td>{{ booking.pickup_datetime.date }}</td>
+                                <td>{{ booking.pickup_datetime.time }}</td>
+                                <td>{{ booking.contact_number }}</td>
+                                <td>{{ booking.additional_notes }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="no-bookings">No bookings available.</p>
+                {% endif %}
             </div>
         </main>
     </div>
+
+    <script>
+        // JavaScript to handle dark mode toggle
+        const toggle = document.getElementById('darkModeToggle');
+        toggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode', toggle.checked);
+        });
+    </script>
 </body>
 </html>

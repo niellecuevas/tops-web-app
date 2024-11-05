@@ -1,13 +1,8 @@
 from admin_app.models import Driver
+from customer_app.models import CustomBooking, Van
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 from django.contrib import messages
-
-def driverdashboard(request):
-    return render(request, 'driver_app/driverdashboard.html') 
-
-def driverlogin(request):
-    return render(request, 'driver_app/driverlogin.html') 
-
 
 def driver_login(request):
     if request.method == 'POST':
@@ -24,8 +19,20 @@ def driver_login(request):
     
     return render(request, 'driver_app/driverlogin.html')
 
+def driver_logout(request):
+    logout(request)  # This logs out the user
+    return redirect('driver_login')  # Redir
+
+
 def driver_dashboard(request, driver_id):
     # Fetch the driver object to display information on the dashboard
     driver = Driver.objects.get(driver_id=driver_id)
-    return render(request, 'driver_app/driverdashboard.html', {'driver': driver})
+    # Fetch the vans associated with the driver
+    vans = Van.objects.filter(driver=driver)
+    # Fetch the bookings associated with these vans
+    bookings = CustomBooking.objects.filter(van__in=vans)
 
+    return render(request, 'driver_app/driverdashboard.html', {
+        'driver': driver,
+        'bookings': bookings,
+    })

@@ -74,19 +74,41 @@
 
   <div class="right-container">
       <h2>Book This Van</h2>
-      <form method="POST" action="">
+      <form method="POST" action="{% url 'book_van' van.id %}">
           {% csrf_token %}
+          <input type="hidden" name="van_id" value="{{ van.id }}"> 
+
           <label for="full_name">Full Name:</label>
           <input type="text" id="full_name" name="full_name" required>
 
+          <label for="passenger_count">Passenger Count:</label>
+          <input type="number" id="passenger_count" name="passenger_count" min="1" required>
+
           <label for="contact_number">Contact Number:</label>
           <input type="tel" id="contact_number" name="contact_number" required>
+
+          <div class="form-row">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+            <div id="email-error" class="error-message" style="display: none;"></div> <!-- Error message container -->
+          </div>
 
           <label for="pickup_date">Pickup Date:</label>
           <input type="date" id="pickup_date" name="pickup_date" required>
 
           <label for="pickup_time">Pickup Time:</label>
           <input type="time" id="pickup_time" name="pickup_time" required>
+
+          <label for="pickup_address">Pickup Address:</label>
+          <input type="text" id="pickup_address" name="pickup_address" required>
+
+    <label for="dropoff_address">Dropoff Address:</label>
+    <input type="text" id="dropoff_address" name="dropoff_address" required>
+
+          <label for="round_trip" style="display: inline-flex; align-items: center; margin: 0;">
+            Round Trip:
+            <input type="checkbox" id="round_trip" name="round_trip" value="true" style="margin-left: 10px;">
+        </label><br><br>
 
           <label for="additional_notes">Additional Notes:</label>
           <textarea id="additional_notes" name="additional_notes"></textarea>
@@ -127,5 +149,19 @@ function showSlides(n) {
   dots[slideIndex-1].className += " active";
   captionText.innerHTML = dots[slideIndex-1].alt;
 }
+
+document.getElementById('email').addEventListener('input', function() {
+    const emailInput = this.value; // Get the current value of the email input
+    const errorMessage = document.getElementById('email-error'); // Get the error message container
+
+    // Check if the email includes the '@' symbol
+    if (!emailInput.includes('@')) {
+        errorMessage.textContent = "Your email should end with @example.com"; // Set error message
+        errorMessage.style.display = 'block'; // Show error message
+    } else {
+        errorMessage.style.display = 'none'; // Hide error message if valid
+    }
+});
+
 </script>
 {% endblock %}

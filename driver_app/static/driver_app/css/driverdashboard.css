@@ -4,7 +4,6 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto Condensed', sans-serif;
-    background: url('../../../../static/images/jenevyver.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
@@ -32,48 +31,175 @@ header {
     width: 100px; /* Adjust size as needed */
 }
 
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 main {
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
     padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.content-box {
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
-    width: 100%;
-    text-align: center;
+.driver-account {
+    text-align: center; /* Center-align text */
+    margin-bottom: 20px; /* Space below the account section */
 }
 
-h1 {
+.driver-account img {
+    width: 150px; /* Adjust the size as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Make the image circular */
+    margin-bottom: 15px; /* Space below the image */
+}
+
+.driver-account h2 {
+    font-size: 24px; /* Font size for the header */
+    color: #ce40b0; /* Change color to match the header */
+    margin-bottom: 10px; /* Space below the header */
+}
+
+.driver-account p {
+    font-size: 18px; /* Font size for paragraphs */
+    color: #333; /* Darker color for readability */
+    margin: 5px 0; /* Space between paragraphs */
+}
+
+
+.nav-item {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: #ce40b0;
+    color: #fff;
+}
+
+.logout {
+    color: #ce40b0;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    margin-left: 20px; /* Add space between sidebar and content */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content h2 {
     font-size: 28px;
     margin-bottom: 20px;
 }
 
-p {
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.no-bookings {
+    text-align: center;
     font-size: 18px;
+    color: #666;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
-    .logo-container img {
-        width: 100px; /* Adjusted size for mobile */
+    .sidebar {
+        width: 100%; /* Full width for smaller screens */
+        padding: 15px;
     }
 
-    .content-box {
-        padding: 20px;
+    .content {
+        margin-left: 0; /* No margin for smaller screens */
     }
+}
 
-    h1 {
-        font-size: 24px;
-    }
 
-    p {
-        font-size: 16px;
-    }
+/* Add dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+.dark-mode .driveracc-title{
+    color: #ffcc00;
+}
+.dark-mode header {
+    background-color: #1f1f1f;
+}
+
+.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+.dark-mode .driver-account p {
+    color: #ffffff;
+}
+.dark-mode .nav-item {
+    color: #ffffff;
+}
+
+.dark-mode .nav-item:hover {
+    background-color: #3a3a3a;
+}
+
+.dark-mode .content {
+    background-color: #2c2c2c;
+    color: #ffffff;
+}
+
+.dark-mode table th {
+    background-color: #3a3a3a;
+}
+
+.dark-mode table th, .dark-mode table td {
+    color: #ffffff;
+}
+
+/* Dark Mode Toggle Styles */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push toggle to the right */
+}
+
+.dark-mode-toggle input {
+    display: none; /* Hide the checkbox */
+}
+
+.dark-mode-toggle label {
+    cursor: pointer;
+    font-size: 24px; /* Adjust size of moon icon */
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+/* Optional: Style the toggle when dark mode is active */
+body.dark-mode .dark-mode-toggle label {
+    color: #ffcc00; /* Change color of the moon icon in dark mode */
 }
