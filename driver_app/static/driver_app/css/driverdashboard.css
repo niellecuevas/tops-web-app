@@ -11,6 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: margin-left 0.3s ease;
 }
 
 header {
@@ -22,6 +23,14 @@ header {
     justify-content: center;
 }
 
+.gfs-title{
+    margin-left: 10px;
+    color: white;
+}
+.dark-text{
+    color: white;
+}
+
 .logo-container {
     display: flex;
     align-items: center;
@@ -31,11 +40,6 @@ header {
     width: 100px; /* Adjust size as needed */
 }
 
-.dashboard-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
 
 main {
     flex: 1;
@@ -47,6 +51,23 @@ main {
     background-color: #ffffff;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    transition: transform 0.3s ease; /* Smooth transition for the sidebar */
+}
+
+/* Initially, hide the sidebar off-screen */
+.sidebar.closed {
+    transform: translateX(-100%); /* Move sidebar off screen */
+}
+
+/* Hamburger Menu */
+.hamburger {
+    font-size: 30px;
+    cursor: pointer;
+    display: block;
+    color: white;
+    margin-left: 0;
+
 }
 
 .driver-account {
@@ -73,7 +94,6 @@ main {
     margin: 5px 0; /* Space between paragraphs */
 }
 
-
 .nav-item {
     display: block;
     padding: 10px;
@@ -83,6 +103,12 @@ main {
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
 }
+
+/* Icons next to the text */
+.nav-item i {
+    margin-right: 10px; /* Space between the icon and text */
+}
+
 
 .nav-item:hover {
     background-color: #ce40b0;
@@ -100,26 +126,32 @@ main {
     margin-left: 20px; /* Add space between sidebar and content */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is closed, shift content */
+.dashboard-container.sidebar-closed .content {
+    margin-left: 0; /* Move content to full width */
+}
+
+/* Adjust the layout when sidebar is closed on smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px; /* Make sidebar take full width on small screens */
+    }
+
+    .dashboard-container.sidebar-closed .sidebar {
+        transform: translateX(-100%); /* Slide out the sidebar */
+    }
+
+    .content {
+        margin-left: 0; /* No margin when sidebar is closed */
+    }
 }
 
 .content h2 {
     font-size: 28px;
     margin-bottom: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
 }
 
 .no-bookings {
@@ -129,7 +161,11 @@ th {
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+
     .sidebar {
         width: 100%; /* Full width for smaller screens */
         padding: 15px;
@@ -138,17 +174,57 @@ th {
     .content {
         margin-left: 0; /* No margin for smaller screens */
     }
-}
 
+    .driver-account img {
+        width: 120px; /* Smaller image size on mobile */
+    }
+
+    .driver-account h2 {
+        font-size: 20px; /* Smaller heading font size */
+    }
+
+    .driver-account p {
+        font-size: 16px; /* Smaller paragraph font size */
+    }
+
+    .calendar-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .event-list {
+        width: 100%;
+        max-width: none;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .calendar {
+        width: 100%;
+        box-shadow: none;
+    }
+
+    .fc .fc-toolbar {
+        font-size: 1em;
+    }
+
+    .fc .fc-button {
+        font-size: 0.8em;
+    }
+
+    /* Ensure calendar buttons are properly sized on mobile */
+    .fc .fc-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
 
 /* Add dark mode styles */
 body.dark-mode {
     background-color: #121212;
     color: #ffffff;
 }
-.dark-mode .driveracc-title{
-    color: #ffcc00;
-}
+
 .dark-mode header {
     background-color: #1f1f1f;
 }
@@ -157,9 +233,11 @@ body.dark-mode {
     background-color: #1f1f1f;
     color: #ffffff;
 }
+
 .dark-mode .driver-account p {
     color: #ffffff;
 }
+
 .dark-mode .nav-item {
     color: #ffffff;
 }
@@ -169,16 +247,71 @@ body.dark-mode {
 }
 
 .dark-mode .content {
-    background-color: #2c2c2c;
+    background-color: #3a3a3a;
     color: #ffffff;
 }
 
-.dark-mode table th {
+.dark-mode .event-list{
+    background-color: #717171;
+    color: white;
+}
+
+.dark-mode .event-item{
+    background-color: #8b8b8b;
+    border-left: 4px solid #575757;
+    color: white;
+}
+
+.dark-mode .event-item{
+    background-color: #8b8b8b;
+    color: white;
+}
+
+.dark-mode .event-list h2{
+    color: white;
+}
+
+
+.dark-mode .calendar-container{
     background-color: #3a3a3a;
 }
+.dark-mode .calendar{
+    background-color: #717171;
+    color: white;
+}
 
-.dark-mode table th, .dark-mode table td {
-    color: #ffffff;
+.dark-mode .fc .fc-toolbar{
+    background-color: #717171;
+    color: white;
+}
+
+.dark-mode .fc .fc-toolbar .fc-toolbar-title{
+    color: white;
+}
+
+.dark-mode .fc .fc-toolbar .fc-prev-button{
+    background-color: #717171;
+    color: white;
+}
+
+.dark-mode .fc .fc-toolbar .fc-next-button{
+    background-color: #717171;
+    color: white;
+}
+
+.dark-mode .fc .fc-toolbar .fc-today-button{
+    background-color: #717171;
+    color: white;
+}
+
+.dark-mode  .fc-button-group{
+    background-color: #717171;
+    color: white;
+}
+
+.dark-mode .fc-button {
+    background-color: #717171;
+    color: white;
 }
 
 /* Dark Mode Toggle Styles */
@@ -203,3 +336,189 @@ body.dark-mode {
 body.dark-mode .dark-mode-toggle label {
     color: #ffcc00; /* Change color of the moon icon in dark mode */
 }
+
+/* Calendar Container */
+/* Calendar Container */
+.calendar-container {
+    display: flex;
+    gap: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Event List Sidebar */
+.event-list {
+    width: 30%;
+    max-width: 300px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.event-list h2 {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Individual Event Items */
+.event-item {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-left: 4px solid #f652a0;
+    background-color: #ffe3ed;
+    border-radius: 5px;
+}
+
+.event-item strong {
+    font-size: 1em;
+    color: #333;
+}
+
+/* Calendar Section */
+.calendar {
+    flex: 1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+/* Toolbar and Button Styling */
+.fc .fc-toolbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #fcd7e4;
+}
+
+.fc .fc-event {
+    background-color: #ffe3ed;
+    border-color: #fcd7e4;
+    color: #333;
+    border-radius: 4px;
+}
+
+/* Change the background color of the navigation buttons */
+.fc-prev-button, .fc-next-button, .fc-today-button {
+    background-color: #f652a0 !important; /* Pink color */
+    border-color: #f652a0 !important;
+    color: white !important; /* Text color */
+}
+
+/* Change the background color of the view buttons (month, week, day) */
+.fc-button-group .fc-button {
+    background-color: #f652a0 !important; /* Pink color */
+    border-color: #f652a0 !important;
+    color: white !important; /* Text color */
+}
+
+/* Change the color of the month title */
+.fc-toolbar-title {
+    color: #121212 !important; 
+}
+
+/* Change the color of the event dot (circle) to pink */
+.fc-event-dot {
+    background-color: #f652a0 !important; /* Pink color */
+}
+
+/* Change the background color of the event on hover */
+.fc-event:hover {
+    background-color: #f8b3d0 !important; /* Lighter pink color on hover */
+    color: #000 !important; /* Text color on hover */
+}
+
+/* For specific styling of the event title */
+.fc-event .fc-event-title {
+    color: #000 !important; /* Black text color */
+}
+
+/* Button Styling */
+.fc-button {
+    background-color: #f652a0;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.fc-button:hover {
+    background-color: #f62d73; /* Slightly darker pink for hover effect */
+    cursor: pointer;
+}
+
+.fc-button:active {
+    background-color: #e74162; /* Even darker pink for active state */
+    transform: scale(0.98);
+}
+
+/* Today's Date Highlight */
+.fc-day-today {
+    background-color: #ffe3ed !important; /* Soft pink background */
+    border: 2px solid #f652a0; /* Pink border */
+    color: #f652a0 !important; /* Pink text */
+}
+
+.fc-day-today .fc-day-number {
+    font-weight: bold;
+}
+
+/* Today's Event Background (optional, if events are displayed for today) */
+.fc-day-today .fc-event {
+    background-color: #f652a0;
+    border-color: #f652a0;
+    color: #fff;
+}
+
+
+@media (max-width: 1024px) {
+    .calendar-container {
+        flex-direction: column;
+    }
+
+    .event-list {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .calendar {
+        width: 100%;
+    }
+
+    .fc .fc-toolbar {
+        font-size: 1em;
+    }
+
+    .fc .fc-button {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .event-list {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .calendar {
+        width: 100%;
+    }
+
+    .fc .fc-button {
+        font-size: 0.8em;
+    }
+
+    .fc .fc-toolbar {
+        font-size: 0.9em;
+    }
+}
+
+/* Existing CSS for the Sidebar and other elements... */
+

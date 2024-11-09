@@ -9,16 +9,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Dashboard</title>
     <link rel="stylesheet" href="{% static 'driver_app/css/driverdashboard.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- SweetAlert2 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
     <div class="dashboard-container">
         <header>
             <div class="logo-container">
-                <img src="{% static 'images/capstoneLogo2.png' %}" alt="Capstone Logo">
+                <span class="hamburger" onclick="toggleSidebar()">&#9776;</span> 
+                <h2 class="gfs-title">GFS Travelista</h2>
             </div>
             <div class="dark-mode-toggle">
                 <input type="checkbox" id="darkModeToggle">
-                <label for="darkModeToggle">🌙 DarkMode</label>
+                <label for="darkModeToggle" class="dark-text">🌙 DarkMode</label>
             </div>
         </header>
         <main>
@@ -31,48 +38,144 @@
                     <p><strong>Van:</strong> {{ van.model }}</p>
                 </div>
                 <h3>Navigation</h3>
-                <a class="nav-item" href="{% url 'driver_dashboard' driver.driver_id %}">Bookings</a>
-                <a class="nav-item" href="">Van Photos</a>
-                <a class="nav-item logout" href="{% url 'logout' %}">Logout</a>
+                <a class="nav-item" href="{% url 'driver_dashboard' driver.driver_id %}">
+                    <i class="fas fa-book"></i> Bookings
+                </a>
+                <a class="nav-item" href="">
+                    <i class="fas fa-camera"></i> Van Photos
+                </a>
+                <a class="nav-item logout" href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
             </div>
             <div class="content">
                 <h2>Your Bookings</h2>
-                {% if bookings %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Full Name</th>
-                                <th>Pickup Date</th>
-                                <th>Pickup Time</th>
-                                <th>Contact Number</th>
-                                <th>Additional Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for booking in bookings %}
-                            <tr>
-                                <td>{{ booking.full_name }}</td>
-                                <td>{{ booking.pickup_datetime.date }}</td>
-                                <td>{{ booking.pickup_datetime.time }}</td>
-                                <td>{{ booking.contact_number }}</td>
-                                <td>{{ booking.additional_notes }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <p class="no-bookings">No bookings available.</p>
-                {% endif %}
+                <div class="calendar-container">
+                    <!-- Event List Sidebar -->
+                    <div id="event-list" class="event-list">
+                        <h2>Upcoming Ride</h2>
+                        <!-- Event items will be populated here by JavaScript -->
+                    </div>
+                
+                    <!-- Calendar Section -->
+                    <div id="calendar" class="calendar"></div>
+                </div>
             </div>
         </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.21/dist/sweetalert2.all.min.js"></script>
 
     <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Select the calendar element
+    var calendarEl = document.getElementById('calendar');
+
+    // Parse booking data safely
+    var bookingsData;
+    try {
+        bookingsData = JSON.parse('{{ booking_data_json|escapejs }}');
+        console.log('Bookings data:', bookingsData);  // Debugging output
+    } catch (error) {
+        console.error('Error parsing bookings JSON:', error);
+        return; // Stop if there's a parsing error
+    }
+
+    // Populate event list on the left sidebar
+    var eventList = document.getElementById('event-list');
+    if (bookingsData.length > 0) {
+        bookingsData.forEach(function(event) {
+            var eventItem = document.createElement('div');
+            eventItem.classList.add('event-item');
+            eventItem.innerHTML = `
+                <strong>${event.fields.full_name}</strong> <br>
+                Pickup: ${new Date(event.fields.pickup_datetime).toLocaleString()} <br>
+                Passengers: ${event.fields.passenger_count} <br>
+                ${event.fields.pickup_address} to ${event.fields.dropoff_address}
+            `;
+            eventList.appendChild(eventItem);
+        });
+    } else {
+        eventList.innerHTML = '<p>No current events</p>';
+    }
+
+    // Initialize FullCalendar
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: bookingsData.map(function(event) {
+            return {
+                title: event.fields.full_name,  // Event title
+                start: event.fields.pickup_datetime,  // Event start time
+                extendedProps: {
+                    passengerCount: event.fields.passenger_count,
+                    contactNumber: event.fields.contact_number,
+                    emailAddress: event.fields.email_address,
+                    pickupAddress: event.fields.pickup_address,
+                    dropoffAddress: event.fields.dropoff_address,
+                    additionalNotes: event.fields.additional_notes,
+                    roundTrip: event.fields.round_trip
+                }
+            };
+        }),
+        eventClick: function(info) {
+            // Using SweetAlert to show event details in a popup
+            Swal.fire({
+                title: info.event.title,
+                html: `
+                    <p><strong>Pickup Time:</strong> ${new Date(info.event.start).toLocaleString()}</p>
+                    <p><strong>Passengers:</strong> ${info.event.extendedProps.passengerCount}</p>
+                    <p><strong>Contact:</strong> ${info.event.extendedProps.contactNumber}</p>
+                    <p><strong>Email:</strong> ${info.event.extendedProps.emailAddress}</p>
+                    <p><strong>Pickup Address:</strong> ${info.event.extendedProps.pickupAddress}</p>
+                    <p><strong>Dropoff Address:</strong> ${info.event.extendedProps.dropoffAddress}</p>
+                    <p><strong>Round Trip:</strong> ${info.event.extendedProps.roundTrip ? 'Yes' : 'No'}</p>
+                    <p><strong>Additional Notes:</strong> ${info.event.extendedProps.additionalNotes || 'None'}</p>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Close',
+            });
+        },
+        eventDidMount: function(info) {
+            // Change dot color to pink
+            var dot = info.el.querySelector('.fc-event-dot');
+            if (dot) {
+                dot.style.backgroundColor = '#f652a0'; // Pink color
+            }
+            // Change background color on hover
+            info.el.addEventListener('mouseenter', function() {
+                info.el.style.backgroundColor = '#f8b3d0'; // Light pink on hover
+            });
+            info.el.addEventListener('mouseleave', function() {
+                info.el.style.backgroundColor = ''; // Reset on mouse leave
+            });
+        }
+    });
+
+    // Render the calendar
+    calendar.render();
+});
+
+
         // JavaScript to handle dark mode toggle
         const toggle = document.getElementById('darkModeToggle');
         toggle.addEventListener('change', () => {
             document.body.classList.toggle('dark-mode', toggle.checked);
         });
+
+        //Hamburger Function
+        function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const dashboardContainer = document.querySelector('.dashboard-container');
+    sidebar.classList.toggle('closed');  // Toggle sidebar visibility
+    dashboardContainer.classList.toggle('sidebar-closed');  // Adjust content size
+}
+
+
     </script>
 </body>
 </html>

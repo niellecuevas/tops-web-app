@@ -3,6 +3,11 @@ from customer_app.models import CustomBooking, Van
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib import messages
+from django.http import JsonResponse
+from django.core.serializers import serialize
+from django.utils.dateformat import format
+import json
+
 
 def driver_login(request):
     if request.method == 'POST':
@@ -24,15 +29,20 @@ def driver_logout(request):
     return redirect('driver_login')  # Redir
 
 
+
 def driver_dashboard(request, driver_id):
-    # Fetch the driver object to display information on the dashboard
+    # Fetch the driver and associated bookings
     driver = Driver.objects.get(driver_id=driver_id)
-    # Fetch the vans associated with the driver
     vans = Van.objects.filter(driver=driver)
-    # Fetch the bookings associated with these vans
     bookings = CustomBooking.objects.filter(van__in=vans)
 
-    return render(request, 'driver_app/driverdashboard.html', {
+    # Serialize the bookings into JSON format
+    booking_data = serialize('json', bookings, fields=('full_name', 'pickup_datetime', 'pickup_address', 'dropoff_address', 'passenger_count', 'contact_number', 'email_address', 'round_trip', 'additional_notes'))
+
+    # Pass the serialized booking data to the template
+    context = {
         'driver': driver,
-        'bookings': bookings,
-    })
+        'booking_data_json': booking_data
+    }
+
+    return render(request, 'driver_app/driverdashboard.html', context)
