@@ -7,12 +7,13 @@ body {
     background-size: cover;
 }
 
-.dashboard-container {
+
+/* Main container with flex layout */
+main.dashboard-container {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    transition: margin-left 0.3s ease;
+    height: 100vh;
 }
+
 
 header {
     background-color: #ce40b0;
@@ -84,7 +85,7 @@ main {
 
 .driver-account h2 {
     font-size: 24px; /* Font size for the header */
-    color: #ce40b0; /* Change color to match the header */
+    color: #f652a0; /* Change color to match the header */
     margin-bottom: 10px; /* Space below the header */
 }
 
@@ -130,8 +131,8 @@ main {
 }
 
 /* When sidebar is closed, shift content */
-.dashboard-container.sidebar-closed .content {
-    margin-left: 0; /* Move content to full width */
+.dashboard-container.sidebar-closed .content{
+    margin-left: -250px; /* Move content to full width */
 }
 
 /* Adjust the layout when sidebar is closed on smaller screens */
@@ -238,6 +239,10 @@ body.dark-mode {
     color: #ffffff;
 }
 
+.dark-mode .driveracc-title{
+    color: #ffcc00 !important; 
+}
+
 .dark-mode .nav-item {
     color: #ffffff;
 }
@@ -280,38 +285,48 @@ body.dark-mode {
     color: white;
 }
 
-.dark-mode .fc .fc-toolbar{
-    background-color: #717171;
-    color: white;
+.dark-mode .fc .fc-toolbar {
+    background-color: #717171 !important;
+    border-bottom: 1px solid whitesmoke !important;
+    color: white !important;
 }
 
-.dark-mode .fc .fc-toolbar .fc-toolbar-title{
-    color: white;
+.dark-mode .fc .fc-toolbar-title {
+    color: white !important;
 }
 
-.dark-mode .fc .fc-toolbar .fc-prev-button{
-    background-color: #717171;
-    color: white;
+.dark-mode .fc .fc-toolbar button.fc-prev-button,
+.dark-mode .fc .fc-toolbar button.fc-next-button,
+.dark-mode .fc .fc-toolbar button.fc-today-button,
+.dark-mode .fc .fc-toolbar .fc-button-group,
+.dark-mode .fc .fc-toolbar .fc-button {
+    background-color: #575757 !important;
+    border-color: #575757 !important; 
+    color: white !important;
 }
 
-.dark-mode .fc .fc-toolbar .fc-next-button{
-    background-color: #717171;
-    color: white;
+.dark-mode .fc .fc-event {
+    background-color: #575757 !important;
+    color: white !important;
 }
 
-.dark-mode .fc .fc-toolbar .fc-today-button{
-    background-color: #717171;
-    color: white;
+.dark-mode .fc .fc-event:hover {
+    background-color: #3f3f3f !important;
+    color: white !important;
 }
 
-.dark-mode  .fc-button-group{
-    background-color: #717171;
-    color: white;
+.dark-mode .fc .fc-event-title {
+    color: white !important;
 }
 
-.dark-mode .fc-button {
-    background-color: #717171;
-    color: white;
+.dark-mode .fc .fc-event-dot {
+    background-color: #ffcc00 !important; 
+}
+
+.dark-mode .fc-day-today {
+    background-color: #575757 !important; /* Soft pink background */
+    border: 2px solid #3f3f3f; /* Pink border */
+    color: white !important; /* Pink text */
 }
 
 /* Dark Mode Toggle Styles */
@@ -337,7 +352,61 @@ body.dark-mode .dark-mode-toggle label {
     color: #ffcc00; /* Change color of the moon icon in dark mode */
 }
 
-/* Calendar Container */
+/* Dark mode for modal sweetalert  */
+/* Dark mode for SweetAlert2, assuming .dark-mode class is added to the body or a parent container */
+.dark-mode .swal2-popup {
+    background-color: #333333; /* Dark background */
+    color: #ffffff; /* Light text color */
+}
+
+.dark-mode .swal2-title {
+    color: #ffffff; /* Light title color */
+}
+
+.dark-mode .swal2-html-container {
+    color: #dddddd; /* Light color for content text */
+}
+
+.dark-mode .swal2-confirm {
+    background-color: #555555; /* Dark confirm button */
+    color: #ffffff;
+    border: none;
+}
+
+.dark-mode .swal2-confirm:hover {
+    background-color: #777777; /* Lighter color on hover */
+}
+
+.dark-mode .swal2-icon.swal2-info {
+    color: #ffffff; /* Adjust icon color for dark mode, if needed */
+}
+
+/* Dark mode style for the SweetAlert2 close button */
+.dark-mode .swal2-close {
+    color: #ffffff; /* White color for the close 'X' icon */
+    background-color: #444444 !important; /* Dark background for the button */
+    border: none;
+}
+
+.dark-mode .swal2-close:hover {
+    background-color: #666666 !important; /* Slightly lighter on hover */
+    color: #ffffff; /* Keep text color white on hover */
+}
+
+/* Dark mode style for the SweetAlert2 close button */
+.swal2-close {
+    color: #ffffff; /* White color for the close 'X' icon */
+    background-color: #f652a0 !important; /* Dark background for the button */
+    border: none;
+}
+
+.swal2-close:hover {
+    background-color: #e74162 !important; /* Slightly lighter on hover */
+    color: #ffffff; /* Keep text color white on hover */
+}
+
+
+
 /* Calendar Container */
 .calendar-container {
     display: flex;
@@ -383,7 +452,26 @@ body.dark-mode .dark-mode-toggle label {
     border-radius: 10px;
     overflow: hidden;
     background-color: #ffffff;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
 }
+.fc-view {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* When the sidebar is closed, increase the width of the calendar */
+.sidebar.closed + .calendar {
+    width: fit-content; /* Adjust this value based on your sidebar width */
+}
+
+/* When the sidebar is open, make sure the calendar shrinks accordingly */
+.sidebar.open + .calendar {
+    width: fit-content ; /* Adjust this value based on your sidebar width */
+}
+
 
 /* Toolbar and Button Styling */
 .fc .fc-toolbar {
@@ -445,12 +533,12 @@ body.dark-mode .dark-mode-toggle label {
 }
 
 .fc-button:hover {
-    background-color: #f62d73; /* Slightly darker pink for hover effect */
+    background-color: #f62d73 !important; /* Slightly darker pink for hover effect */
     cursor: pointer;
 }
 
 .fc-button:active {
-    background-color: #e74162; /* Even darker pink for active state */
+    background-color: #e74162 !important; /* Even darker pink for active state */
     transform: scale(0.98);
 }
 
@@ -471,7 +559,6 @@ body.dark-mode .dark-mode-toggle label {
     border-color: #f652a0;
     color: #fff;
 }
-
 
 @media (max-width: 1024px) {
     .calendar-container {

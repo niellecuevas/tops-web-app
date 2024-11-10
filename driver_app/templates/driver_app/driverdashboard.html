@@ -28,8 +28,8 @@
                 <label for="darkModeToggle" class="dark-text">🌙 DarkMode</label>
             </div>
         </header>
-        <main>
-            <div class="sidebar">
+        <main class="dashboard-container">
+            <div class="sidebar" id="sidebar">
                 <div class="driver-account">
                     <h2 class="driveracc-title">Driver Account</h2>
                     <img src="{{ driver.file_upload.url }}" alt="Profile Picture">
@@ -48,7 +48,7 @@
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
-            <div class="content">
+            <div class="content" id="content">
                 <h2>Your Bookings</h2>
                 <div class="calendar-container">
                     <!-- Event List Sidebar -->
@@ -155,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+   
 
     // Render the calendar
     calendar.render();
@@ -162,18 +163,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         // JavaScript to handle dark mode toggle
-        const toggle = document.getElementById('darkModeToggle');
-        toggle.addEventListener('change', () => {
-            document.body.classList.toggle('dark-mode', toggle.checked);
-        });
+        // JavaScript to handle dark mode toggle
+const toggle = document.getElementById('darkModeToggle');
+
+// Check if dark mode was previously enabled from localStorage
+if (localStorage.getItem('dark-mode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true; // Set toggle to checked if dark mode is enabled
+} else {
+    document.body.classList.remove('dark-mode');
+    toggle.checked = false; // Ensure toggle is unchecked if dark mode is not enabled
+}
+
+// Toggle dark mode on checkbox change
+toggle.addEventListener('change', () => {
+    if (toggle.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('dark-mode', 'enabled'); // Save dark mode state
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.removeItem('dark-mode'); // Remove dark mode state from localStorage
+    }
+});
+
 
         //Hamburger Function
         function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     const dashboardContainer = document.querySelector('.dashboard-container');
-    sidebar.classList.toggle('closed');  // Toggle sidebar visibility
-    dashboardContainer.classList.toggle('sidebar-closed');  // Adjust content size
+    
+    // Toggle sidebar visibility
+    sidebar.classList.toggle('closed'); 
+    
+    // Adjust content size
+    dashboardContainer.classList.toggle('sidebar-closed'); 
+    
+    // Trigger FullCalendar resize after sidebar toggle
+    // Use jQuery to call the updateSize method
+    $('#calendar').fullCalendar('updateSize');
 }
+
+
+
+
 
 
     </script>
