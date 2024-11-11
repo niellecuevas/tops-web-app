@@ -1,6 +1,6 @@
 from admin_app.models import Driver
 from customer_app.models import CustomBooking, Van
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.http import JsonResponse
@@ -46,3 +46,13 @@ def driver_dashboard(request, driver_id):
     }
 
     return render(request, 'driver_app/driverdashboard.html', context)
+
+
+def drivermyvan(request, driver_id, van_id):
+    # Fetch the driver using the driver_id
+    driver = get_object_or_404(Driver, driver_id=driver_id)
+    
+    # Fetch the van associated with the specific driver and van_id
+    van = get_object_or_404(Van, id=van_id, driver=driver)  # Ensures the van belongs to the driver
+    
+    return render(request, 'driver_app/drivermyvan.html', {'driver': driver, 'van': van})

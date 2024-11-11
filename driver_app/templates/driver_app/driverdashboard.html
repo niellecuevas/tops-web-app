@@ -32,23 +32,23 @@
             <div class="sidebar" id="sidebar">
                 <div class="driver-account">
                     <h2 class="driveracc-title">Driver Account</h2>
-                    <img src="{{ driver.file_upload.url }}" alt="Profile Picture">
+                    <img src="{{ driver.file_upload.url }}" alt="Profile Picture" class="driver-img">
+                    <p><strong>Driver ID:</strong> {{ driver.driver_id }}</p>
                     <p><strong>Name:</strong> {{ driver.name }}</p>
-                    <p><strong>License Number:</strong> {{ driver.license }}</p>
-                    <p><strong>Van:</strong> {{ van.model }}</p>
                 </div>
                 <h3>Navigation</h3>
                 <a class="nav-item" href="{% url 'driver_dashboard' driver.driver_id %}">
                     <i class="fas fa-book"></i> Bookings
                 </a>
-                <a class="nav-item" href="">
-                    <i class="fas fa-camera"></i> Van Photos
+                <a class="nav-item" href="{% url 'drivermyvan' driver_id=driver.driver_id%}">
+                    <i class="fas fa-car"></i> My Vans
                 </a>
                 <a class="nav-item logout" href="{% url 'logout' %}">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
             <div class="content" id="content">
+                {% block content %}
                 <h2>Your Bookings</h2>
                 <div class="calendar-container">
                     <!-- Event List Sidebar -->
@@ -60,6 +60,7 @@
                     <!-- Calendar Section -->
                     <div id="calendar" class="calendar"></div>
                 </div>
+                {% endblock %}
             </div>
         </main>
     </div>

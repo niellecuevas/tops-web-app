@@ -1,0 +1,21 @@
+{% extends 'driver_app/driverdashboard.html' %}
+{% load static %}
+{% block content %}
+    <h1>Van Photos</h1>
+    <img src="{{ van.file_upload.url }}" alt="Van Image" class="van-image">
+    <h3>Model: {{ van.model }}</h3>
+    <p><strong>Plate:</strong> {{ van.plate }}</p>
+    <p><strong>Seats:</strong> {{ van.seats }}</p>
+    <!-- Add van photos here -->
+
+    <div class="driver-vans">
+        {% for van in driver.vans.all %}
+            <a href="{% url 'drivermyvan' driver_id=driver.driver_id van_id=van.id %}">
+                <p>View Van: {{ van.model }}</p>
+            </a>
+        {% empty %}
+            <p>No vans available for this driver.</p>
+        {% endfor %}
+    </div>
+    
+{% endblock %}
