@@ -82,25 +82,20 @@ WSGI_APPLICATION = 'tops_platform.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    ''''default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tops_db',
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '5432',
-    }'''
-
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'tops_db'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', '1234'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
+# Override the default database with Render's connection URL if available
+render_db_url = os.getenv('DATABASE_URL')  # Render sets DATABASE_URL in its environment
+if render_db_url:
+    DATABASES['default'] = dj_database_url.parse(render_db_url)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
