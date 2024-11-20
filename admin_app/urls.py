@@ -18,5 +18,4 @@ urlpatterns = [
     path('van_management/', views.van_management, name='van_management'),  
     path('vans/delete/<int:van_id>/', views.delete_van, name='delete_van'),
     path('destination/delete/<int:destination_id>/', views.delete_destination, name='delete_destination'),
-    path('create-superuser/', views.create_superuser, name='create-superuser'),
 ]
