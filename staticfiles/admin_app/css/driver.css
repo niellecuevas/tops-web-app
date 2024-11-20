@@ -1,0 +1,294 @@
+body{
+    font-family: sans-serif;
+}
+/* Container Styling */
+.driver-registration-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.registration-form {
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 800px;
+    width: 100%;
+}
+
+/* File Upload Section on the Left */
+.file-upload-container {
+    width: 200px; /* Square size */
+    background-color: #f7f9fc;
+    border-right: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.file-upload-label:hover {
+    background-color: #e0ebfa;
+}
+
+.upload-icon {
+    font-size: 36px;
+    color: #ce40b0;
+}
+
+h3 {
+    font-size: 16px;
+    color: #333;
+    margin-top: 8px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* Form Fields on the Right */
+.form-fields {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-fields label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.form-fields input[type="text"] {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ce40b0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #ec58cc;
+}
+
+/* Responsive Styling */
+@media (max-width: 600px) {
+    .registration-form {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .file-upload-container {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .form-fields {
+        width: 100%;
+    }
+}
+
+/* Input and Button Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="file"],
+button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+button {
+    background-color: #ce40b0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #357ABD;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Container Styling */
+.driver-list-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+/* Header */
+.driver-list-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Filter and Search Section */
+.filter-search {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.filter, .search {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Filter Dropdown */
+.filter label, .search label {
+    font-size: 14px;
+    color: #555;
+}
+
+select#sortDrivers, input#searchDriver {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Style for the upload image input in the modal */
+#updateDriverForm label[for="modal_file_upload"] {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Hidden file input styled as a button */
+#modal_file_upload {
+    display: none; /* Hide the default file input */
+}
+
+/* Custom upload button */
+.upload-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the upload button */
+.upload-btn:hover {
+    background-color: #45a049;
+}
+
+/* Style for displaying file name */
+#file-name-display {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}

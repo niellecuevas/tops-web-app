@@ -1,0 +1,83 @@
+<!-- static/data/terms_and_conditions.xml -->
+<terms>
+    <section title="Introduction">
+        <content><![CDATA[
+        GFS Travelista Tourist Transport Services - Terms and Conditions
+
+        GFS Travelista Tourist Transport Services provides transportation services between Puerto Princesa and El Nido, Palawan. We offer shared and private transport, as well as local transfers from or to Lio Airport and specific resorts or points within our service area. Additionally, we provide door-to-door transport, ensuring convenient pick-up and drop-off services right at your desired location within our service coverage.
+        By booking our services, you agree to comply with the following terms and conditions.
+        ]]></content>
+    </section>
+    
+    <section title="Booking and Reservations">
+        <item><![CDATA[All bookings must be made in advance through our authorized channels (website, phone, email, messenger or walk-in).]]></item>
+        <item><![CDATA[Reservation confirmation will be provided via email or message once payment has been made.]]></item>
+        <item><![CDATA[For shared transport, seat availability is on a first-come, first-served basis.]]></item>
+        <item><![CDATA[Special arrangements for private transport must be requested at the time of booking and are subject to availability.]]></item>
+    </section>
+    
+    <section title="Shared Transport Services">
+        <item><![CDATA[Guests must be at the designated pick-up point at least 10-15 minutes before the scheduled departure time.]]></item>
+        <item><![CDATA[GFS Travelista reserves the right to leave if a guest is not present at the pick-up point within this time window. No refund will be given in such cases.]]></item>
+        <item><![CDATA[We do not guarantee an exact arrival time as it may vary depending on traffic and weather conditions.]]></item>
+    </section>
+    
+    <section title="Private Transport Services">
+        <item><![CDATA[Private transport is available upon request for specific destinations within the service radar.]]></item>
+        <item><![CDATA[Pricing for private transport will vary depending on the distance, number of passengers, and any special requirements.]]></item>
+        <item><![CDATA[Full payment for private transfers must be made upon confirmation of the booking.]]></item>
+    </section>
+    
+    <section title="Local Town Transfers (Lio Airport - Resorts/Points)">
+        <item><![CDATA[We offer transfer services between Lio Airport and various resorts or points in El Nido.]]></item>
+        <item><![CDATA[Guests must provide full details of their flight and accommodation to ensure smooth service coordination.]]></item>
+    </section>
+    
+    <section title="Discounts">
+        <item><![CDATA[Senior Citizens (60 years and above): 20% discount (must present valid ID).]]></item>
+        <item><![CDATA[Persons with Disabilities (PWD): 20% discount (must present valid PWD ID).]]></item>
+        <item><![CDATA[Students: 10% discount (must present a valid student ID).]]></item>
+        <item><![CDATA[Children (2 years old and below): Free of charge when accompanied by a paying adult.]]></item>
+        <note><![CDATA[Discounts apply only to shared transport services and cannot be combined with other promotions or offers.]]></note>
+    </section>
+    
+    <section title="Changes and Cancellations">
+        <item><![CDATA[Shared transport: Cancellations or changes must be requested at least 24 hours before the scheduled pick-up time. Failure to do so may result in full charge with no refund.]]></item>
+        <item><![CDATA[Private transport: Changes or cancellations made within 48 hours of the scheduled service are subject to a cancellation fee of 50% of the total fare.]]></item>
+        <item><![CDATA[In the event of unforeseen circumstances (weather, road conditions, etc.), GFS Travelista reserves the right to reschedule or cancel trips for safety reasons. A full refund or alternative schedule will be provided.]]></item>
+    </section>
+    
+    <section title="Payment Terms">
+        <item><![CDATA[Payments can be made via credit card, bank transfer, or cash at designated locations.]]></item>
+        <item><![CDATA[Full payment must be made prior to the trip or upon confirmation for private services.]]></item>
+        <note><![CDATA[Prices are inclusive of taxes, but additional charges may apply for special requests (e.g., extra luggage, special pick-up points).]]></note>
+    </section>
+    
+    <section title="Passenger Responsibility">
+        <item><![CDATA[Guests are responsible for their personal belongings. GFS Travelista will not be liable for lost or damaged items during the trip.]]></item>
+        <item><![CDATA[Passengers must behave appropriately throughout the journey. We reserve the right to refuse service to individuals who exhibit inappropriate or unsafe behavior.]]></item>
+        <note><![CDATA[Smoking, consuming alcohol, or using illegal substances inside the vehicle is strictly prohibited.]]></note>
+    </section>
+    
+    <section title="Liability">
+        <item><![CDATA[GFS Travelista shall not be held responsible for delays caused by traffic, road conditions, weather, or other unforeseen circumstances.]]></item>
+        <note><![CDATA[Our liability is limited to the transportation services offered. We are not responsible for any missed flights, connections, or accommodation check-ins resulting from delays.]]></note>
+    </section>
+    
+    <section title="Health and Safety">
+        <item><![CDATA[All passengers are required to wear seat belts while in the vehicle.]]></item>
+        <item><![CDATA[For the safety and comfort of all guests, our vehicles are regularly maintained and sanitized.]]></item>
+        <note><![CDATA[In case of an emergency during the trip, passengers must follow the driver’s instructions.]]></note>
+    </section>
+    
+    <section title="Contact Information">
+        <contact><![CDATA[
+        For inquiries or concerns, please contact us:  
+        GFS Travelista Tourist Transport Services  
+        Address: Villa Libertad, El Nido, Palawan  
+        Phone: 0931-963-5690  
+        Email: travelistatransportservice@gmail.com  
+        Facebook Page: GFS Travelista  
+        ]]></contact>
+    </section>
+</terms>

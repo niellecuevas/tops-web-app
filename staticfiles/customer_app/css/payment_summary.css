@@ -1,0 +1,238 @@
+body {
+    font-family: 'Afacad Flux', sans-serif;
+    background-color: #ce40b0;
+    background-image: url('../../../../static/images/foggy-birds.png');
+    background-repeat: repeat;
+    background-size: auto;
+    margin: 0;
+    padding: 20px;
+    font-size: 16px; /* Base font size */
+}
+
+h2 {
+    font-family: 'Oswald', sans-serif;
+}
+.summary-section {
+    text-align: center; /* Center the content */
+}
+
+.imageVan {
+    max-width: 200px; /* Set a maximum width for the image */
+    height: auto; /* Maintain the aspect ratio */
+    display: block; /* Make the image a block element */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+.go-back-container {
+    text-align: right;
+    margin: 10px 0 20px; /* Combined margin settings */
+}
+
+.go-back, .book-now-btn {
+    background-color: #b6319e; /* Same color as Submit button */
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px; /* Increased font size */
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px; /* Added margin */
+}
+
+.book-now-btn:hover {
+    background-color: #ce40b0; 
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin-left: 50px;
+    margin-right: 50px;
+    gap: 5px; /* Space between Payment Form and Booking Summary */
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: stretch; /* Ensure full width of each child */
+    }
+
+    .payment-method,
+    .booking-summary {
+        width: 90%; /* Ensure both sections are full width */
+        margin-bottom: 20px; /* Add space between sections */
+    }
+
+    .payment-option-card {
+        width: 25%;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center;
+    }
+
+    .payment-logo{
+        max-width: 100%; /* Ensure the logo is responsive */
+        height: auto; /* Maintain aspect ratio */
+        align-items: center;
+    }
+}
+
+.payment-method, .booking-summary {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 4px solid #450154; /* Adding border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method h2,
+.booking-summary h2 {
+    color: #ce40b0;
+    font-size: 30px; /* Increased title font size */
+}
+
+/* Payment options styles */
+.payment-options {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allows wrapping to new lines if there's not enough space */
+}
+
+.payment-option {
+    text-align: center;
+    width: calc(33.33% - 20px); /* Adjust width to fit three cards with some margin */
+    margin-bottom: 20px; /* Space between rows */
+    margin-right: 10px; /* Space between cards */
+}
+
+.payment-option-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    background-color: #f9f9f9; /* Light background for better visibility */
+    flex: 1; /* Allow cards to take equal space */
+    margin: 10px; /* Keep margins consistent */
+}
+
+.payment-option-card.selected {
+    border-color: #4CAF50; /* Highlight the selected card */
+}
+
+.payment-option-card img {
+    width: 50px;
+    margin-right: 20px;
+}
+
+.payment-details {
+    display: none; /* Initially hide payment details */
+    margin-top: 20px;
+    border-top: 1px solid #ce40b0;
+    padding-top: 15px;
+    flex-direction: column; /* Stacks children vertically */
+    align-items: center; /* Centers items horizontally */
+    text-align: center; /* Centers text within the <p> */
+    margin: 20px 0; /* Optional: Adds some margin for spacing */
+}
+
+.payment-details img {
+    width: 120px; /* Set QR code image size */
+    height: 120px;
+    margin-bottom: 10px;
+}
+
+.payment-details p {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.qrcode {
+    max-width: 80%; /* Adjust size of the QR code */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+/* Input styles */
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 16px; /* Increased font size for input fields */
+    border: 1px solid #ce40b0;
+    border-radius: 4px;
+}
+
+/* Additional styling for COD, proof of payment, and terms */
+.cod-option,
+.proof-of-payment,
+.terms {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+/* Button styles */
+button.submit,
+button.go-back,
+.button.book-now-btn {
+    background-color: #b6319e; /* Same color for consistency */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px; /* Increased font size */
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Full width for better mobile usability */
+}
+
+button.submit:hover,
+button.go-back:hover {
+    background-color: #ce40b0; /* Same hover effect */
+}
+
+/* Booking summary styles */
+.booking-summary h2 {
+    font-size: 24px; /* Increased title font size */
+    text-align: center;
+}
+
+.reservation,
+.summary-item,
+.price,
+.summary-total p,
+.total {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.price {
+    color: #ce40b0;
+    font-weight: bold;
+}
+
+.total {
+    color: #ce40b0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Reference number fields for GCash and BPI */
+#gcash-reference label,
+#bpi-reference label {
+    font-size: 18px; /* Increased font size for reference labels */
+}
+
+/* Horizontal rules */
+hr {
+    border: none;
+    border-top: 1px solid #ccc; /* Style for horizontal rules */
+    margin: 10px 0; /* Spacing for hr */
+}
+
+
