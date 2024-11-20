@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path, include  # Import include
 from django.conf import settings
 from django.conf.urls.static import static
+from admin_app import views  
 
 urlpatterns = [
     path('admin/', admin.site.urls),                   # Default admin URL
     path('admin_app/', include('admin_app.urls')), 
     path('customer_app/', include('customer_app.urls')),  
     path('driver_app/', include('driver_app.urls')),
+    path('', views.admin_login, name='login'), 
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
