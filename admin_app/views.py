@@ -172,3 +172,17 @@ def delete_destination(request, destination_id):
 
     return redirect('destination')  # Redirect if not a POST request
 
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+
+def create_superuser(request):
+    # Check if superuser already exists
+    if not User.objects.filter(username='admin').exists():
+        # Create the superuser
+        User.objects.create_superuser(
+            username='gfsadmin',
+            email='raniella810@gmail.com',  # You can change this email if needed
+            password='gfsadmin'  # You can change the password to something more secure
+        )
+        return HttpResponse("Superuser created successfully.")
+    return HttpResponse("Superuser already exists.")
