@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', default='')
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,tops-platform.onrender.com").split(",")
 
 
 # Application definition
