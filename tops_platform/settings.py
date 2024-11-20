@@ -85,9 +85,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tops_db',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'USER': 'tops_db_user',
+        'PASSWORD': 'CC2U513iN9BAsMxvHNgARs3CkX7oCpkt',
+        'HOST': 'dpg-csu5hfdumphs738m9ldg-a.oregon-postgres.render.com',
         'PORT': '5432',
     }
 }
