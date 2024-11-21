@@ -172,3 +172,11 @@ def delete_destination(request, destination_id):
 
     return redirect('destination')  # Redirect if not a POST request
 
+
+from django.shortcuts import render
+from .analytics import process_booking_data
+
+def statistics_view(request):
+    file_path = 'media/datasets/final_data.csv'  # Specify the correct file path
+    destination_data = process_booking_data(file_path)  # Process data into a list of dictionaries
+    return render(request, 'admin_app/adminstatistics.html', {'destination_data': destination_data})

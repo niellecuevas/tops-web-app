@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('dashboard/', views.admin_dashboard, name='admin_dashboard'),  # Admin dashboard view        # View for bookings
-    path('statistics/', views.statistics, name='statistics'),          # View for statistics
+    path('statistics/', views.statistics_view, name='statistics'),          # View for statistics
     path('login/', views.admin_login, name='login'),  # Admin login view
     path('admin_logout/', views.logout, name='admin_logout'), 
     path('driver_management/', driver_management, name='driver_management'),
