@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'admin_app/css/admin_dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <div class="logo-container">
+                <span class="hamburger" onclick="toggleSidebar()">&#9776;</span> 
+                <h2 class="gfs-title">GFS Travelista</h2>
+            </div>
+            <div class="dark-mode-toggle">
+                <input type="checkbox" id="darkModeToggle">
+                <label for="darkModeToggle" class="dark-text">🌙 DarkMode</label>
+            </div>
+        </header>
+        <main class="dashboard-container">
+            <div class="sidebar" id="sidebar">
+                <div class="driver-account">
+                    <h2 class="driveracc-title"  id="pageTitle">Admin Dashboard</h2>
+                </div>
+                <h3>Navigation</h3>
+                <a class="nav-item nav-link" href="{% url 'statistics' %}"  data-title="Analytics">
+                    <i class="fas fa-book"></i> GFS Analytics
+                </a>
+                <a class="nav-item nav-link" href="{% url 'admin_bookings'%}"  data-title="Customer Bookings">
+                    <i class="fas fa-car"></i> Customer Bookings
+                </a>
+                <a class="nav-item nav-link" href="{% url 'driver_management' %}" data-title="Driver Management">
+                    <i class="fas fa-book"></i> Driver Management
+                </a>
+                <a class="nav-item nav-link" href="{% url 'van_management'%}" data-title="Van Management">
+                    <i class="fas fa-car"></i> Van Management
+                </a>
+                <a class="nav-item nav-link" href="{% url 'destination'%}" data-title="Destination Management">
+                    <i class="fas fa-car"></i> Destination Management
+                </a>
+                <a class="nav-item logout nav-link" href="{% url 'logout' %}" data-title="GFS Travelista">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            <div class="content" id="content">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // JavaScript to handle dark mode toggle
+const toggle = document.getElementById('darkModeToggle');
+
+// Check if dark mode was previously enabled from localStorage
+if (localStorage.getItem('dark-mode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true; // Set toggle to checked if dark mode is enabled
+} else {
+    document.body.classList.remove('dark-mode');
+    toggle.checked = false; // Ensure toggle is unchecked if dark mode is not enabled
+}
+
+// Toggle dark mode on checkbox change
+toggle.addEventListener('change', () => {
+    if (toggle.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('dark-mode', 'enabled'); // Save dark mode state
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.removeItem('dark-mode'); // Remove dark mode state from localStorage
+    }
+});
+
+
+        //Hamburger Function
+        function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const dashboardContainer = document.querySelector('.dashboard-container');
+    
+    // Toggle sidebar visibility
+    sidebar.classList.toggle('closed'); 
+    
+    // Adjust content size
+    dashboardContainer.classList.toggle('sidebar-closed'); 
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll(".nav-item"); // Select all navigation links
+    const pageTitle = document.querySelector(".driveracc-title"); // The title element
+
+    // Retrieve and set the title from localStorage on page load
+    const savedTitle = localStorage.getItem("pageTitle");
+    if (savedTitle) {
+        pageTitle.textContent = savedTitle;
+    }
+
+    // Update the title dynamically and save it to localStorage
+    navLinks.forEach(link => {
+        link.addEventListener("click", function () {
+            const newTitle = this.getAttribute("data-title"); // Get data-title value
+            localStorage.setItem("pageTitle", newTitle); // Save it in localStorage
+        });
+    });
+});
+
+
+
+
+
+    </script>
+</body>
+</html>

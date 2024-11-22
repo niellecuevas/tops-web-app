@@ -21,7 +21,7 @@ def admin_login(request):
 
 @login_required
 def admin_dashboard(request):
-    return render(request, 'admin_app/admindashboard.html')
+    return render(request, 'admin_app/admin_dashboard.html')
 
 @login_required
 def driver_management(request):

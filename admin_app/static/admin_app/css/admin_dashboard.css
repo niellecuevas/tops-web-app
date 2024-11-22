@@ -1,0 +1,245 @@
+/* driverdashboard.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-size: cover;
+}
+
+
+/* Main container with flex layout */
+main.dashboard-container {
+    display: flex;
+}
+
+
+header {
+    background-color: #ce40b0;
+    background-image: url('../../../../static/images/foggy-birds.png');
+    background-repeat: repeat;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.gfs-title{
+    margin-left: 10px;
+    color: white;
+}
+.dark-text{
+    color: white;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    width: 100px; /* Adjust size as needed */
+}
+
+
+main {
+    flex: 1;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    transition: transform 0.3s ease; /* Smooth transition for the sidebar */
+}
+
+/* Initially, hide the sidebar off-screen */
+.sidebar.closed {
+    transform: translateX(-100%); /* Move sidebar off screen */
+}
+
+/* Hamburger Menu */
+.hamburger {
+    font-size: 30px;
+    cursor: pointer;
+    display: block;
+    color: white;
+    margin-left: 0;
+
+}
+
+.driver-account {
+    text-align: center; /* Center-align text */
+    margin-bottom: 20px; /* Space below the account section */
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+}
+
+
+.driver-account h2 {
+    font-size: 24px; /* Font size for the header */
+    color: #f652a0; /* Change color to match the header */
+    margin-bottom: 10px; /* Space below the header */
+    margin-top: 8px;
+}
+
+.nav-item {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Icons next to the text */
+.nav-item i {
+    margin-right: 10px; /* Space between the icon and text */
+}
+
+
+.nav-item:hover {
+    background-color: #ce40b0;
+    color: #fff;
+}
+
+.logout {
+    color: #ce40b0;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    margin-left: 20px; /* Add space between sidebar and content */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is closed, shift content */
+.dashboard-container.sidebar-closed .content{
+    margin-left: 0; /* Move content to full width */
+}
+
+/* Adjust the layout when sidebar is closed on smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px; /* Make sidebar take full width on small screens */
+    }
+
+    .dashboard-container.sidebar-closed .content{
+        margin-left: -250px; /* Move content to full width */
+    }
+
+    .content {
+        margin-left: 0; /* No margin when sidebar is closed */
+    }
+
+}
+
+@media (max-width: 536px) {
+    .sidebar {
+        width: 250px; /* Make sidebar take full width on small screens */
+    }
+
+    .dashboard-container.sidebar-closed .content{
+        margin-left: -250px; /* Move content to full width */
+    }
+
+    .content {
+        margin-left: 0; /* No margin when sidebar is closed */
+    }
+
+}
+
+.content h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    margin-top: 8px;
+}
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+
+    .sidebar {
+        width: 100%; /* Full width for smaller screens */
+        padding: 15px;
+    }
+
+    .content {
+        margin-left: 0; /* No margin for smaller screens */
+    }
+
+    .driver-account h2 {
+        font-size: 20px; /* Smaller heading font size */
+    }
+
+}
+
+/* Add dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-mode header {
+    background-color: #1f1f1f;
+}
+
+.dark-mode .sidebar {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+.dark-mode .driver-account p {
+    color: #ffffff;
+}
+
+.dark-mode .driveracc-title{
+    color: #ffcc00 !important; 
+}
+
+.dark-mode .nav-item {
+    color: #ffffff;
+}
+
+.dark-mode .nav-item:hover {
+    background-color: #3a3a3a;
+}
+
+.dark-mode .content {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+
+
+/* Dark Mode Toggle Styles */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push toggle to the right */
+}
+
+.dark-mode-toggle input {
+    display: none; /* Hide the checkbox */
+}
+
+.dark-mode-toggle label {
+    cursor: pointer;
+    font-size: 24px; /* Adjust size of moon icon */
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+/* Optional: Style the toggle when dark mode is active */
+body.dark-mode .dark-mode-toggle label {
+    color: #ffcc00; /* Change color of the moon icon in dark mode */
+}

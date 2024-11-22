@@ -1,5 +1,5 @@
 <!-- adminstatistics.html -->
-{% extends 'admin_app/admindashboard.html' %}
+{% extends 'admin_app/admin_dashboard.html' %}
 {% block content %}
 <!DOCTYPE html>
 {% load static %}
@@ -15,8 +15,6 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="section-title">Van Management</h2>
-    
         <!-- Add a Van Section -->
         <h3>Add a Van</h3>
         <form method="POST" action="{% url 'van_management' %}" enctype="multipart/form-data">

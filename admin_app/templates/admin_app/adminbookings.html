@@ -1,9 +1,7 @@
 <!-- adminbookings.html -->
-{% extends 'admin_app/admindashboard.html' %}
+{% extends 'admin_app/admin_dashboard.html' %}
 {% load static %}
 {% block content %}
-<h1>Admin Bookings</h1>
-
 <link rel="stylesheet" type="text/css" href="{% static 'admin_app/css/adminbookings.css' %}">
 
 <form method="GET" action="{% url 'admin_bookings' %}">
