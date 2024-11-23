@@ -26,8 +26,6 @@ SECRET_KEY = os.getenv('SECRET_KEY', default='s3cr3t_k3y_for_d3v')
 
 DEBUG = True
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
 
@@ -43,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'admin_app',
     'customer_app',
     'driver_app',

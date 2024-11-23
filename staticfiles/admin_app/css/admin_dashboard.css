@@ -122,7 +122,7 @@ main {
 
 /* When sidebar is closed, shift content */
 .dashboard-container.sidebar-closed .content{
-    margin-left: -250px; /* Move content to full width */
+    margin-left: 0; /* Move content to full width */
 }
 
 /* Adjust the layout when sidebar is closed on smaller screens */

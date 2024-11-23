@@ -12,7 +12,7 @@ def admin_login(request):
 
         if user is not None:
             login(request, user)
-            return redirect('admin_bookings')
+            return redirect('statistics')
         else:
             error = 'Invalid username or password.'
             return render(request, 'admin_app/adminlogin.html', {'error': error})
@@ -172,11 +172,115 @@ def delete_destination(request, destination_id):
 
     return redirect('destination')  # Redirect if not a POST request
 
-
 from django.shortcuts import render
-from .analytics import process_booking_data
+import pandas as pd
+from prophet import Prophet
 
 def statistics_view(request):
-    file_path = 'media/datasets/final_data.csv'  # Specify the correct file path
-    destination_data = process_booking_data(file_path)  # Process data into a list of dictionaries
-    return render(request, 'admin_app/adminstatistics.html', {'destination_data': destination_data})
+    # Load CSV
+    df = pd.read_csv('media/datasets/FINAL_DATA.csv', names=['DATE', 'DESTINATION', 'PAX', 'AMOUNT', 'TOTAL', 'AGENCY'])
+    
+    # Remove header row if mixed
+    df = df[df['DATE'] != 'DATE']
+
+    # Handle invalid dates
+    df['DATE'] = pd.to_datetime(df['DATE'], format='%m/%d/%Y', errors='coerce')
+    df = df.dropna(subset=['DATE'])
+    
+    # Convert numeric columns
+    df['PAX'] = pd.to_numeric(df['PAX'], errors='coerce')
+    df['AMOUNT'] = pd.to_numeric(df['AMOUNT'], errors='coerce')
+    df['TOTAL'] = pd.to_numeric(df['TOTAL'], errors='coerce')
+
+    # Drop rows with invalid PAX or TOTAL
+    df = df.dropna(subset=['PAX', 'TOTAL'])
+
+    # Group bookings by month and destination
+    df['MONTH'] = df['DATE'].dt.to_period('M').dt.to_timestamp()
+    actual_data = df.groupby(['MONTH', 'DESTINATION'])['PAX'].sum().reset_index()
+
+    # Get top 10 destinations by total bookings
+    top_destinations = actual_data.groupby('DESTINATION')['PAX'].sum().nlargest(10).index
+    
+    # Rearrange top_destinations so that charts 5-10 appear first, followed by charts 1-4
+    reordered_destinations = top_destinations[4:].tolist() + top_destinations[:4].tolist()
+
+    # Define holidays (example: you can add more or use a holiday API)
+    holidays = pd.DataFrame({
+        'holiday': ['New Year', 'Christmas', 'Easter'],  # Example holidays
+        'ds': pd.to_datetime(['2024-01-01', '2024-12-25', '2024-04-09']),  # Example holiday dates (use the actual dates you need)
+        'lower_window': 0,  # Holiday effect starts on the holiday date
+        'upper_window': 1   # Holiday effect continues for one day after
+    })
+
+    # Initialize the forecasts dictionary to store forecast data
+    forecasts = {}
+
+    for destination in reordered_destinations:
+        # Actual data for this destination
+        dest_actual = actual_data[actual_data['DESTINATION'] == destination]
+        
+        # Prepare forecast data for this destination
+        dest_data = df[df['DESTINATION'] == destination]
+        prophet_df = pd.DataFrame({'ds': dest_data['DATE'], 'y': dest_data['PAX']}).sort_values('ds')
+
+        if not prophet_df.empty:
+            # Create and train the Prophet model
+            model = Prophet(yearly_seasonality=True, weekly_seasonality=True, holidays=holidays)
+            model.fit(prophet_df)
+
+            # Calculate the number of periods until the end of 2024
+            last_date = dest_data['DATE'].max()  # Get the latest date in the data
+            end_of_2024 = pd.to_datetime('2024-12-31')  # Define the end of 2024
+            periods = (end_of_2024 - last_date).days  # Calculate the number of days between the last date and 12/31/2024
+            
+            # Generate future dates for prediction until the end of 2024
+            future_dates = model.make_future_dataframe(periods=periods, freq='D')  # Ensure daily frequency for the prediction
+            forecast = model.predict(future_dates)
+
+            # Combine the forecasted dates and predicted passenger numbers
+            combined_data = [
+                {'date': date, 'forecasted_pax': pax}
+                for date, pax in zip(forecast['ds'].dt.strftime('%Y-%m-%d'), forecast['yhat'])
+            ]
+
+            # Store the forecast data in the forecasts dictionary
+            forecasts[destination] = {
+                'dates': forecast['ds'].dt.strftime('%Y-%m-%d').tolist(),  # Convert datetime to string
+                'yhat': forecast['yhat'].tolist(),  # Forecasted passenger numbers
+                'actual_data': {str(k): v for k, v in dest_actual.set_index('MONTH')['PAX'].to_dict().items()},  # Actual PAX for the destination
+                'combined_data': combined_data  # Combined list of date and forecasted pax
+            }
+
+    def calculate_total(row):
+        try:
+            if isinstance(row['AMOUNT'], str) and row['AMOUNT'].strip().upper() == 'PRIVATE':
+                return row['TOTAL']
+            else:
+                return row['PAX'] * row['AMOUNT']
+        except:
+            return 0  # Handle any errors gracefully
+
+    # Apply the calculation to each row
+    df['calculated_total'] = df.apply(calculate_total, axis=1)
+
+    # Group by DESTINATION for charts
+    destination_summary = df.groupby('DESTINATION').agg(
+        total_bookings=('PAX', 'count'),
+        total_passengers=('PAX', 'sum'),
+        total_revenue=('calculated_total', 'sum')
+    ).reset_index()
+
+    # Calculate total summary metrics for container boxes
+    total_bookings = df['PAX'].count()
+    total_passengers = df['PAX'].sum()
+    total_revenue = df['calculated_total'].sum()
+
+    # Pass the forecasts data to the HTML template
+    return render(request, 'admin_app/adminstatistics.html', {
+        'forecasts': forecasts,
+        'total_bookings': total_bookings,
+        'total_passengers': total_passengers,
+        'total_revenue': total_revenue,
+    })
+

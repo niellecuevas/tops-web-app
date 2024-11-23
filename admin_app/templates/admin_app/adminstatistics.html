@@ -1,92 +1,128 @@
 {% extends 'admin_app/admin_dashboard.html' %}
+{% load humanize %}
+
 {% block content %}
-<h1>Destination Analytics</h1>
-
-<!-- Canvas for Total Bookings -->
-<canvas id="totalBookingsChart" width="400" height="200"></canvas>
-
-<!-- Canvas for Total Passengers -->
-<canvas id="totalPassengersChart" width="400" height="200"></canvas>
-
-<!-- Canvas for Total Revenue -->
-<canvas id="totalRevenueChart" width="400" height="200"></canvas>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- Chart.js Library -->
-
-<script>
-    // Prepare the data for the charts
-    var destinationData = {
-        destinations: [{% for data in destination_data %}'{{ data.DESTINATION }}',{% endfor %}],
-        total_bookings: [{% for data in destination_data %}{{ data.total_bookings }},{% endfor %}],
-        total_passengers: [{% for data in destination_data %}{{ data.total_passengers }},{% endfor %}],
-        total_revenue: [{% for data in destination_data %}{{ data.total_revenue }},{% endfor %}]
-    };
-
-    // Total Bookings Chart
-    var ctx1 = document.getElementById('totalBookingsChart').getContext('2d');
-    var totalBookingsChart = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: destinationData.destinations,
-            datasets: [{
-                label: 'Total Bookings',
-                data: destinationData.total_bookings,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: { beginAtZero: true }
-            }
+<head>
+    <style>
+        .box {
+            width: 30%;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
-    });
-
-    // Total Passengers Chart
-    var ctx2 = document.getElementById('totalPassengersChart').getContext('2d');
-    var totalPassengersChart = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: destinationData.destinations,
-            datasets: [{
-                label: 'Total Passengers',
-                data: destinationData.total_passengers,
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                borderColor: 'rgba(153, 102, 255, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: { beginAtZero: true }
-            }
+        #charts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Space between the charts */
+        justify-content: space-around; /* Distribute space evenly */
         }
-    });
 
-    // Total Revenue Chart
-    var ctx3 = document.getElementById('totalRevenueChart').getContext('2d');
-    var totalRevenueChart = new Chart(ctx3, {
-        type: 'bar',
-        data: {
-            labels: destinationData.destinations,
-            datasets: [{
-                label: 'Total Revenue',
-                data: destinationData.total_revenue,
-                backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                borderColor: 'rgba(255, 159, 64, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: { beginAtZero: true }
-            }
+        .chart-container {
+            width: 20%; /* Adjust width to fit 3 charts per row */
+            min-width: 400px; /* Optional: Set a minimum width for responsiveness */
+            height: auto;
         }
-    });
-</script>
+
+        h3{
+            margin-bottom: 0;
+            color: #ce40b0;
+        }
+
+        #forecast-title{
+            margin-top: 0;
+            color: palevioletred;
+        }
+
+        h4{
+            color: palevioletred;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> <!-- Added date adapter -->
+</head>
+<!-- Total Analytics at the top -->
+<div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+    <div class="box">
+        <h3>Total Bookings</h3>
+        <p>{{ total_bookings }}</p>
+    </div>
+    <div class="box">
+        <h3>Total Passengers</h3>
+        <p>{{ total_passengers|floatformat:0 }}</p>
+    </div>
+    <div class="box">
+        <h3>Total Revenue (PHP)</h3>
+        <p>₱{{ total_revenue|floatformat:0|intcomma }}</p>
+    </div>
+</div>
+<h3 id="forecast-title">Forecast Analytics</h3>
+<div id="charts">
+    {% for destination, data in forecasts.items %}
+        <div class="chart-container">
+            <h4>Destination: {{ destination }}</h4>
+            <canvas id="chart-{{ forloop.counter }}"></canvas>
+        </div>
+
+        <script>
+            const ctx{{ forloop.counter }} = document.getElementById('chart-{{ forloop.counter }}').getContext('2d');
+            
+            const chartData{{ forloop.counter }} = {
+                datasets: [
+                    {
+                        label: 'Actual PAX',
+                        data: [
+                            {% for month, pax in data.actual_data.items %}
+                                {x: '{{ month }}', y: {{ pax }}},
+                            {% endfor %}
+                        ],
+                        borderColor: 'pink',
+                        backgroundColor: 'pink',
+                        showLine: true,
+                    },
+                    {
+                        label: 'Forecasted PAX',
+                        data: [
+                            {% for item in data.combined_data %}
+                                {x: '{{ item.date }}', y: {{ item.forecasted_pax }}},
+                            {% endfor %}
+                        ],
+                        borderColor: 'yellow',
+                        backgroundColor: 'yellow',
+                        showLine: true,
+                    }
+                ]
+            };
+
+            console.log(chartData{{ forloop.counter }}); // Debugging: check the data passed to the chart
+
+            new Chart(ctx{{ forloop.counter }}, {
+                type: 'scatter',  // You can change this to 'line' if you prefer a line chart
+                data: chartData{{ forloop.counter }},
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Passenger Forecast for {{ destination }}'
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            title: { display: true, text: 'Date' },
+                            type: 'time',  // Ensure this is treated as a time scale
+                            time: {
+                                unit: 'month',  // Adjust according to your data granularity
+                                tooltipFormat: 'll',
+                            }
+                        },
+                        y: { title: { display: true, text: 'PAX' } }
+                    }
+                }
+            });
+        </script>
+    {% endfor %}
+</div>
 
 {% endblock %}
