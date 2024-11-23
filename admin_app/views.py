@@ -178,7 +178,7 @@ from prophet import Prophet
 
 def statistics_view(request):
     # Load CSV
-    df = pd.read_csv('media/datasets/FINAL_DATA.csv', names=['DATE', 'DESTINATION', 'PAX', 'AMOUNT', 'TOTAL', 'AGENCY'])
+    df = pd.read_csv('media/datasets/final_data.csv', names=['DATE', 'DESTINATION', 'PAX', 'AMOUNT', 'TOTAL', 'AGENCY'])
     
     # Remove header row if mixed
     df = df[df['DATE'] != 'DATE']
