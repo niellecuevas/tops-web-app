@@ -1,5 +1,4 @@
-/* adminlogin.css */
-
+/* General Styling */
 body {
     background-color: #ce40b0;
     background-image: url('../../../../static/images/foggy-birds.png');
@@ -15,59 +14,128 @@ body {
 
 .container {
     display: flex;
-    width: 80%;
-    max-width: 1000px; /* Adjust max-width as needed */
-    height: 80%; /* Adjust height as needed */
-    background-color: white;
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    overflow: hidden; /* Ensures the image and content don’t overflow */
+    width: 70%;
+    max-width: 1000px;
+    height: 80%;
+    background: linear-gradient(to right, #ffffff, #ffe5f5); /* Subtle gradient */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
 }
 
-h2, label, input, button {
-    font-family: 'Roboto Condensed', sans-serif;
+/* Form Section */
+.form-section {
+    flex: 1;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    max-width: 40%;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    margin-top: 0;
+    font-size: 16px;
+    color: #666;
+}
+
+.input-group {
+    width: 100%;
+    margin-bottom: 5px; /* Reduced margin between input fields */
+}
+
+label {
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    display: inline-block;
+}
+
+input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+input:focus {
+    outline: none;
+    border-color: #ce40b0; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(206, 64, 176, 0.6); /* Soft glow effect */
 }
 
 button {
+    width: 100%;
     background-color: #ce40b0;
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 12px 20px;
     font-size: 16px;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-top: 15px; /* Reduced margin between input fields and button */
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 button:hover {
     background-color: #b6319e;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(206, 64, 176, 0.3);
 }
 
-.logo {
-    max-width: 70%; /* Ensure the logo fits within the container */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 20px; /* Space between the logo and the heading */
-}
-
-.form-section {
-    flex: 1; /* Takes up half of the container */
-    padding: 20px;
-    padding-left: 40px; /* Larger padding on the left */
-    padding-right: 40px; /* Larger padding on the right */
-    box-sizing: border-box; /* Ensures padding is included in the width */
-    text-align: center;
-}
-
+/* Image Section */
 .image-section {
-    flex: 1; /* Takes up half of the container */
+    flex: 1;
     display: flex;
-    justify-content: center; /* Center the image horizontally */
-    align-items: center; /* Center the image vertically */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f8f8f8;
 }
 
 .image-section img {
-    width: 100%; /* Ensure the image takes up 100% of the section’s width */
-    height: 100%; /* Ensure the image takes up 100% of the section’s height */
-    object-fit: cover; /* Cover the section without stretching */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 15px 15px 0;
 }
 
+/* Error Message Animation */
+.error {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 15px;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}

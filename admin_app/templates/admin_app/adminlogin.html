@@ -10,24 +10,31 @@
 </head>
 <body>
     <div class="container">
-        <div class="form-section">
+        <!-- Form Section -->
+        <div class="form-section animate-fade-in">
             <img src="{% static 'images/capstoneLogoB.png' %}" alt="Capstone Logo" class="logo">
-            <h2>Admin Login</h2>
+            <h2>Welcome Back, Admin</h2>
+            <p class="subtitle">Log in to manage your system efficiently</p>
 
-            <!-- Display error message if there is one -->
             {% if error %}
-                <div class="error">{{ error }}</div>
+                <div class="error animate-shake">{{ error }}</div>
             {% endif %}
 
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
-                <label for="adminid">Admin ID:</label>
-                <input type="text" id="username" name="username" required><br><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required><br><br>
-                <button type="submit">Login</button>
+                <div class="input-group">
+                    <label for="username">Admin ID:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter Admin ID" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
             </form>
         </div>
+
+        <!-- Image Section -->
         <div class="image-section">
             <img src="{% static 'images/mariovon1.jpg' %}" alt="Decorative Image">
         </div>
