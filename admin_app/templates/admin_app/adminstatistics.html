@@ -38,6 +38,17 @@
         h4{
             color: palevioletred;
         }
+
+
+        body.dark-mode .box {
+            background-color: #717171;
+            border-color: #8b8b8b;
+            color: #ffffff;
+        }
+
+        body.dark-mode h3, body.dark-mode h4 {
+            color: #fff; /* Change heading colors */
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> <!-- Added date adapter -->
@@ -57,7 +68,7 @@
         <p>₱{{ total_revenue|floatformat:0|intcomma }}</p>
     </div>
 </div>
-<h3 id="forecast-title">Forecast Analytics</h3>
+<h3 id="forecast-title">Forecast Analytics By Destination</h3>
 <div id="charts">
     {% for destination, data in forecasts.items %}
         <div class="chart-container">
@@ -121,6 +132,8 @@
                     }
                 }
             });
+
+            
         </script>
     {% endfor %}
 </div>

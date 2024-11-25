@@ -5,6 +5,7 @@ body {
     padding: 0;
     font-family: 'Roboto Condensed', sans-serif;
     background-size: cover;
+    overflow: hidden;
 }
 
 
@@ -18,13 +19,15 @@ header {
     background-color: #ce40b0;
     background-image: url('../../../../static/images/foggy-birds.png');
     background-repeat: repeat;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
+    height: auto;
+    padding: 5px;
 }
 
-.gfs-title{
-    margin-left: 10px;
+.gfs-title {
+    position: absolute; /* Center the title absolutely */
+    left: 50%; /* Start at 50% from the left */
+    transform: translateX(-50%); /* Shift the title left to truly center it */
+    font-size: 20px; /* Adjust the font size if necessary */
     color: white;
 }
 .dark-text{
@@ -32,8 +35,11 @@ header {
 }
 
 .logo-container {
-    display: flex;
-    align-items: center;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Distribute space between elements */
+    position: relative; /* Allow positioning for absolute elements */
+    padding: 0 20px; /* Add padding for spacing */
 }
 
 .logo-container img {
@@ -58,11 +64,12 @@ main {
 /* Initially, hide the sidebar off-screen */
 .sidebar.closed {
     transform: translateX(-100%); /* Move sidebar off screen */
+    margin-left: -290px;
 }
 
 /* Hamburger Menu */
 .hamburger {
-    font-size: 30px;
+    font-size: 25px;
     cursor: pointer;
     display: block;
     color: white;
@@ -110,8 +117,12 @@ main {
     color: #ce40b0;
 }
 
+
+
 .content {
     flex: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
     padding: 20px;
     background-color: #ffffff;
     margin-left: 20px; /* Add space between sidebar and content */

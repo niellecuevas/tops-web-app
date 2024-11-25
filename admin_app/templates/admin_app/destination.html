@@ -15,13 +15,8 @@
 </head>
 <body>
     <div class="container">
-    
-        <!-- Add a Van Section -->
-        <h3>Add Destination
-        </h3>
-        <form method="POST" action="{% url 'destination' %}" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'destination' %}" enctype="multipart/form-data" class="registration-form">
             {% csrf_token %}
-            <div class="upload-files-container">
                 <!-- File Upload Section -->
                 <div class="file-upload-container">
                     <label for="file_upload" class="file-upload-label">
@@ -35,31 +30,18 @@
                         <span id="file-name"></span>
                     </div>
                 </div>
-                <!-- Submit Button -->
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Add Destination</button>
-                </div>
-                <!-- Destination Management Form Section -->
-                <div class="form-container">
                     <!-- Destination 1 Field -->
                     <div class="form-group">
                         <label for="destination1">Destination 1:</label>
                         <input type="text" id="destination1" name="destination1" value="{{ form.destination1.value }}" required>
-                    </div>
-        
-                    <!-- Destination 2 Field -->
-                    <div class="form-group">
+                   
                         <label for="destination2">Destination 2:</label>
                         <input type="text" id="destination2" name="destination2" value="{{ form.destination2.value }}" required>
-                    </div>
-        
-                    <!-- Transportation Fee Field -->
-                    <div class="form-group">
+                   
                         <label for="transportationfee">Transportation Fee:</label>
                         <input type="number" id="transportationfee" name="transportationfee" value="{{ form.transportationfee.value }}" required>
+                        <button type="submit" class="btn btn-primary">Add Destination</button>
                     </div>                        
-                </div>
-            </div> 
         </form>
         
         

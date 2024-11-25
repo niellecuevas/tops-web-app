@@ -1,43 +1,61 @@
 
 .container {
-    width: 80%;
-    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    margin-top: 20px;
 }
+
+/* Header */
+.container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
 .section-title {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-.upload-files-container {
-    background-color: #f8fef8;
-    width: 100%; /* Set width to 100% */
-    height: auto; /* Set height to 200px */
-    padding: 10px; /* Keep padding */
-    border-radius: 10px; /* Keep border-radius */
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 5px; /* Soft shadow */
-    overflow: hidden; /* Hide overflow for better appearance */
-    position: relative; /* Allows child positioning */
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 .file-upload-container {
-    width: 150px;
-    height: auto;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
+    width: 200px; /* Square size */
+    background-color: #f7f9fc;
+    border-right: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     padding: 20px;
-    text-align: center;
-    cursor: pointer;
 }
 
 .file-upload-label {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.file-upload-label:hover {
+    background-color: #e0ebfa;
 }
 
 .upload-icon {
-    font-size: 48px;
-    color: #888;
+    font-size: 36px;
+    color: #ce40b0;
+}
+
+h3 {
+    font-size: 16px;
+    color: #333;
+    margin-top: 8px;
 }
 
 .browse-files-text {
@@ -51,40 +69,37 @@ input[type="file"]{
     display: none;
 }
 
-.form-container {
-    background-color: #f0f4f0;
-    width: 400px; /* Set width to 100% */
-    height: 300px; /* Set height to 200px */
-    padding: 20px; /* Keep padding */
-    overflow: hidden; /* Hide overflow for better appearance */
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
+.registration-form {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    max-width: 800px;
+    width: 100%;
 }
 
 .form-group {
+    padding: 20px;
+    flex: 1;
     display: flex;
-    align-items: center; /* Aligns label and input vertically */
-    margin-bottom: 10px; /* Space between form groups */
+    flex-direction: column;
 }
 
 .form-group label {
-    flex: 0 0 100px; /* Fixed width for labels */
-    margin-right: 10px; /* Space between label and input */
-    font-size: 12px; /* Smaller font size for labels */
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
 }
 
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group select {
-    border: 2px solid #ce40b0; /* Box border */
-    border-radius: 5px; /* Rounded corners for the input box */
-    padding: 5px; /* Padding inside the input */
-    flex: 1; /* Allows the input to take the remaining space */
-    outline: none; /* Remove outline on focus */
-    font-size: 12px; /* Smaller font size for inputs */
-    min-width: 0; /* Prevents overflow by ensuring the box fits */
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group input[type="text"]:focus,
@@ -94,24 +109,19 @@ input[type="file"]{
 }
 
 .form-group button {
-    background-color: #ce40b0; /* Background color */
-    width: 195px;
-    color: #fff; /* Text color */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    margin: 10px;
-    margin-left: 0;
-    padding: 10px 20px; /* Padding for a better size */
-    font-size: 14px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s, transform 0.3s; /* Transition for hover effects */
-    outline: none; /* Remove outline on focus */
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ce40b0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 /* Hover effect */
 .form-group button:hover {
-    background-color: #6a1b9a; /* Darker shade on hover */
-    transform: translateY(-2px); /* Slightly lift the button on hover */
+    background-color: #ec58cc;
 }
 
 /* Active effect */
@@ -125,6 +135,7 @@ input[type="file"]{
     background-color: #c1c1c1; /* Gray color for disabled */
     cursor: not-allowed; /* Change cursor to not-allowed */
 }
+
 
 
 /* Media Queries for Responsive Design */
