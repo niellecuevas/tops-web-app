@@ -12,9 +12,13 @@ html {
 
 
 body {
-  font-family: "Afacad Flux", sans-serif;
+  font-family: "Inclusive Sans", sans-serif;
   margin: 0;
 
+}
+
+p {
+  font-family: 'Inclusive Sans', sans-serif;
 }
 
 nav {
@@ -135,7 +139,7 @@ a:hover {
   background-color: #f0f0f0;
   padding: 20px 0;
   text-align: center;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Gabarito", sans-serif;
 }
 
 .stat-item {
@@ -159,7 +163,7 @@ a:hover {
 
 
 .booking-text {
-  font-family: "Afacad Flux", sans-serif;
+  font-family: "Inclusive Sans", sans-serif;
   text-align: center; /* Center text */
   margin: 20px 0;
   margin-top: 40px;
@@ -193,14 +197,14 @@ a:hover {
 }
 .van-details {
   padding: 15px;
-  font-family: "Afacad Flux", sans-serif; /* Apply Oswald font */
+  font-family: "Inclusive Sans", sans-serif;
 }
 .book-btn {
   padding: 10px;
   text-align: center;
 }
 .book-btn button {
-  font-family: "Afacad Flux";
+  font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0;
   color: white;
   border: none;
@@ -249,7 +253,7 @@ a:hover {
 }
 
 .custom-booking {
-  font-family: "Afacad Flux"; /* Custom font */
+  font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0; /* Button background color */
   color: white; /* Button text color */
   padding: 10px 20px; /* Button padding */
@@ -355,11 +359,11 @@ a:hover {
 .switch-btn {
   text-align: center; /* Center the text within the div */
   margin-top: 5px; /* Space above the switch button */
-  font-family:"Afacad Flux" ;
+  font-family:"Inclusive Sans", sans-serif;
 }
 
 .switch-btn button {
-  font-family:"Afacad Flux" ;
+  font-family:"Inclusive Sans", sans-serif;
   background: none; /* Remove background */
   border: none; /* Remove border */
   color: darkpink; /* Set text color to dark pink */
