@@ -46,16 +46,18 @@ main {
     display: flex;
 }
 
+/* Sidebar default styling */
 .sidebar {
     width: 250px;
     background-color: #ffffff;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     height: 100vh;
-    transition: transform 0.3s ease; /* Smooth transition for the sidebar */
+    transition: width 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth slide effect */
+    overflow: hidden; /* Hide content when collapsed */
 }
 
-/* Initially, hide the sidebar off-screen */
+/* Sidebar hidden off-screen when closed (for mobile) */
 .sidebar.closed {
     transform: translateX(-100%); /* Move sidebar off screen */
 }
@@ -123,19 +125,26 @@ main {
     color: #ce40b0;
 }
 
+/* Content container */
 .content {
     flex: 1;
     padding: 20px;
     background-color: #ffffff;
-    margin-left: 20px; /* Add space between sidebar and content */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: margin-left 0.3s ease;
+    transition: margin-left 0.3s ease, width 0.3s ease; /* Smooth transition for content */
 }
 
-/* When sidebar is closed, shift content */
-.dashboard-container.sidebar-closed .content{
-    margin-left: -250px; /* Move content to full width */
+/* Sidebar closed */
+.dashboard-container.sidebar-closed .sidebar {
+    width: 0; /* Sidebar completely hidden */
+    transform: translateX(-100%); /* Slide it out of view */
+}
+
+/* When the sidebar is closed, content should take full width */
+.dashboard-container.sidebar-closed .content {
+    margin-left: 0; /* Move content to take full width */
+    width: 100%; /* Content occupies full width on mobile */
 }
 
 /* Adjust the layout when sidebar is closed on smaller screens */
@@ -154,21 +163,31 @@ main {
 
 }
 
-@media (max-width: 536px) {
+/* Mobile responsiveness */
+@media (max-width: 768px) {
     .sidebar {
-        width: 250px; /* Make sidebar take full width on small screens */
+        position: absolute; /* Sidebar slides over content on mobile */
+        z-index: 10; /* Ensure it's above other content */
+        height: 100%; /* Full height on mobile */
+        width: 270px; /* Mobile sidebar width */
+        background-color: #ffffff;
+        transform: translateX(0); /* Default visible position */
+        transition: transform 0.3s ease-in-out, width 0.3s ease-in-out; /* Smooth transitions */
     }
 
-    .dashboard-container.sidebar-closed .content{
-        margin-left: -250px; /* Move content to full width */
+    .dashboard-container.sidebar-closed .sidebar {
+        transform: translateX(-270px); /* Slide sidebar out of view */
     }
 
     .content {
-        margin-left: 0; /* No margin when sidebar is closed */
+        width: 100%; /* Content fills the entire screen */
+        margin-left: 0 !important; /* No unnecessary margins */
     }
 
+    .calendar {
+        width: 100% !important; /* Ensure the calendar stretches properly */
+    }
 }
-
 .content h2 {
     font-size: 28px;
     margin-bottom: 20px;
@@ -482,16 +501,17 @@ body.dark-mode .dark-mode-toggle label {
     box-sizing: border-box;
 }
 
-/* When the sidebar is closed, increase the width of the calendar */
-.sidebar.closed + .calendar {
-    width: fit-content; /* Adjust this value based on your sidebar width */
-}
-
-/* When the sidebar is open, make sure the calendar shrinks accordingly */
+/* Sidebar open: Calendar adjusts to make room for sidebar */
 .sidebar.open + .calendar {
-    width: fit-content ; /* Adjust this value based on your sidebar width */
+    width: calc(100% - 250px); /* Adjust for sidebar width */
+    transition: width 0.3s ease-in-out;
 }
 
+/* Sidebar closed: Calendar occupies full width */
+.sidebar.closed + .calendar {
+    width: 100%;
+    transition: width 0.3s ease-in-out;
+}
 
 /* Toolbar and Button Styling */
 .fc .fc-toolbar {
