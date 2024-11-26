@@ -2,6 +2,8 @@
 {% extends 'admin_app/admin_dashboard.html' %}
 {% load static %}
 {% block content %}
+
+<div class="container">
 <link rel="stylesheet" type="text/css" href="{% static 'admin_app/css/adminbookings.css' %}">
 
 <form method="GET" action="{% url 'admin_bookings' %}">
@@ -47,5 +49,5 @@
         {% endfor %}
     </tbody>
 </table>
-
+</div>
 {% endblock %}

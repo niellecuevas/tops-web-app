@@ -8,42 +8,38 @@
 </head>
 <body>
     <!-- Driver Registration Form -->
-    <div class="form-container">
-        <h2>Register a Driver</h2>
-        <div class="driver-registration-container">
-            <form method="POST" class="registration-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <!-- Left Side: File Upload -->
-                <div class="file-upload-container">
-                    <label for="file_upload_original" class="file-upload-label">
-                        <span class="material-icons-outlined upload-icon">file_upload</span>
-                        <h3>Upload an Image</h3>
-                        <input type="file" id="file_upload_original" name="file_upload" accept="image/*">
-                    </label>
-                    <!-- Display File Name -->
-                    <div id="file-info-original" style="display: none;">
-                        <span id="file-name-original"></span>
-                    </div>
-                    
-                </div>
-                
-                <!-- Right Side: Form Fields -->
-                <div class="form-fields">
-                    <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-                    {{ form.name }}
-                
-                    <label for="{{ form.license.id_for_label }}">{{ form.license.label }}</label>
-                    {{ form.license }}
-                    
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    
 
    <!-- Driver List Container -->
 <div class="driver-list-container">
+    <form method="POST" class="registration-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Left Side: File Upload -->
+        <div class="file-upload-container">
+            <label for="file_upload_original" class="file-upload-label">
+                <span class="material-icons-outlined upload-icon">file_upload</span>
+                <h3>Upload an Image</h3>
+                <input type="file" id="file_upload_original" name="file_upload" accept="image/*">
+            </label>
+            <!-- Display File Name -->
+            <div id="file-info-original" style="display: none;">
+                <span id="file-name-original"></span>
+            </div>
+            
+        </div>
+        
+        <!-- Right Side: Form Fields -->
+        <div class="form-fields">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+        
+            <label for="{{ form.license.id_for_label }}">{{ form.license.label }}</label>
+            {{ form.license }}
+            
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
     <h2>List of Registered Drivers</h2>
     
     <!-- Filter and Search Section -->

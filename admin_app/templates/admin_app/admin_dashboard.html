@@ -17,9 +17,9 @@
         <header>
             <div class="logo-container">
                 <span class="hamburger" onclick="toggleSidebar()">&#9776;</span> 
-                <h2 class="gfs-title">GFS Travelista</h2>
+                <h1 class="gfs-title">GFS Travelista</h1>
             </div>
-            <div class="dark-mode-toggle">
+            <div class="dark-mode-toggle" style="display: none;">
                 <input type="checkbox" id="darkModeToggle">
                 <label for="darkModeToggle" class="dark-text">🌙 DarkMode</label>
             </div>
@@ -31,19 +31,19 @@
                 </div>
                 <h3>Navigation</h3>
                 <a class="nav-item nav-link" href="{% url 'statistics' %}"  data-title="Analytics">
-                    <i class="fas fa-book"></i> GFS Analytics
+                    <i class="fa-solid fa-chart-line"></i> GFS Analytics
                 </a>
                 <a class="nav-item nav-link" href="{% url 'admin_bookings'%}"  data-title="Customer Bookings">
-                    <i class="fas fa-car"></i> Customer Bookings
+                    <i class="fas fa-book"></i> Customer Bookings
+                </a>
+                <a class="nav-item nav-link" href="{% url 'destination'%}" data-title="Destination Management">
+                    <i class="fa-solid fa-location-dot"></i> Destination Management
                 </a>
                 <a class="nav-item nav-link" href="{% url 'driver_management' %}" data-title="Driver Management">
-                    <i class="fas fa-book"></i> Driver Management
+                    <i class="fa-solid fa-id-card"></i> Driver Management
                 </a>
                 <a class="nav-item nav-link" href="{% url 'van_management'%}" data-title="Van Management">
                     <i class="fas fa-car"></i> Van Management
-                </a>
-                <a class="nav-item nav-link" href="{% url 'destination'%}" data-title="Destination Management">
-                    <i class="fas fa-car"></i> Destination Management
                 </a>
                 <a class="nav-item logout nav-link" href="{% url 'admin_logout' %}" data-title="GFS Travelista">
                     <i class="fas fa-sign-out-alt"></i> Logout
