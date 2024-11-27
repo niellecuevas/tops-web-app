@@ -33,16 +33,35 @@
         </ul>
     </nav>
 
-        <div id = "home" class="bookinginfo-container">
-            <div class="booking-id-section">
-                <label for="booking-id" class="booking-id-label">Enter your booking ID:</label>
-                <input type="text" id="booking-id" class="booking-id-input" placeholder="Enter ID here...">
-                <button class="submit-booking-id">SUBMIT</button>
-            </div>           
+    <div class="booking-id-section">
+        <label for="booking-id" class="booking-id-label">Enter your booking ID:</label>
+        <input type="text" id="booking-id" class="booking-id-input" placeholder="Enter ID here...">
+        <button class="submit-booking-id">SUBMIT</button>
+    </div>  
+
+        <div id = "home" class="bookinginfo-container"> 
+              <!-- Search Results -->
+              <h2 class="bookinginfo-title">Search Results</h2>
+                <p><strong>Destination:</strong> <span id="destination">--</span></p>
+                <p><strong>Starting Point:</strong> <span id="starting-point">--</span></p>
+                <p><strong>Transportation Fee:</strong> ₱<span id="transportation-fee">--</span></p>
+                <p><strong>Date and Time:</strong> <span id="date-time">--</span></p>
+
+                <h3>Personal Information</h3>
+                <p><strong>Full Name:</strong> <span id="full-name">--</span></p>
+                <p><strong>Contact No:</strong> <span id="contact-no">--</span></p>
+                <p><strong>No. of Passengers:</strong> <span id="passengers">--</span></p>
+                <p><strong>Additional Notes:</strong> <span id="notes">--</span></p>
+                <p><strong>Round Trip:</strong> <span id="round-trip">--</span></p>
+
+                <h3>Total Amount</h3>
+                <p><strong>Package Price:</strong> ₱<span id="package-price">--</span></p>
+                <p><strong>Mode of Payment:</strong> <span id="payment-mode">--</span></p>
+            <!-- Search Results End -->
         </div>
 
-  
+<div>
     {% include 'customer_app/footer.html' %}
- 
+</div>
 </body>
 </html>
