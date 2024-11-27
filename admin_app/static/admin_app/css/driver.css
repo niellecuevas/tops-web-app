@@ -92,7 +92,7 @@ input[type="file"] {
     transition: background-color 0.3s;
 }
 
-.btn-primary:hover {
+.btn-primary:hover button{
     background-color: #ec58cc;
 }
 
@@ -119,46 +119,45 @@ input[type="file"] {
     margin-bottom: 15px;
 }
 
-input[type="text"],
-input[type="file"],
-button {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-}
-
-button {
-    background-color: #ce40b0;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px;
-}
-
-button:hover {
-    background-color: #357ABD;
-}
-
 /* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 12px;
-    text-align: left;
+table, th, td {
+    border: 1px solid #ddd;
 }
-
+th, td {
+    padding: 10px;
+    text-align: center;
+}
 th {
     background-color: #f2f2f2;
 }
+
+.btndelete {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.updateBTN {
+    background-color: #ce40b0;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.updateBTN:hover button{
+    background-color: #ec58cc;
+}
+
 
 tbody tr:hover {
     background-color: #f1f1f1;

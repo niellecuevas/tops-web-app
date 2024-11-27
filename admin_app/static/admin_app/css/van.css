@@ -195,3 +195,103 @@ th {
     border: none;
     border-radius: 5px;
 }
+
+/* Modal background (Backdrop) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scrolling if the modal is too large */
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+    padding-top: 20px;
+    transition: opacity 0.4s ease; /* Smooth transition for backdrop */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 10px;
+    opacity: 0; /* Initially invisible */
+    transform: scale(0.7); /* Initially small (zoomed-out) */
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Animation for scale and opacity */
+}
+
+/* Show the modal with zoom-in and fade-in animation */
+.modal.show .modal-content {
+    opacity: 1; /* Fade in */
+    transform: scale(1); /* Zoom in */
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.updateBTN {
+    background-color: #ce40b0;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    padding: 5px;
+    cursor: pointer;
+}
+
+/* Modal form input adjustments */
+.modal .form-group input[type="text"],
+.modal .form-group input[type="number"],
+.modal .form-group select {
+    margin-top: 0; /* Reduce margin-top for inputs */
+}
+
+.modal .form-group {
+    margin-bottom: 0; /* Adjust bottom margin */
+}
+
+/* Button Styling in Modal */
+.modal .form-group button[type="submit"] {
+    background-color: #ce40b0; /* Primary color */
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s ease-in-out;
+    width: 100%; /* Make the button full-width if you prefer */
+    margin-top: 15px; /* Add top margin for spacing */
+}
+
+/* Hover Effect */
+.modal .form-group button[type="submit"]:hover {
+    background-color: #ec58cc; /* Lighten the button color on hover */
+}
+
+/* Active Effect */
+.modal .form-group button[type="submit"]:active {
+    background-color: #4a0072; /* Darker shade when clicked */
+    transform: translateY(2px); /* Slightly push down on click */
+}
+
+/* Disabled Button State */
+.modal .form-group button[type="submit"]:disabled {
+    background-color: #c1c1c1;
+    cursor: not-allowed;
+}

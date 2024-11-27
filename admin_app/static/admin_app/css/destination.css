@@ -187,6 +187,7 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+
 .btndelete {
     background-color: #dc3545;
     color: white;
@@ -195,3 +196,13 @@ th {
     border: none;
     border-radius: 5px;
 }
+
+.updateBTN {
+    background-color: #ce40b0;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    padding: 5px;
+    cursor: pointer;
+}
+

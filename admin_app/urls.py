@@ -15,7 +15,10 @@ urlpatterns = [
     path('destination/', views.destination, name='destination'), 
     path('admin_bookings/', admin_bookings, name='admin_bookings'),
     path('update-driver/', views.updateDriverForm, name='update_driver'),
+    path('driver_management/delete/<str:driver_id>/', views.delete_driver, name='delete_driver'),
     path('van_management/', views.van_management, name='van_management'),  
     path('vans/delete/<int:van_id>/', views.delete_van, name='delete_van'),
+    path('vans/update/<int:van_id>/', views.update_van, name='update_van'),
+    path('destination/update/<int:destination_id>/', views.update_destination, name='update_destination'),
     path('destination/delete/<int:destination_id>/', views.delete_destination, name='delete_destination'),
 ]

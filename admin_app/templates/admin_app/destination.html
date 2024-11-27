@@ -1,4 +1,3 @@
-<!-- adminstatistics.html -->
 {% extends 'admin_app/admin_dashboard.html' %}
 {% block content %}
 <!DOCTYPE html>
@@ -9,15 +8,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Van Management</title>
     <link rel="stylesheet" href="{% static 'admin_app/css/destination.css' %}">
-    <!-- Include SweetAlert CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <style>
+        /* Modal background (Backdrop) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scrolling if the modal is too large */
+            background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+            padding-top: 60px;
+            transition: opacity 0.4s ease; /* Smooth transition for backdrop */
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 10px;
+            opacity: 0; /* Initially invisible */
+            transform: scale(0.7); /* Initially small (zoomed-out) */
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Animation for scale and opacity */
+        }
+
+        /* Show the modal with zoom-in and fade-in animation */
+        .modal.show .modal-content {
+            opacity: 1; /* Fade in */
+            transform: scale(1); /* Zoom in */
+        }
+
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .updateBTN {
+            background-color: #ce40b0;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            padding: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <form method="POST" action="{% url 'destination' %}" enctype="multipart/form-data" class="registration-form">
             {% csrf_token %}
-                <!-- File Upload Section -->
                 <div class="file-upload-container">
                     <label for="file_upload" class="file-upload-label">
                         <span class="material-icons-outlined upload-icon">file_upload</span>
@@ -25,32 +81,25 @@
                         <input type="file" id="file_upload" name="file_upload" accept="image/*" required>
                         <span class="browse-files-text"></span>
                     </label>
-                    <!-- File name display -->
                     <div id="file-info" style="display:none;">
                         <span id="file-name"></span>
                     </div>
                 </div>
-                    <!-- Destination 1 Field -->
-                    <div class="form-group">
-                        <label for="destination1">Destination 1:</label>
-                        <input type="text" id="destination1" name="destination1" value="{{ form.destination1.value }}" required>
+
+                <div class="form-group">
+                    <label for="destination1">Destination 1:</label>
+                    <input type="text" id="destination1" name="destination1" value="{{ form.destination1.value }}" required>
                    
-                        <label for="destination2">Destination 2:</label>
-                        <input type="text" id="destination2" name="destination2" value="{{ form.destination2.value }}" required>
+                    <label for="destination2">Destination 2:</label>
+                    <input type="text" id="destination2" name="destination2" value="{{ form.destination2.value }}" required>
                    
-                        <label for="transportationfee">Transportation Fee:</label>
-                        <input type="number" id="transportationfee" name="transportationfee" value="{{ form.transportationfee.value }}" required>
-                        <button type="submit" class="btn btn-primary">Add Destination</button>
-                    </div>                        
+                    <label for="transportationfee">Transportation Fee:</label>
+                    <input type="number" id="transportationfee" name="transportationfee" value="{{ form.transportationfee.value }}" required>
+                    <button type="submit" class="btn btn-primary">Add Destination</button>
+                </div>                        
         </form>
-        
-        
-            
-    
-        <!-- List of Vans -->
+
         <h3>List of Destination</h3>
-    
-        <!-- Company Vans Table -->
         <h4>Destinations</h4>
         <table>
             <thead>
@@ -70,22 +119,96 @@
                     <td>{{ dest.destination2 }}</td>
                     <td>{{ dest.transportationfee }}</td>
                     <td>
+                        <button class="updateBTN" type="button" onclick="openUpdateForm({{ dest.id }}, '{{ dest.destination1 }}', '{{ dest.destination2 }}', {{ dest.transportationfee }})" class="btnupdate">Update</button>
                         <form action="{% url 'delete_destination' dest.id %}" method="POST" style="display:inline;" id="delete-form-{{ dest.id }}">
                             {% csrf_token %}
                             <button type="button" onclick="confirmDelete('{{ dest.id }}')" class="btndelete">Delete</button>
                         </form>
+                        
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <!-- Update Modal -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUpdateForm()">&times;</span>
+            <h2>Update Destination</h2>
+            <form id="updateForm" method="POST" action="{% url 'update_destination' 0 %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="updateDestId" name="id">
+                <div class="form-group">
+                    <label for="updateDestination1">Destination 1:</label>
+                    <input type="text" id="updateDestination1" name="destination1" required>
+
+                    <label for="updateDestination2">Destination 2:</label>
+                    <input type="text" id="updateDestination2" name="destination2" required>
+
+                    <label for="updateTransportationFee">Transportation Fee:</label>
+                    <input type="number" id="updateTransportationFee" name="transportationfee" required>
+
+                    <button type="submit" class="btn btn-primary">Update Destination</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="{% static 'admin_app/js/destination.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script>
+        // Function to open the modal and apply transition
+function openUpdateForm(destId, destination1, destination2, transportationfee) {
+    // Get the modal
+    const modal = document.getElementById('updateModal');
     
+    // Show modal (set display to block)
+    modal.style.display = "block";
     
-    <!-- THERE IS NO ERROR HERE IT WORKS! ITS JUST THE CONFUSION OF THE SYNTAXS BUT IT WORKS-->
+    // Add class to trigger animation for showing the modal
+    setTimeout(() => {
+        modal.classList.add('show'); // Trigger the animation
+    }, 10); // Add a small delay to ensure the modal starts hidden before the animation begins
+
+    // Fill the form with existing destination data
+    document.getElementById('updateDestId').value = destId;
+    document.getElementById('updateDestination1').value = destination1;
+    document.getElementById('updateDestination2').value = destination2;
+    document.getElementById('updateTransportationFee').value = transportationfee;
+    
+    // Set the form action to include the destination ID
+    const form = document.getElementById('updateForm');
+    form.action = "{% url 'update_destination' 0 %}".replace("0", destId);
+}
+
+// Function to close the modal with transition
+function closeUpdateForm() {
+    const modal = document.getElementById('updateModal');
+    
+    // Remove the 'show' class to trigger the fade-out and zoom-out effect
+    modal.classList.remove('show');
+    
+    // After animation, hide modal
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 100); // Delay to wait for transition to finish
+}
+
+// Function to close the modal when clicking outside of the modal content (on the backdrop)
+window.onclick = function(event) {
+    const modal = document.getElementById('updateModal');
+    // Check if the clicked element is the modal backdrop (not the modal content)
+    if (event.target === modal) {
+        closeUpdateForm();
+    }
+}
+
+
+    </script>
+
     {% if messages %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -93,18 +216,17 @@
                 {% if message.tags == 'success' %}
                     swal({
                         title: "Success!",
-                        text: "{{ message }}",  // Use the actual message from Django
+                        text: "{{ message }}",
                         icon: "success",
                         button: "OK",
                     }).then(() => {
-                        location.reload();  // Refresh the page after the alert
+                        location.reload();
                     });
                 {% endif %}
             {% endfor %}
         });
     </script>
-{% endif %}
-    
+    {% endif %}
 </body>
 </html>
 

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse
 
 def admin_login(request):
     if request.method == 'POST':
@@ -56,6 +57,22 @@ def destination(request):
         'form': form,
         'destination': destinations,  # Corrected to provide a queryset
     })
+
+def update_destination(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)  # Ensure the destination exists
+    
+    if request.method == 'POST':
+        form = DestinationForm(request.POST, instance=destination)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Destination updated successfully.')
+            return redirect('destination')  # Redirect back to destination page
+        else:
+            messages.error(request, 'There was an error updating the destination.')
+    else:
+        form = DestinationForm(instance=destination)
+
+    return render(request, 'admin_app/destination.html', {'form': form, 'destination': [destination]})
 
 @login_required
 def statistics(request):
@@ -154,6 +171,15 @@ def updateDriverForm(request):
             return JsonResponse({'status': 'error', 'message': 'Failed to update driver details.'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
+def delete_driver(request, driver_id):
+    if request.method == 'POST':
+        driver = get_object_or_404(Driver, driver_id=driver_id)  # Get the driver object
+        driver.delete()  # Delete the driver record
+        messages.success(request, 'Driver deleted successfully!')  # Show success message
+        return redirect('driver_management')  # Redirect to the driver management page
+
+    return redirect('driver_management')
+
 def delete_van(request, van_id):
     if request.method == 'POST':
         van = get_object_or_404(Van, id=van_id)  # Get the van object
@@ -163,6 +189,23 @@ def delete_van(request, van_id):
 
     return redirect('van_management')  # Redirect if not a POST request
 
+def update_van(request, van_id):
+    van = get_object_or_404(Van, id=van_id)  # Ensure the destination exists
+    
+    if request.method == 'POST':
+        form = VanForm(request.POST, instance=van)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Van updated successfully.')
+            return redirect('van_management')  # Redirect back to destination page
+        else:
+            messages.error(request, 'There was an error updating the destination.')
+    else:
+        form = VanForm(instance=van_management)
+
+    return render(request, 'admin_app/van_management.html', {'form': form, 'van': [van]})
+
+
 def delete_destination(request, destination_id):
     if request.method == 'POST':
         destination = get_object_or_404(Destination, id=destination_id)  # Get the van object
@@ -171,6 +214,7 @@ def delete_destination(request, destination_id):
         return redirect('destination')  # Redirect to the van management page
 
     return redirect('destination')  # Redirect if not a POST request
+
 
 from django.shortcuts import render
 import pandas as pd

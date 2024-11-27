@@ -4,12 +4,10 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'admin_app/css/driver.css' %}">
     <!-- Include SweetAlert CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 </head>
 <body>
-    <!-- Driver Registration Form -->
-    
-
    <!-- Driver List Container -->
 <div class="driver-list-container">
     <form method="POST" class="registration-form" enctype="multipart/form-data">
@@ -77,7 +75,12 @@
                     <td class="name">{{ driver.name }}</td>
                     <td class="license">{{ driver.license }}</td>
                     <td>
-                        <button onclick="openModal('{{ driver.driver_id }}', '{{ driver.name }}', '{{ driver.license }}', '{{ driver.van_model }}', '{{ driver.plate_number }}')">Update</button>
+                        <button class="updateBTN" onclick="openModal('{{ driver.driver_id }}', '{{ driver.name }}', '{{ driver.license }}', '{{ driver.van_model }}', '{{ driver.plate_number }}')">Update</button>
+                        <!-- Form for deleting driver -->
+                        <form action="{% url 'delete_driver' driver.driver_id %}" method="POST" style="display:inline;" id="delete-form-{{ driver.driver_id }}">
+                            {% csrf_token %}
+                            <button type="button" onclick="confirmDeleteDriver('{{ driver.driver_id }}')" class="btndelete">Delete</button>
+                        </form>                                            
                     </td>
                 </tr>
             {% empty %}
@@ -98,21 +101,21 @@
         <!-- Inside the popup form -->
         <form id="updateDriverForm" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            
             <input type="hidden" name="driver_id" id="driver_id">  <!-- Hidden field for driver_id -->
             
             <label for="modal_file_upload">Upload Image</label>
             <button type="button" class="upload-btn" onclick="document.getElementById('modal_file_upload').click()">Choose Image</button>
             <input type="file" id="modal_file_upload" name="file_upload" accept="image/*" onchange="displayFileName()">
             <div id="file-name-display">No file selected</div>
-
+            <div class="form-fields">
             <label for="modal_name">Name</label>
             <input type="text" id="modal_name" name="name"> <!-- Add an input field for name -->
-            
+        
             <label for="modal_license">License</label>
             <input type="text" id="modal_license" name="license"> <!-- Add an input field for license -->
         
-            <button type="submit">Update Driver</button>
+            <button type="submit" class="updateBTN">Update Driver</button>
+            </div>
         </form>
     </div>
 </div>
@@ -120,7 +123,28 @@
 <script>
     const updateDriverUrl = "{% url 'update_driver' %}";
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+<script>
+    function confirmDeleteDriver(driverId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('delete-form-' + driverId).submit();
+        }
+    });
+}
+
+</script>
 <!-- THERE IS NO ERROR HERE IT WORKS! ITS JUST THE CONFUSION OF THE SYNTAXS BUT IT WORKS-->
 {% if messages %}
 <script>
