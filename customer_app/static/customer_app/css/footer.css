@@ -1,11 +1,29 @@
+/* Ensure html and body take full height */
+html, body {
+    height: 100%; /* Make the body and html take the full height of the page */
+    margin: 0; /* Remove default margins */
+    display: flex;
+    flex-direction: column;
+}
+
+/* The section that holds content should take up the remaining space */
+section.main-content {
+    flex: 1; /* Makes content area take up remaining space */
+}
+
+/* Footer styles */
 footer {
     background-color: #b51e88; /* Darker shade of #d229a2 */
     padding: 10px; /* Reduced padding */
     color: white;
-    font-family: 'Afacad Flux', sans-serif;
+    font-family: 'Inclusive Sans', sans-serif;
     text-align: center;
+    margin-top: auto; /* Pushes the footer to the bottom of the page */
+    width: 100%; /* Ensures footer spans the full width */
+    box-sizing: border-box; /* Prevents the padding from affecting the footer's width */
 }
 
+/* Footer content styling */
 .footer-content p {
     margin: 0; /* Remove default margin */
 }
@@ -22,4 +40,16 @@ footer {
 .separator {
     margin: 0 10px; /* Spacing around the separator */
     font-size: 18px; /* Size of the separator */
+}
+
+/* Optional: Reset margin/padding on footer div */
+#footer {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Ensure the section tag takes full width */
+section {
+    width: 100%;
 }

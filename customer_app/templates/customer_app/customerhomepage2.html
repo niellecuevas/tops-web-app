@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital@0;1&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <title>GFS Travelista</title>
     <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage2.css' %}">
 </head>
@@ -27,8 +29,8 @@
         <ul>
             <li><a class="nav-link" href="#home">Home</a></li>
             <li><a class="nav-link" href="#private-ride">Private Ride</a></li>
-            <li><a class="nav-link" href="#about-us">About Us</a></li>
-            <li><a class="nav-link" href="#contact-us">Contact Us</a></li>
+            <li><a class="nav-link" href="{% url 'cstmrbookingdetails' %}">Booking Search</a></li>
+            <li><a class="nav-link" href="#footer">About Us</a></li>
         </ul>
     </nav>
 
@@ -153,14 +155,14 @@
 </div>
 </div>
 
-    
-</section>
-    <div id="footer" style="padding-top: 50px;"></div>
-    <section class="hidden-section" id="contact-us">
-    <div id="footer">
-        {% include 'customer_app/footer.html' %}
-    </div>
-</section>
+<div class="bookingsrch-container">
+    <p>Already have a booking with us?</p>
+    <a href="{% url 'cstmrbookingdetails' %}" class="search-link">
+        <i class="fas fa-search search-icon"></i> Click here!
+    </a>
+</div>
+
+       {% include 'customer_app/footer.html' %}
 
 <!-- Modal Structure -->
 <div id="bookingModal" class="modal">

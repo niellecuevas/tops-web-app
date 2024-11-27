@@ -54,7 +54,7 @@ form textarea {
 
 button {
     padding: 10px 15px;
-    background-color: #4CAF50; /* Green background */
+    background-color: #406fa2; /* Green background */
     color: white; /* White text */
     border: none; /* Remove border */
     border-radius: 4px; /* Rounded corners */
@@ -201,4 +201,28 @@ button:hover {
     opacity: 1; /* Active thumbnail */
 }
 
+/* Mobile Layout */
+@media (max-width: 768px) {
+    .van-detail-container {
+        display: block; /* Stack containers vertically */
+        margin: 10px; /* Adjust outer margin for smaller screens */
+    }
 
+    .driver-info {
+        margin-bottom: 10px; /* Space below driver info */
+    }
+
+    .van-info {
+        margin-bottom: 10px; /* Space below van info */
+    }
+
+    .right-container {
+        margin-top: 10px; /* Space above form container */
+    }
+
+    .left-container,
+    .right-container {
+        margin: 0; /* Remove side margins */
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+}

@@ -4,32 +4,45 @@
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital@0;1&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>GFS Travelista</title>
-    <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage.css' %}">
+    <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage2.css' %}">
+    <link rel="stylesheet" href="{% static 'customer_app/css/cstmrbookingdetails.css' %}">
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="{% static 'images/capstoneLogo.png' %}" alt="Capstone Logo">
-            <img src="{% static 'images/capstoneTravelista.png' %}" alt="Travelista Logo">
-        </div>
-    </header>
+    <nav>
+        <!-- Checkbox for toggling menu -->
+        <input type="checkbox" id="check">
+        <!-- Menu icon -->
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <!-- Site logo -->
+        <label class="logo">GFS Travelista</label>
+        <!-- Navigation links -->
+        <ul>
+            <li><a class="nav-link" href="{% url 'customerhomepage2' %}">Home</a></li>
+            <li><a class="nav-link" href="{% url 'customisebook' %}">Private Ride</a></li>
+            <li><a class="nav-link" href="#footer">About Us</a></li>
+        </ul>
+    </nav>
 
-        <div class="container">
+        <div id = "home" class="bookinginfo-container">
             <div class="booking-id-section">
                 <label for="booking-id" class="booking-id-label">Enter your booking ID:</label>
                 <input type="text" id="booking-id" class="booking-id-input" placeholder="Enter ID here...">
                 <button class="submit-booking-id">SUBMIT</button>
             </div>           
-          
-        </div>        
+        </div>
+
+  
+    {% include 'customer_app/footer.html' %}
+ 
 </body>
 </html>
