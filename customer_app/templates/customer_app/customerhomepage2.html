@@ -39,7 +39,7 @@
         <img src="{% static 'images/tripsched4.png' %}" alt="Trip Schedule Image" class="trip-image">
     </section>
 
-    <section class="stats-section">
+<section class="stats-section">
   <div class="stat-item">
     <h3 data-target="10">0</h3>
     <p>Vans Available</p>
@@ -137,9 +137,10 @@
                     </div>
                 </div>
     </div>
+    </section>
 
    <!-- Custom Booking Link -->
-   <div class="hidden-section" id="full-width-section">
+<div class="hidden-section" id="full-width-section">
    <div class="custom-booking-section">
     <div class="image-container">
         <img src="{% static 'images/travelista-van1-crop.png' %}" alt="Custom Booking Image">
@@ -152,7 +153,7 @@
         </p>
         <a href="{% url 'customisebook' %}" class="custom-booking-button">Book Here</a>
     </div>
-</div>
+    </div>
 </div>
 
 <div class="bookingsrch-container">
@@ -161,8 +162,6 @@
         <i class="fas fa-search search-icon"></i> Click here!
     </a>
 </div>
-
-       {% include 'customer_app/footer.html' %}
 
 <!-- Modal Structure -->
 <div id="bookingModal" class="modal">
@@ -189,6 +188,9 @@
         </div>
     </div>
 </div>
+
+{% include 'customer_app/footer.html' %}
+
     <script>
         const bookVanFormUrl = "{% url 'bookvanform' %}";
     </script>
