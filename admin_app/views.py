@@ -193,7 +193,7 @@ def update_van(request, van_id):
     van = get_object_or_404(Van, id=van_id)  # Ensure the destination exists
     
     if request.method == 'POST':
-        form = VanForm(request.POST, instance=van)
+        form = VanForm(request.POST, request.FILES, instance=van)
         if form.is_valid():
             form.save()
             messages.success(request, 'Van updated successfully.')

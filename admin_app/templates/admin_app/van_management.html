@@ -126,9 +126,15 @@
             <span class="close" onclick="closeUpdateForm()">&times;</span>
             <h2>Update Van Details</h2>
             <div class="form-group">
-            <form id="updateForm" method="POST" action="{% url 'update_van' 0 %}">
+            <form id="updateForm" method="POST" action="{% url 'update_van' 0 %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" id="updateVanId" name="vanId">
+
+                <label for="modal_file_upload">Upload Image</label>
+                <button type="button" class="upload-btn" onclick="document.getElementById('modal_file_upload').click()">Choose Image</button>
+                <input type="file" id="modal_file_upload" name="file_upload" accept="image/*" onchange="displayFileName()">
+                <div id="file-name-display">No file selected</div>
+
                 <label for="updateModel">Van Model:</label>
                 <input type="text" id="updateModel" name="model" required><br><br>
                 <label for="updatePlate">Plate Number:</label>
@@ -195,6 +201,13 @@
                 closeUpdateForm();
             }
         }
+        // Display file name after file is selected
+        function displayFileName() {
+            const fileInput = document.getElementById('modal_file_upload');
+            const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'No file selected';
+            document.getElementById('file-name-display').innerText = fileName;
+        }
+
     </script>
 
     <!-- Display success messages -->
