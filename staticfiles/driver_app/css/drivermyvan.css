@@ -1,71 +1,198 @@
-.title {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 20px;
-    font-weight: bold;
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
+/* Title Styling */
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin: 20px 0;
+    color: #007bff;
+}
+
+/* Vans Container */
 .vans-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
+    padding: 20px;
 }
 
-.vans-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
+/* Van Card */
 .van-card {
-    background-color: pink;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 300px;
     overflow: hidden;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.2s;
 }
 
 .van-card:hover {
-    transform: translateY(-10px);
+    transform: scale(1.02);
 }
 
+/* Van Image */
 .van-image {
     width: 100%;
     height: 200px;
     overflow: hidden;
 }
 
-.van-img {
+.van-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-bottom: 2px solid #ddd;
 }
 
+/* Van Info */
 .van-info {
     padding: 15px;
     text-align: center;
 }
 
 .van-info h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #333;
+    font-size: 1.25rem;
+    margin: 10px 0;
+    color: #007bff;
 }
 
 .van-info p {
-    font-size: 1.1em;
+    font-size: 0.9rem;
     margin: 5px 0;
-    color: #666;
 }
 
-.van-info strong {
-    color: #333;
+.van-info .edit-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
-.van-info em {
-    color: #999;
+.van-info .edit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-switch .slider {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.toggle-switch input:checked + .slider {
+    background-color: #007bff;
+}
+
+.toggle-switch .slider:before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.2s;
+}
+
+.toggle-switch input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: white;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.modal label {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.modal input,
+.modal select,
+.modal textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.modal button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.modal button:hover {
+    background-color: #0056b3;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #555;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #000;
 }

@@ -1,10 +1,9 @@
 {% extends 'driver_app/driverdashboard.html' %}
 {% load static %}
 {% block content %}
-<style>
-    @import url("{% static 'driver_app/css/drivermyvan.css' %}");
-</style>
+<link rel="stylesheet" href="{% static 'driver_app/css/drivermyvan.css' %}">
 <h2 class="title">Your Vans</h2>
+<p>Set the availability of your van.</p>
 <div class="vans-container">
     {% if vans %}
         <div class="vans-list">
@@ -16,11 +15,21 @@
                     <div class="van-info">
                         <h3>{{ van.model }} ({{ van.plate }})</h3>
                         <p><strong>Capacity:</strong> {{ van.seats }} passengers</p>
-                        {% if van.is_company_van %}
-                            <p><em>This van is company-owned.</em></p>
-                        {% else %}
-                            <p><strong>Status:</strong> Owned by you</p>
-                        {% endif %}
+                        <p><strong>Status:</strong> 
+                            {% if van.availability %}
+                                Available
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </p>
+                        <!-- Availability Toggle -->
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="availability-toggle" {% if van.availability %} checked {% endif %}
+                                   onchange="toggleAvailability('{{ driver.driver_id }}', {{ van.id }}, this.checked)">
+                            <span class="slider"></span> 
+                        </label>
+                        
+                        
                     </div>
                 </div>
             {% endfor %}
@@ -29,4 +38,54 @@
         <p>No vans assigned to you yet.</p>
     {% endif %}
 </div>
+
+<script>
+    function toggleAvailability(driverId, vanId, isChecked) {
+    // Get CSRF token
+    const csrftoken = getCookie('csrftoken');
+
+    fetch(`/driver_app/my_vans/${driverId}/update_availability/${vanId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken  // CSRF token for Django
+        },
+        body: JSON.stringify({
+            'driver_id': driverId,
+            'availability': isChecked
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Van availability updated:', data);
+        // Refresh the page after 1 second
+        setTimeout(function() {
+            location.reload();
+        }, 500);
+    })
+    .catch(error => console.error('Error updating availability:', error));
+}
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+
 {% endblock %}

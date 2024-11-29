@@ -2,8 +2,14 @@
 .title {
     text-align: center;
     font-size: 2em;
-    margin-bottom: 20px;
     font-weight: bold;
+}
+
+p {
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .vans-container {
@@ -21,7 +27,7 @@
 }
 
 .van-card {
-    background-color: pink !important;
+    background-color: #f6f3f3 !important;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 300px;
@@ -69,4 +75,91 @@
 
 .van-info em {
     color: #999;
+}
+
+/* Style the Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #ce40b0;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+
+/* darkmode */
+body.dark-mode .title {
+    color: #f1f1f1;
+}
+
+body.dark-mode .van-card {
+    background-color: #333 !important;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .van-info h3 {
+    color: #f1f1f1;
+}
+
+body.dark-mode .van-info p {
+    color: #bbb;
+}
+
+body.dark-mode .van-info strong {
+    color: #f1f1f1;
+}
+
+body.dark-mode .van-info em {
+    color: #888;
+}
+
+body.dark-mode .slider {
+    background-color: #444;
+}
+
+body.dark-mode input:checked + .slider {
+    background-color: #777777;
+}
+
+body.dark-mode input:checked + .slider:before {
+    background-color: white;
+    transform: translateX(26px);
 }

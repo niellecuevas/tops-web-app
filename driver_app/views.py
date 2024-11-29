@@ -1,9 +1,10 @@
-from admin_app.models import Driver
-from customer_app.models import CustomBooking, Van
+from admin_app.models import Driver, Van
+from customer_app.models import CustomBooking
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt  # If you are using CSRF tokens
 from django.core.serializers import serialize
 from django.utils.dateformat import format
 import json
@@ -58,3 +59,31 @@ def driver_my_vans(request, driver_id):
     }
     
     return render(request, 'driver_app/drivermyvan.html', context)
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt  # Temporarily disable CSRF for testing purposes (remove this in production)
+def update_availability(request, driver_id, van_id):
+    if request.method == 'POST':
+        # Parse the incoming JSON data
+        try:
+            data = json.loads(request.body)
+            driver_id = data.get('driver_id')
+            availability = data.get('availability')
+
+            # Ensure that the availability is a boolean value
+            if isinstance(availability, bool):
+                # Get the van object
+                van = Van.objects.get(id=van_id)
+                # Update the van's availability
+                van.availability = availability
+                van.save()
+
+                # Return a success response
+                return JsonResponse({'status': 'success', 'availability': van.availability})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Invalid availability value'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)

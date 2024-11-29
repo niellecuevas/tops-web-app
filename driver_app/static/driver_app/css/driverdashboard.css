@@ -80,11 +80,15 @@ main {
 }
 
 .driver-account img {
-    width: 130px; /* Adjust the size as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 130px; /* Keep the width the same */
+    height: 130px; /* Set the height to 100px */
     border-radius: 50%; /* Make the image circular */
+    border: 2px solid #ce40b0; /* White solid border with 5px thickness */
     margin-bottom: 15px; /* Space below the image */
+    object-fit: cover; /* Crop and fill the image */
+    object-position: top; /* Focus the cropping on the top part of the image */
 }
+
 
 .driver-account h2 {
     font-size: 24px; /* Font size for the header */

@@ -32,9 +32,19 @@ class Van(models.Model):
     is_company_van = models.BooleanField(default=False)
     driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
     availability = models.BooleanField(default=True)
+    description = models.TextField( default='Not defined')
+    engine = models.CharField(max_length=50,default='Not defined')
+    transmission = models.CharField(max_length=50,default='Not defined')
+    ac = models.CharField(max_length=50,default='Not defined')
+    entertainment = models.CharField(max_length=50,default='Not defined')
+    storage = models.TextField(default='Not defined')
 
     def __str__(self):
         return self.model
+    
+class VanGallery(models.Model):
+    van = models.ForeignKey(Van, related_name='gallery', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='van_gallery/', blank=False)
     
 class Destination(models.Model):
     file_upload = models.ImageField(upload_to='destination/', blank=False)
