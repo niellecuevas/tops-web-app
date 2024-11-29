@@ -40,7 +40,7 @@
                 <a class="nav-item" href="{% url 'driver_dashboard' driver.driver_id %}">
                     <i class="fas fa-book"></i> Bookings
                 </a>
-                <a class="nav-item" href="{% url 'drivermyvan' driver_id=driver.driver_id%}">
+                <a class="nav-item" href="{% url 'driver_my_vans' driver.driver_id %}">
                     <i class="fas fa-car"></i> My Vans
                 </a>
                 <a class="nav-item logout" href="{% url 'logout' %}">

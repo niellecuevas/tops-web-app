@@ -1,21 +1,32 @@
 {% extends 'driver_app/driverdashboard.html' %}
 {% load static %}
 {% block content %}
-    <h1>Van Photos</h1>
-    <img src="{{ van.file_upload.url }}" alt="Van Image" class="van-image">
-    <h3>Model: {{ van.model }}</h3>
-    <p><strong>Plate:</strong> {{ van.plate }}</p>
-    <p><strong>Seats:</strong> {{ van.seats }}</p>
-    <!-- Add van photos here -->
-
-    <div class="driver-vans">
-        {% for van in driver.vans.all %}
-            <a href="{% url 'drivermyvan' driver_id=driver.driver_id van_id=van.id %}">
-                <p>View Van: {{ van.model }}</p>
-            </a>
-        {% empty %}
-            <p>No vans available for this driver.</p>
-        {% endfor %}
-    </div>
-    
+<style>
+    @import url("{% static 'driver_app/css/drivermyvan.css' %}");
+</style>
+<h2 class="title">Your Vans</h2>
+<div class="vans-container">
+    {% if vans %}
+        <div class="vans-list">
+            {% for van in vans %}
+                <div class="van-card">
+                    <div class="van-image">
+                        <img src="{{ van.file_upload.url }}" alt="Van Image" class="van-img">
+                    </div>
+                    <div class="van-info">
+                        <h3>{{ van.model }} ({{ van.plate }})</h3>
+                        <p><strong>Capacity:</strong> {{ van.seats }} passengers</p>
+                        {% if van.is_company_van %}
+                            <p><em>This van is company-owned.</em></p>
+                        {% else %}
+                            <p><strong>Status:</strong> Owned by you</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No vans assigned to you yet.</p>
+    {% endif %}
+</div>
 {% endblock %}

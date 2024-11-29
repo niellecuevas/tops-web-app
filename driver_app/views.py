@@ -47,12 +47,14 @@ def driver_dashboard(request, driver_id):
 
     return render(request, 'driver_app/driverdashboard.html', context)
 
-
-def drivermyvan(request, driver_id, van_id):
-    # Fetch the driver using the driver_id
+def driver_my_vans(request, driver_id):
+    # Fetch the driver and their vans
     driver = get_object_or_404(Driver, driver_id=driver_id)
+    vans = Van.objects.filter(driver=driver)
     
-    # Fetch the van associated with the specific driver and van_id
-    van = get_object_or_404(Van, id=van_id, driver=driver)  # Ensures the van belongs to the driver
+    context = {
+        'driver': driver,
+        'vans': vans,
+    }
     
-    return render(request, 'driver_app/drivermyvan.html', {'driver': driver, 'van': van})
+    return render(request, 'driver_app/drivermyvan.html', context)

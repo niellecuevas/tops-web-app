@@ -1,0 +1,72 @@
+
+.title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.vans-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.vans-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.van-card {
+    background-color: pink !important;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.van-card:hover {
+    transform: translateY(-10px);
+}
+
+.van-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.van-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+}
+
+.van-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.van-info h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.van-info p {
+    font-size: 1.1em;
+    margin: 5px 0;
+    color: #666;
+}
+
+.van-info strong {
+    color: #333;
+}
+
+.van-info em {
+    color: #999;
+}

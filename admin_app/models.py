@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Driver(models.Model):
     DRIVER_ID_PREFIX = 'DRV'  # Prefix for the driver ID
@@ -30,6 +31,7 @@ class Van(models.Model):
     seats = models.IntegerField()
     is_company_van = models.BooleanField(default=False)
     driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
+    availability = models.BooleanField(default=True)
 
     def __str__(self):
         return self.model

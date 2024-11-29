@@ -10,11 +10,12 @@ html {
   scroll-behavior: smooth; /* Enable smooth scrolling */
 }
 
-
 body {
-  font-family: "Afacad Flux", sans-serif;
-  margin: 0;
+  font-family: "Inclusive Sans", sans-serif;
+}
 
+p {
+  font-family: 'Inclusive Sans', sans-serif;
 }
 
 nav {
@@ -135,7 +136,7 @@ a:hover {
   background-color: #f0f0f0;
   padding: 20px 0;
   text-align: center;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Gabarito", sans-serif;
 }
 
 .stat-item {
@@ -159,7 +160,7 @@ a:hover {
 
 
 .booking-text {
-  font-family: "Afacad Flux", sans-serif;
+  font-family: "Inclusive Sans", sans-serif;
   text-align: center; /* Center text */
   margin: 20px 0;
   margin-top: 40px;
@@ -193,14 +194,14 @@ a:hover {
 }
 .van-details {
   padding: 15px;
-  font-family: "Afacad Flux", sans-serif; /* Apply Oswald font */
+  font-family: "Inclusive Sans", sans-serif;
 }
 .book-btn {
   padding: 10px;
   text-align: center;
 }
 .book-btn button {
-  font-family: "Afacad Flux";
+  font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0;
   color: white;
   border: none;
@@ -249,7 +250,7 @@ a:hover {
 }
 
 .custom-booking {
-  font-family: "Afacad Flux"; /* Custom font */
+  font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0; /* Button background color */
   color: white; /* Button text color */
   padding: 10px 20px; /* Button padding */
@@ -355,11 +356,11 @@ a:hover {
 .switch-btn {
   text-align: center; /* Center the text within the div */
   margin-top: 5px; /* Space above the switch button */
-  font-family:"Afacad Flux" ;
+  font-family:"Inclusive Sans", sans-serif;
 }
 
 .switch-btn button {
-  font-family:"Afacad Flux" ;
+  font-family:"Inclusive Sans", sans-serif;
   background: none; /* Remove background */
   border: none; /* Remove border */
   color: darkpink; /* Set text color to dark pink */
@@ -432,3 +433,64 @@ a:hover {
 .custom-booking-button:hover {
   background-color: #0056b3;
 }
+
+/* Booking Search Button */
+.bookingsrch-container {
+  background-color: #fdf1f8; /* Soft pink background */
+  border: 1px solid #f7cce3; /* Slightly darker pink border */
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin: 20px 0; /* Space around the container */
+}
+
+.bookingsrch-container p {
+  font-size: 16px;
+  color: #333; /* Neutral text color */
+  margin-bottom: 10px; /* Space below the text */
+}
+
+.bookingsrch-container .search-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: #d229a2; /* Dark pink text color */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.bookingsrch-container .search-link:hover {
+  color: #d229a2;/* Slightly darker pink on hover */
+}
+
+.bookingsrch-container .search-icon {
+  font-size: 18px; /* Icon size */
+  color: #d229a2; /* Same dark pink as the text */
+  margin-right: 8px; /* Space between icon and text */
+  transition: transform 0.3s ease; /* Add a subtle hover effect */
+}
+
+.bookingsrch-container .search-link:hover .search-icon {
+  transform: scale(1.2); /* Slight zoom effect on hover */
+}
+
+@media (max-width: 768px) {
+  .bookingsrch-container {
+      padding: 15px;
+  }
+
+  .bookingsrch-container p {
+      font-size: 14px;
+  }
+
+  .bookingsrch-container .search-link {
+      font-size: 14px;
+  }
+
+  .bookingsrch-container .search-icon {
+      font-size: 16px;
+  }
+}
+
