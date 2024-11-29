@@ -4,7 +4,6 @@ from .views import customer_homepage2
 
 
 urlpatterns = [
-    path('customerhomepage/', views.customerhomepage, name='customerhomepage'),  
     path('cstmrbookingdetails/', views.cstmrbookingdetails, name='cstmrbookingdetails'),
     path('success/', views.success, name='success'),
     path('customerhomepage2/', customer_homepage2, name='customerhomepage2'), 

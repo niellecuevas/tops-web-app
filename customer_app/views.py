@@ -149,10 +149,6 @@ def save_booking(request):
 
     return HttpResponse("Invalid request method.", status=405)
 
-
-def customerhomepage(request):
-    return render(request, 'customer_app/customerhomepage.html') 
-
 def customisebook(request):
     van_type = request.GET.get('van_type', 'all')
     if van_type == 'company':
