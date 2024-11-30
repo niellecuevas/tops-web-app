@@ -32,7 +32,6 @@
 
         #forecast-title{
             margin-top: 0;
-            color: palevioletred;
         }
 
         h4{
@@ -49,6 +48,87 @@
         body.dark-mode h3, body.dark-mode h4 {
             color: #fff; /* Change heading colors */
         }
+
+        /* Container to place chart and table side by side */
+        .row-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px; /* Space between the chart and the table */
+        }
+
+        /* Styling for the chart section */
+        .chart-container {
+            flex: 1; /* Take equal space */
+            max-width: 50%; /* Limit the width of the chart */
+        }
+
+        /* Styling for the table section */
+        .table-container {
+            flex: 1; /* Take equal space */
+            max-width: 50%; /* Limit the width of the table */
+        }
+
+        /* Make the table scrollable */
+        .scrollable-table {
+            max-height: 200px; /* Set the maximum height for the table */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 1px solid #ccc; /* Add a border around the table */
+            border-radius: 5px; /* Rounded corners */
+            padding: 5px;
+        }
+        /* Style for the table itself */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+        position: sticky;
+        top: 0; /* Stick to the top of the container */
+        background-color: #f1f1f1; /* Set background color to avoid transparency */
+        z-index: 2; /* Ensure it stays on top of table rows */
+        }
+
+
+        th, td {
+            padding: 8px;
+            font-size: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #currentMonth{
+            margin-top: 0;
+            text-align: center;
+            display: inline-block;
+        }
+
+        h2{
+            display: inline-block;
+        }
+
+        /* Styling for the insights container */
+        #pricingInsights {
+            max-height: 100px; /* Set the maximum height of the container */
+            overflow-y: auto; /* Enable vertical scrolling when the content exceeds the height */
+            border: 1px solid #ccc; /* Add a border around the container */
+            border-radius: 5px; /* Rounded corners */
+            padding: 5px; /* Padding for content inside the container */
+            margin-top: 10px; /* Optional: Add some space between the insights and other content */
+            background-color: #f9f9f9; /* Optional: Add a background color to make it stand out */
+            margin-bottom: 30px;
+        }
+
+        hr{
+            margin-bottom: 20px;
+        }
+
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> <!-- Added date adapter -->
@@ -68,9 +148,44 @@
         <p>₱{{ total_revenue|floatformat:0|intcomma }}</p>
     </div>
 </div>
-<canvas id="destinationPricingChart"></canvas>
+<h2>Dynamic Pricing - <h2 id="currentMonth"> </h2></h2>
 
-<h3 id="forecast-title">Forecast Analytics By Destination</h3>
+
+    <!-- Container for chart and table -->
+    <div class="row-container">
+        <!-- Chart Section -->
+        <div class="chart-container">
+            <canvas id="dynamicPricingChart"></canvas>
+        </div>
+
+        <!-- Scrollable Table Section -->
+        <div class="table-container">
+            <div class="scrollable-table">
+                <table border="1" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th>Destination</th>
+                            <th>Base Price</th>
+                            <th>Dynamic Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dynamicPricingTableBody">
+                        <!-- Table rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+        <!-- Insights Section (Below the table) -->
+    <div id="pricingInsights">
+        <h4>Dynamic Pricing Insights</h4>
+        <!-- Insights will be dynamically added here -->
+    </div>
+
+    <hr>
+
+<h2 id="forecast-title">Forecast Analytics By Destination</h2>
 <div id="charts">
     {% for destination, data in forecasts.items %}
         <div class="chart-container">
@@ -142,12 +257,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('destinationPricingChart').getContext('2d');
-    const data = {
-        labels: {{ labels|safe }},  // Preprocessed labels (destination names)
+    // Get current month
+    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+
+    // Set current month above the table
+    document.getElementById('currentMonth').textContent = ` ${currentMonth}`;
+    // Use Django context variables for labels, data, and base prices
+    const labels = {{ labels|safe }};
+    const dynamicPrices = {{ data|safe }};  // Renamed for clarity
+    const basePrices = {{ base_prices|safe }};  // Base prices from backend
+    const forecastedPaxData = {{ forecasted_pax|safe }};  // Forecasted pax data passed from backend
+
+    console.log("Labels:", labels);          // Debugging
+    console.log("Dynamic Prices:", dynamicPrices);  // Debugging
+    console.log("Base Prices:", basePrices); // Debugging
+
+    const ctx = document.getElementById('dynamicPricingChart').getContext('2d');
+    const chartData = {
+        labels: labels,
         datasets: [{
             label: 'Dynamic Pricing',
-            data: {{ data|safe }},  // Preprocessed data (prices)
+            data: dynamicPrices,  // Use the correct variable
             backgroundColor: 'rgba(54, 162, 235, 0.5)',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1
@@ -156,7 +286,7 @@
 
     const config = {
         type: 'bar',
-        data: data,
+        data: chartData,
         options: {
             responsive: true,
             plugins: {
@@ -169,7 +299,54 @@
         }
     };
 
+    // Create the chart
     new Chart(ctx, config);
+
+    // Populate the table
+    const tableBody = document.getElementById('dynamicPricingTableBody');
+    const insightsContainer = document.getElementById('pricingInsights'); // Container for insights
+
+    if (labels && dynamicPrices && basePrices && forecastedPaxData) {
+        labels.forEach((label, index) => {
+            const row = document.createElement('tr');
+
+            // Destination Cell
+            const destinationCell = document.createElement('td');
+            destinationCell.textContent = label || 'N/A';
+            row.appendChild(destinationCell);
+
+            // Base Price Cell
+            const basePriceCell = document.createElement('td');
+            basePriceCell.textContent = `₱ ${basePrices[index]?.toFixed(2) || '0.00'}`;
+            row.appendChild(basePriceCell);
+
+            // Dynamic Price Cell
+            const dynamicPriceCell = document.createElement('td');
+            dynamicPriceCell.textContent = `₱ ${dynamicPrices[index]?.toFixed(2) || '0.00'}`;
+            row.appendChild(dynamicPriceCell);
+
+            tableBody.appendChild(row);
+
+            // Generate insights based on forecasted pax
+            const forecastedPax = forecastedPaxData[index] || 0;
+            let insightMessage = '';
+
+            if (forecastedPax < 50) {
+                insightMessage = `Low demand for ${label}, offering a discount (10% off).`;
+            } else if (forecastedPax <= 100) {
+                insightMessage = `Moderate demand for ${label}, no price change.`;
+            } else {
+                insightMessage = `High demand for ${label}, price increased (20% higher).`;
+            }
+
+            // Append the insight message
+            const insightElement = document.createElement('p');
+            insightElement.textContent = insightMessage;
+            insightsContainer.appendChild(insightElement);
+        });
+    } else {
+        console.error("Labels, dynamic prices, or base prices are undefined!");
+    }
 </script>
 
 

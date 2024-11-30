@@ -51,3 +51,9 @@ class Destination(models.Model):
     destination1 = models.CharField(max_length=100)  # Ensure this line exists
     destination2 = models.CharField(max_length=100)
     transportationfee = models.DecimalField(max_digits=10, decimal_places=2, default='0.0')
+
+class DynamicPricing(models.Model):
+    destination = models.CharField(max_length=255)
+    date = models.DateField()
+    forecasted_pax = models.IntegerField()
+    dynamic_price = models.FloatField()

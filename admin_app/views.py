@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponse
 
 def admin_login(request):
     if request.method == 'POST':
@@ -337,13 +336,17 @@ def statistics_view(request):
                     'dynamic_price': calculate_dynamic_price(
                         base_prices.get(destination, default_base_price),
                         sum([entry['forecasted_pax'] for entry in data['combined_data']])
-                    )
+                    ),
+                    'base_price': base_prices.get(destination, default_base_price),
+                    'forecasted_pax': sum([entry['forecasted_pax'] for entry in data['combined_data']])  
                 }
                 for destination, data in forecasts.items()
             ]
 
             labels = [item['destination'] for item in visualization_data]
             data = [item['dynamic_price'] for item in visualization_data]
+            base_prices_list = [item['base_price'] for item in visualization_data]
+            forecasted_pax = [item['forecasted_pax'] for item in visualization_data]
 
 
     def calculate_total(row):
@@ -370,13 +373,13 @@ def statistics_view(request):
     total_passengers = df['PAX'].sum()
     total_revenue = df['calculated_total'].sum()
 
-    
-
     # Pass the forecasts data to the HTML template
     return render(request, 'admin_app/adminstatistics.html', {
         'visualization_data': visualization_data,
         'labels': labels,  # List of destinations
         'data': data,      # List of dynamic prices
+        'base_prices': base_prices_list,
+        'forecasted_pax': forecasted_pax,
         'forecasts': forecasts,
         'total_bookings': total_bookings,
         'total_passengers': total_passengers,
