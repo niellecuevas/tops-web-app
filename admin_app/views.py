@@ -61,7 +61,7 @@ def update_destination(request, destination_id):
     destination = get_object_or_404(Destination, id=destination_id)  # Ensure the destination exists
     
     if request.method == 'POST':
-        form = DestinationForm(request.POST, instance=destination)
+        form = DestinationForm(request.POST, request.FILES, instance=destination)
         if form.is_valid():
             form.save()
             messages.success(request, 'Destination updated successfully.')
