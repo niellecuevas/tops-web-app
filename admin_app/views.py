@@ -260,6 +260,18 @@ def statistics_view(request):
     # Initialize the forecasts dictionary to store forecast data
     forecasts = {}
 
+    def calculate_dynamic_price(base_price, forecasted_pax):
+        try:
+            if forecasted_pax < 50:  # Low demand
+                return base_price * 0.9  # 10% discount
+            elif 50 <= forecasted_pax <= 100:  # Moderate demand
+                return base_price  # No change
+            else:  # High demand
+                return base_price * 1.2  # 20% increase
+        except Exception as e:
+            print(f"Error in dynamic pricing calculation: {e}")
+            return base_price  # Fallback to base price
+
     for destination in reordered_destinations:
         # Actual data for this destination
         dest_actual = actual_data[actual_data['DESTINATION'] == destination]
@@ -282,9 +294,30 @@ def statistics_view(request):
             future_dates = model.make_future_dataframe(periods=periods, freq='D')  # Ensure daily frequency for the prediction
             forecast = model.predict(future_dates)
 
+            # Dynamically get all unique destinations from the data
+            unique_destinations = df['DESTINATION'].unique()
+
+            # Define a default base price
+            default_base_price = 1800
+
+            # Create a dictionary of base prices for each destination dynamically
+            base_prices = {destination: default_base_price for destination in unique_destinations}
+
+            # Update specific destination base prices
+            base_prices.update({
+                'PPC-EN': 5000,
+                'EN-PPC': 5000,
+                'MILAN': 1400
+            })
+
+            base_price = base_prices.get(destination, default_base_price)  # Get base price dynamically
+
             # Combine the forecasted dates and predicted passenger numbers
             combined_data = [
-                {'date': date, 'forecasted_pax': pax}
+                {'date': date, 
+                 'forecasted_pax': pax,
+                 'dynamic_price': calculate_dynamic_price(base_price, pax)
+                }
                 for date, pax in zip(forecast['ds'].dt.strftime('%Y-%m-%d'), forecast['yhat'])
             ]
 
@@ -293,8 +326,25 @@ def statistics_view(request):
                 'dates': forecast['ds'].dt.strftime('%Y-%m-%d').tolist(),  # Convert datetime to string
                 'yhat': forecast['yhat'].tolist(),  # Forecasted passenger numbers
                 'actual_data': {str(k): v for k, v in dest_actual.set_index('MONTH')['PAX'].to_dict().items()},  # Actual PAX for the destination
-                'combined_data': combined_data  # Combined list of date and forecasted pax
+                'combined_data': combined_data, # Combined list of date and forecasted pax
+                'base_price': base_price,  
             }
+
+            # Prepare data for visualization
+            visualization_data = [
+                {
+                    'destination': destination,
+                    'dynamic_price': calculate_dynamic_price(
+                        base_prices.get(destination, default_base_price),
+                        sum([entry['forecasted_pax'] for entry in data['combined_data']])
+                    )
+                }
+                for destination, data in forecasts.items()
+            ]
+
+            labels = [item['destination'] for item in visualization_data]
+            data = [item['dynamic_price'] for item in visualization_data]
+
 
     def calculate_total(row):
         try:
@@ -320,8 +370,13 @@ def statistics_view(request):
     total_passengers = df['PAX'].sum()
     total_revenue = df['calculated_total'].sum()
 
+    
+
     # Pass the forecasts data to the HTML template
     return render(request, 'admin_app/adminstatistics.html', {
+        'visualization_data': visualization_data,
+        'labels': labels,  # List of destinations
+        'data': data,      # List of dynamic prices
         'forecasts': forecasts,
         'total_bookings': total_bookings,
         'total_passengers': total_passengers,

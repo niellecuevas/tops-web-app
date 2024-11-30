@@ -68,6 +68,8 @@
         <p>₱{{ total_revenue|floatformat:0|intcomma }}</p>
     </div>
 </div>
+<canvas id="destinationPricingChart"></canvas>
+
 <h3 id="forecast-title">Forecast Analytics By Destination</h3>
 <div id="charts">
     {% for destination, data in forecasts.items %}
@@ -137,5 +139,40 @@
         </script>
     {% endfor %}
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('destinationPricingChart').getContext('2d');
+    const data = {
+        labels: {{ labels|safe }},  // Preprocessed labels (destination names)
+        datasets: [{
+            label: 'Dynamic Pricing',
+            data: {{ data|safe }},  // Preprocessed data (prices)
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Dynamic Pricing by Destination' }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    };
+
+    new Chart(ctx, config);
+</script>
+
+
+
 
 {% endblock %}
