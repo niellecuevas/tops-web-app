@@ -51,6 +51,7 @@ function openModal(event) {
 
     // Store data temporarily
     sessionStorage.setItem("destinationId", destinationId);
+    sessionStorage.setItem("destinationImage", destinationImage);
     sessionStorage.setItem("destination1", destination1);
     sessionStorage.setItem("destination2", destination2);
     sessionStorage.setItem("transportationFee", transportationFee);

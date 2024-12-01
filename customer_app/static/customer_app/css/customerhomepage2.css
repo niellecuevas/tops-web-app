@@ -378,10 +378,8 @@ a:hover {
 
 #full-width-section {
   background-color: #f5f5f5; /* Add padding only to the top and bottom */
-  margin: 0;
   border-radius: 8px;
   width: 100%;
-  max-width: 1200px;
 }
 
 .custom-booking-section {

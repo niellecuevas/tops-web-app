@@ -246,7 +246,7 @@
 
             <div class="summary-section">
                 <h3>Total Amount</h3>
-                <p><strong>Package Price:</strong> ₱<span id="summary-fee-pp"></span></p>
+                <p><strong>Package Price: </strong>₱<span id="summary-package-price"> </span></p>
                 <hr>
             </div>
 
@@ -275,19 +275,23 @@
 
     <script>
        document.addEventListener("DOMContentLoaded", function() {
-            // Retrieve data from localStorage
-            const destImage = localStorage.getItem('destImage');
-            const destination1 = localStorage.getItem('destination1');
-            const destination2 = localStorage.getItem('destination2');
-            const transportationFee = localStorage.getItem('transportationFee');
-            const sumfee = localStorage.getItem('transportationFee');
+            // Retrieve data from sessionStorage
+            const destinationImage = sessionStorage.getItem('destinationImage');
+            console.log("Destination Image Path:", destinationImage); 
+            const destination1 = sessionStorage.getItem('destination1');
+            const destination2 = sessionStorage.getItem('destination2');
+
+            const roundTrip = "{{ round_trip }}";  // Access round_trip from Django context
+            const transportationFee = Number(sessionStorage.getItem('transportationFee'));
+            // Calculate the final fee based on round trip status
+            const finalFee = roundTrip === "True" ? transportationFee * 2 : transportationFee; 
 
             // Populate the booking summary
-            document.getElementById('summary-dest-image').src = destImage || ''; // Use a default value if null
+            document.getElementById('summary-dest-image').src = destinationImage || ''; // Use a default value if null
             document.getElementById('summary-dest1').innerText = destination1 || '';
             document.getElementById('summary-dest2').innerText = destination2 || '';
             document.getElementById('summary-fee').innerText = transportationFee || '';
-            document.getElementById('summary-fee-pp').innerText = transportationFee || '';
+            document.getElementById('summary-package-price').innerText = finalFee || '';
         });
 
         function selectPaymentMethod(method) {
@@ -321,6 +325,7 @@
     // Update the Mode of Payment in the booking summary
     document.getElementById('selected-payment-method').innerText = paymentMethodText;
 }
+
 
 </script>
     <script src="{% static 'customer_app/js/paymentsummarypopup.js' %}"></script>
