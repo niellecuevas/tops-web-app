@@ -40,7 +40,7 @@ from .models import Destination
 class DestinationForm(forms.ModelForm):
     class Meta:
         model = Destination
-        fields = ['file_upload', 'destination1', 'destination2', 'transportationfee']
+        fields = ['file_upload', 'destination1', 'destination2', 'base_price']
 
     def clean_file_upload(self):
         file_upload = self.cleaned_data.get('file_upload')
@@ -48,6 +48,10 @@ class DestinationForm(forms.ModelForm):
             if not file_upload.name.endswith(('.png', '.jpg', '.jpeg')):
                 raise forms.ValidationError("Only image files are allowed (PNG, JPG, JPEG).")
         return file_upload
+    
+    widgets = {
+            'base_price': forms.NumberInput(attrs={'step': '0.01'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(DestinationForm, self).__init__(*args, **kwargs)

@@ -175,6 +175,11 @@ def customer_homepage2(request):
     dest1 = get_object_or_404(Destination, id=1)
     dest2 = get_object_or_404(Destination, id=2)
     dest3 = get_object_or_404(Destination, id=3)
+
+     # Retrieve the ppc_en_data from the session
+    ppc_en_data = request.session.get('ppc_en_data', None)
+    milan_data = request.session.get('milan_data', None)
+    frendz_data = request.session.get('frendz_data', None)
     
     context = {
         'came_from_payment': came_from_payment,
@@ -191,7 +196,9 @@ def customer_homepage2(request):
         'dest1': dest1,
         'dest2': dest2,
         'dest3': dest3,
-
+        'ppc_en_data': ppc_en_data,
+        'milan_data': milan_data,
+        'frendz_data': frendz_data
     }
 
     # Check if the user came from the payment page

@@ -3,6 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from admin_app.models import Destination  # Import Destination from admin_app
+from customer_app.models import Booking  # Import Booking from customer_app
+from django.db.models import Sum
+
 
 def admin_login(request):
     if request.method == 'POST':
@@ -48,13 +52,32 @@ def destination(request):
     # Query all Destination instances
     destinations = Destination.objects.all()
 
+    # Prepare a list to store price calculations
+    pricing_data = []
+
+    for destination in destinations:
+        # Get forecasted passenger count
+        forecasted_pax = Booking.objects.filter(destination=destination).aggregate(Sum('passenger_count'))['passenger_count__sum'] or 0
+        
+        # Calculate dynamic price
+        dynamic_price = calculate_dynamic_price(destination.base_price, forecasted_pax)
+
+        # Store the result in a list
+        pricing_data.append({
+            'destination': destination,
+            'forecasted_pax': forecasted_pax,
+            'base_price': destination.base_price,
+            'dynamic_price': dynamic_price
+        })
+
     # Optional debugging: Print URLs of uploaded files for all destinations
     for dest in destinations:
         print(dest.file_upload.url if dest.file_upload else 'No file uploaded')
 
     return render(request, 'admin_app/destination.html', {
         'form': form,
-        'destination': destinations,  # Corrected to provide a queryset
+        'destination': destinations, 
+        'pricing_data': pricing_data,
     })
 
 def update_destination(request, destination_id):
@@ -219,6 +242,18 @@ from django.shortcuts import render
 import pandas as pd
 from prophet import Prophet
 
+def calculate_dynamic_price(base_price, forecasted_pax):
+        try:
+            if forecasted_pax < 50:  # Low demand
+                return base_price * 0.9  # 10% discount
+            elif 50 <= forecasted_pax <= 100:  # Moderate demand
+                return base_price  # No change
+            else:  # High demand
+                return base_price * 1.2  # 20% increase
+        except Exception as e:
+            print(f"Error in dynamic pricing calculation: {e}")
+            return base_price  # Fallback to base price
+
 def statistics_view(request):
     # Load CSV
     df = pd.read_csv('media/datasets/final_data.csv', names=['DATE', 'DESTINATION', 'PAX', 'AMOUNT', 'TOTAL', 'AGENCY'])
@@ -259,18 +294,6 @@ def statistics_view(request):
     # Initialize the forecasts dictionary to store forecast data
     forecasts = {}
 
-    def calculate_dynamic_price(base_price, forecasted_pax):
-        try:
-            if forecasted_pax < 50:  # Low demand
-                return base_price * 0.9  # 10% discount
-            elif 50 <= forecasted_pax <= 100:  # Moderate demand
-                return base_price  # No change
-            else:  # High demand
-                return base_price * 1.2  # 20% increase
-        except Exception as e:
-            print(f"Error in dynamic pricing calculation: {e}")
-            return base_price  # Fallback to base price
-
     for destination in reordered_destinations:
         # Actual data for this destination
         dest_actual = actual_data[actual_data['DESTINATION'] == destination]
@@ -306,7 +329,8 @@ def statistics_view(request):
             base_prices.update({
                 'PPC-EN': 5000,
                 'EN-PPC': 5000,
-                'MILAN': 1400
+                'MILAN': 5000,
+                'FRENDZ': 1800
             })
 
             base_price = base_prices.get(destination, default_base_price)  # Get base price dynamically
@@ -347,6 +371,27 @@ def statistics_view(request):
             data = [item['dynamic_price'] for item in visualization_data]
             base_prices_list = [item['base_price'] for item in visualization_data]
             forecasted_pax = [item['forecasted_pax'] for item in visualization_data]
+
+             # Filter the data for the PPC-EN destination
+            ppc_en_data = next((item for item in visualization_data if item['destination'] == 'PPC-EN'), None)
+            milan_data = next((item for item in visualization_data if item['destination'] == 'MILAN'), None)
+            frendz_data = next((item for item in visualization_data if item['destination'] == 'FRENDZ'), None)
+            
+            # Store the ppc_en_data in the session
+            if ppc_en_data:
+                request.session['ppc_en_data'] = ppc_en_data
+            else:
+                print("No data found for PPC-EN.")
+
+            if milan_data:
+                request.session['milan_data'] = milan_data
+            else:
+                print("No data found for MILAN.")
+
+            if frendz_data:
+                request.session['frendz_data'] = frendz_data
+            else:
+                print("No data found for FRENDZ.")
 
 
     def calculate_total(row):
