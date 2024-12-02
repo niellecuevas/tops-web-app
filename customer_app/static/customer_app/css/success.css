@@ -1,0 +1,83 @@
+/* Base styles for the page */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Inclusive Sans', sans-serif; /* Body font */
+    background-color: #d229a2; /* Pink background */
+    background-image: url('../../../../static/images/foggy-birds.png');
+    background-repeat: repeat;
+    background-size: auto;
+    color: #333; /* Dark text for readability */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centered container with white background */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%; /* For responsiveness */
+    max-width: 400px; /* Smaller square */
+    padding: 20px;
+    background-color: #fff; /* White container */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center;
+    color: #333; /* Dark text inside the container */
+}
+
+/* Heading styles */
+h1 {
+    font-family: 'Gabarito', sans-serif; /* Heading font */
+    font-size: 28px;
+    color: #d229a2; /* Pink for contrast */
+    margin-bottom: 15px;
+}
+
+/* Paragraph styles */
+p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Link button styling */
+.container a {
+    display: inline-block;
+    padding: 10px 18px;
+    font-family: 'Gabarito', sans-serif; /* Heading font */
+    font-size: 16px;
+    color: #d229a2; /* Pink text */
+    background-color: #fff; /* White button */
+    border: 2px solid #d229a2; /* Pink border for the button */
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.container a:hover {
+    background-color: #f7f7f7; /* Light gray on hover */
+    transform: scale(1.05); /* Subtle zoom on hover */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .container a {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
