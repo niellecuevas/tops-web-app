@@ -17,4 +17,6 @@ urlpatterns = [
     path('van/<int:van_id>/', views.vandetail, name='vandetail'),
     path('van/<int:van_id>/book/', views.book_van, name='book_van'), 
     path('base/', views.base, name='base'),
+    path('search-custom-booking/', views.search_custom_booking, name='search_custom_booking'),
+    path('search-standard-booking/', views.search_standard_booking, name='search_standard_booking'),
 ]

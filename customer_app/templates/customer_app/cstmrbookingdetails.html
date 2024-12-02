@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital@0;1&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>GFS Travelista</title>
@@ -16,6 +17,7 @@
     <link rel="stylesheet" href="{% static 'customer_app/css/cstmrbookingdetails.css' %}">
 </head>
 <body>
+    <div class="nav-header">
     <nav>
         <!-- Checkbox for toggling menu -->
         <input type="checkbox" id="check">
@@ -26,42 +28,201 @@
         <!-- Site logo -->
         <label class="logo">GFS Travelista</label>
         <!-- Navigation links -->
+        
+        <!-- Custom Header -->
+        
         <ul>
             <li><a class="nav-link" href="{% url 'customerhomepage2' %}">Home</a></li>
             <li><a class="nav-link" href="{% url 'customisebook' %}">Private Ride</a></li>
             <li><a class="nav-link" href="#footer">About Us</a></li>
         </ul>
     </nav>
+    </div>
 
-    <div class="booking-id-section">
-        <label for="booking-id" class="booking-id-label">Enter your booking ID:</label>
-        <input type="text" id="booking-id" class="booking-id-input" placeholder="Enter ID here...">
-        <button class="submit-booking-id">SUBMIT</button>
-    </div>  
-
-        <div id = "home" class="bookinginfo-container"> 
-              <!-- Search Results -->
-              <h2 class="bookinginfo-title">Search Results</h2>
-                <p><strong>Destination:</strong> <span id="destination">--</span></p>
-                <p><strong>Starting Point:</strong> <span id="starting-point">--</span></p>
-                <p><strong>Transportation Fee:</strong> ₱<span id="transportation-fee">--</span></p>
-                <p><strong>Date and Time:</strong> <span id="date-time">--</span></p>
-
-                <h3>Personal Information</h3>
-                <p><strong>Full Name:</strong> <span id="full-name">--</span></p>
-                <p><strong>Contact No:</strong> <span id="contact-no">--</span></p>
-                <p><strong>No. of Passengers:</strong> <span id="passengers">--</span></p>
-                <p><strong>Additional Notes:</strong> <span id="notes">--</span></p>
-                <p><strong>Round Trip:</strong> <span id="round-trip">--</span></p>
-
-                <h3>Total Amount</h3>
-                <p><strong>Package Price:</strong> ₱<span id="package-price">--</span></p>
-                <p><strong>Mode of Payment:</strong> <span id="payment-mode">--</span></p>
-            <!-- Search Results End -->
+    <div class="container mt-5">
+    
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="bookingTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="custom-bookings-tab" data-bs-toggle="tab" data-bs-target="#custom-bookings" type="button" role="tab" aria-controls="custom-bookings" aria-selected="true">
+                    Custom Bookings
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="standard-bookings-tab" data-bs-toggle="tab" data-bs-target="#standard-bookings" type="button" role="tab" aria-controls="standard-bookings" aria-selected="false">
+                    Standard Bookings
+                </button>
+            </li>
+        </ul>
+    
+        <div class="tab-content mt-4">
+            <!-- Custom Bookings Tab -->
+            <div class="tab-pane fade show active" id="custom-bookings" role="tabpanel" aria-labelledby="custom-bookings-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Search Custom Bookings</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="get" action="{% url 'search_custom_booking' %}" id="customBookingForm">
+                            <div class="mb-3">
+                                <label for="custom_booking_id" class="form-label">Enter Custom Booking ID:</label>
+                                <input type="text" class="form-control" id="custom_booking_id" name="custom_booking_id" placeholder="Enter Custom Booking ID" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            
+                        </form>
+    
+                        {% if custom_booking_details %}
+                            <div class="mt-4">
+                                <h4>Results</h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Full Name</td>
+                                            <td>{{ custom_booking_details.full_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Passenger Count</td>
+                                            <td>{{ custom_booking_details.passenger_count }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contact Number</td>
+                                            <td>{{ custom_booking_details.contact_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email Address</td>
+                                            <td>{{ custom_booking_details.email_address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pickup Address</td>
+                                            <td>{{ custom_booking_details.pickup_address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dropoff Address</td>
+                                            <td>{{ custom_booking_details.dropoff_address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Additional Notes</td>
+                                            <td>{{ custom_booking_details.additional_notes }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Round Trip</td>
+                                            <td>{{ custom_booking_details.round_trip }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Van</td>
+                                            <td>{{ custom_booking_details.van }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Van Driver</td>
+                                            <td>{{ custom_booking_details.van.driver.name }}</td>  <!-- Accessing driver name from the Van model -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% elif custom_booking_error %}
+                            <p class="text-danger mt-4">{{ custom_booking_error }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Standard Bookings Tab -->
+            <div class="tab-pane fade" id="standard-bookings" role="tabpanel" aria-labelledby="standard-bookings-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Search Standard Bookings</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="get" action="{% url 'search_standard_booking' %}" id="standardBookingForm">
+                            <div class="mb-3">
+                                <label for="standard_booking_id" class="form-label">Enter Standard Booking ID:</label>
+                                <input type="text" class="form-control" id="standard_booking_id" name="standard_booking_id" placeholder="Enter Standard Booking ID" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+    
+                        {% if standard_booking_details %}
+                            <div class="mt-4">
+                                <h4>Results</h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Full Name</td>
+                                            <td>{{ standard_booking_details.full_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Passenger Count</td>
+                                            <td>{{ standard_booking_details.passenger_count }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contact Number</td>
+                                            <td>{{ standard_booking_details.contact_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pickup DateTime</td>
+                                            <td>{{ standard_booking_details.pickup_datetime }}</td>
+                                        </tr>
+                                        <!--
+                                        <tr>
+                                            <td>Payment Mode</td>
+                                            <td>{{ standard_booking_details.payment_mode }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Proof of Payment</td>
+                                            <td>
+                                                {% if standard_booking_details.proof_of_payment %}
+                                                    <a href="{{ standard_booking_details.proof_of_payment.url }}" target="_blank">View Proof</a>
+                                                {% else %}
+                                                    Not Uploaded
+                                                {% endif %}
+                                            </td>
+                                        </tr> -->
+                                        <tr>
+                                            <td>Destination1</td>
+                                            <td>{{ standard_booking_details.destination1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Destination2</td>
+                                            <td>{{ standard_booking_details.destination2 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Round Trip</td>
+                                            <td>{{ standard_booking_details.round_trip|yesno:"Yes,No" }}</td>
+                                        </tr>
+                                            <td>Transportation Fee</td>
+                                            <td>{{ standard_booking_details.transportation_fee }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Final Fee</td>
+                                            <td>{{ standard_booking_details.final_fee }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% elif standard_booking_error %}
+                            <p class="text-danger mt-4">{{ standard_booking_error }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-
-<div>
-    {% include 'customer_app/footer.html' %}
-</div>
+    </div>
+    
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

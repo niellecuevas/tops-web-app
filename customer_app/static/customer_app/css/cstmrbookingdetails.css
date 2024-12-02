@@ -1,153 +1,48 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+body {
+    font-family: "Inclusive Sans", sans-serif;
 }
 
-/* Booking ID section styling (adjusted for spacing and mobile view) */
-.booking-id-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+nav {
+    background: #ce40b0;
+    height: 80px;
     width: 100%;
-    max-width: 450px;
-    background-color: #fff;
-    padding: 20px; /* Reduced padding for more space */
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Inclusive Sans', sans-serif;
-    color: #333;
-    margin: 15px auto; /* Reduced margin between containers */
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;  /* Make the header sticky */
+    top: 0;            /* Stick to the top */
+    z-index: 999;
 }
 
-/* Label styles */
-.booking-id-label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #d229a2;
-    font-family: 'Gabarito', sans-serif;
-    text-align: center;
-}
-
-/* Input field styling */
-.booking-id-input {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    color: #333;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Button styling */
-.submit-booking-id {
-    padding: 12px 20px;
-    background-color: #5c9fcf;
+label.logo {
     color: white;
-    font-size: 16px;
-    font-family: 'Gabarito', sans-serif;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-booking-id:hover {
-    background-color: #4a89b8;
-}
-
-
-/* Booking info container styles (with pink border instead of box shadow) */
-.bookinginfo-container {
-    display: flex;
-    flex-direction: column;
-    min-height: auto;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
-    padding-bottom: 40px; /* Space at the bottom */
-    background-color: #f7f7f7;
-    border: 2px solid #d229a2; /* Pink border instead of box-shadow */
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-family: 'Inclusive Sans', sans-serif;
-    color: #333;
-}
-
-/* Search Results */
-.search-results {
-    font-family: 'Inclusive Sans', sans-serif; /* Body font */
-    max-width: 800px; /* Wider container */
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f7f7f7; /* Soft off-white background */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    color: #333; /* Dark text color */
-}
-
-.search-results-title {
-    font-family: 'Gabarito', sans-serif; /* Heading font */
-    font-size: 26px;
-    color: #d229a2; /* Your pink theme color */
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-h3 {
-    font-family: 'Gabarito', sans-serif; /* Heading font */
-    font-size: 20px;
-    color: #5c9fcf; /* Matching the blue color */
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-p {
-    font-size: 18px;
-    line-height: 1.6;
-    margin: 5px 0;
-}
-
-p strong {
-    color: #d229a2; /* Highlight key information with pink color */
-}
-
-p span {
-    color: #333; /* Placeholder values are neutral */
+    font-size: 25px;
+    line-height: 80px;
+    padding: 0 100px;
     font-weight: bold;
 }
 
-#destination, #starting-point, #transportation-fee, #date-time,
-#full-name, #contact-no, #passengers, #notes, #round-trip,
-#package-price, #payment-mode {
-    font-weight: bold;
+nav ul {
+    float: right;
+    margin-right: 20px;
 }
 
-/* Responsive adjustments for mobile */
-@media (max-width: 768px) {
-    .booking-id-section {
-        padding: 15px; /* Reduced padding to make it fit better */
-        width: 95%; /* Slightly reduce width for mobile */
-        margin: 10px auto; /* Keep margin minimal for spacing */
-    }
+nav ul li {
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+    color: white;
+}
 
-    .booking-id-label {
-        font-size: 16px; /* Smaller label text for mobile */
-    }
+nav ul li a{
+    color: white;
+    font-size: 17px;
+    padding: 7px 13px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
 
-    .booking-id-input {
-        font-size: 14px; /* Smaller input text for mobile */
-    }
-
-    .submit-booking-id {
-        font-size: 14px; /* Smaller button text for mobile */
-    }
-
-    .bookinginfo-container {
-        padding: 10px;
-        padding-bottom: 20px; /* Adjust bottom padding for mobile */
-    }
+ul li a.active,
+ul li a:hover {
+    color: #fcd23c;
+    transition: .5s;
 }

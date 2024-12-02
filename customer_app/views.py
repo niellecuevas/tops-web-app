@@ -162,6 +162,41 @@ def customisebook(request):
 def cstmrbookingdetails(request):
     return render(request, 'customer_app/cstmrbookingdetails.html') 
 
+def search_custom_booking(request):
+    custom_booking_details = None
+    custom_booking_error = None
+
+    if 'custom_booking_id' in request.GET:
+        custom_booking_id = request.GET.get('custom_booking_id').strip()
+        if custom_booking_id:
+            try:
+                custom_booking_details = CustomBooking.objects.select_related('van').get(id=custom_booking_id)
+            except CustomBooking.DoesNotExist:
+                custom_booking_error = f"No Custom Booking found with ID: {custom_booking_id}"
+
+    return render(request,'customer_app/cstmrbookingdetails.html', {
+        'custom_booking_details': custom_booking_details,
+        'custom_booking_error': custom_booking_error,
+    })
+
+def search_standard_booking(request):
+    standard_booking_details = None
+    standard_booking_error = None
+
+    if 'standard_booking_id' in request.GET:
+        standard_booking_id = request.GET.get('standard_booking_id').strip()
+        if standard_booking_id:
+            try:
+                standard_booking_details = Booking.objects.select_related('destination').get(id=standard_booking_id)
+            except Booking.DoesNotExist:
+                standard_booking_error = f"No Standard Booking found with ID: {standard_booking_id}"
+
+    return render(request,'customer_app/cstmrbookingdetails.html', {
+        'standard_booking_details': standard_booking_details,
+        'standard_booking_error': standard_booking_error,
+    })
+
+
 def success(request):
     # Optionally, you can pass more context if needed
     return render(request, 'customer_app/success.html')
