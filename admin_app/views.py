@@ -163,19 +163,20 @@ def driver_management(request):
 
 # admin_app/views.py
 
-from customer_app.models import Booking  # Import the Booking model
+from customer_app.models import Booking, CustomBooking  # Import the Booking model
 
 @login_required
 def admin_bookings(request):
     query = request.GET.get('q')  # Get the search query
     # Retrieve all bookings from the database
-    bookings = Booking.objects.all()  # You can add filtering or ordering if needed
+    bookings = Booking.objects.all()  
+    custombookings = CustomBooking.objects.all()
     if query:
         # Filter bookings based on the search query
         bookings = bookings.filter(full_name__icontains=query)
 
 
-    return render(request, 'admin_app/adminbookings.html', {'bookings': bookings})
+    return render(request, 'admin_app/adminbookings.html', {'bookings': bookings,'custombookings': custombookings})
 
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse

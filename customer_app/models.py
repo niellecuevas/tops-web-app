@@ -14,10 +14,11 @@ class Booking(models.Model):
     proof_of_payment = models.FileField(upload_to='payments/', blank=True, null=True)
 
     # New fields for destination information
-    dest_image = models.URLField(blank=True, null=True)
     destination1 = models.CharField(max_length=255, blank=True, null=True)
     destination2 = models.CharField(max_length=255, blank=True, null=True)
     transportation_fee = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    final_fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
 
 class CustomBooking(models.Model):
     full_name = models.CharField(max_length=255)

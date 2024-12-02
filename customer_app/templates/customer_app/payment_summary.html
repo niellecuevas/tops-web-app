@@ -189,7 +189,7 @@
                 <input type="file" id="proof" name="proof">
             </div>
             <div class="terms">
-                <input type="checkbox" id="terms" name="terms">
+                <input type="checkbox" id="terms" name="terms" required>
                 <label for="terms">
                     I have read the 
                     <a href="#" id="terms-link">Terms and Conditions</a>
@@ -206,19 +206,6 @@
         <!-- Booking Summary -->
         <div class="booking-summary">
             <h2>Booking Summary</h2>
-
-            <!-- Hidden Inputs for Data Submission -->
-        <input type="hidden" name="full_name" value="{{ full_name }}">
-        <input type="hidden" name="passenger_count" value="{{ passenger_count }}">
-        <input type="hidden" name="contact_number" value="{{ contact_number }}">
-        <input type="hidden" name="pickup_datetime" value="{{ pickup_datetime }}">
-        <input type="hidden" name="pickup_address" value="{{ pickup_address }}">
-        <input type="hidden" name="dropoff_address" value="{{ dropoff_address }}">
-        <input type="hidden" name="additional_notes" value="{{ additional_notes }}">
-        <input type="hidden" name="round_trip" value="{{ round_trip }}">
-        <input type="hidden" name="payment_mode" value="{{ payment_mode }}">
-        <input type="hidden" name="package_price" value="{{ package_price }}">
-        <input type="hidden" name="van_id" value="{{ van_id }}">
 
         <div class="summary-section" id="booking-summary">
             <img src="" alt="Destination Image" id="summary-dest-image" class="imageVan">
@@ -254,6 +241,12 @@
                 <p><strong>Mode of Payment:</strong> <span id="selected-payment-method">Cash</span></p>
                 <form action="{% url 'save_booking' %}" method="post">
                     {% csrf_token %}
+
+                    <input type="hidden" name="destination1" id="form-destination1">
+                    <input type="hidden" name="destination2" id="form-destination2">
+                    <input type="hidden" name="transportation_fee" id="form-transportation-fee">
+                    <input type="hidden" id="final-fee-input" name="final_fee" value="">
+
                     <button type="submit" class="book-now-btn" onclick="finalizeBooking()">Confirm Booking</button>
                 </form>
                 <hr>
@@ -325,7 +318,23 @@
     // Update the Mode of Payment in the booking summary
     document.getElementById('selected-payment-method').innerText = paymentMethodText;
 }
+</script>
+<script>
+    function finalizeBooking() {
+    // Retrieve data from sessionStorage
+    const destination1 = sessionStorage.getItem("destination1");
+    const destination2 = sessionStorage.getItem("destination2");
+    const roundTrip = "{{ round_trip }}";  // Access round_trip from Django context
+    const transportationFee = Number(sessionStorage.getItem('transportationFee'));
+            // Calculate the final fee based on round trip status
+    const finalFee = roundTrip === "True" ? transportationFee * 2 : transportationFee; 
 
+    // Populate the form's hidden fields
+    document.getElementById("form-destination1").value = destination1;
+    document.getElementById("form-destination2").value = destination2;
+    document.getElementById("form-transportation-fee").value = transportationFee;
+    document.getElementById('final-fee-input').value = finalFee || '';
+}
 
 </script>
     <script src="{% static 'customer_app/js/paymentsummarypopup.js' %}"></script>

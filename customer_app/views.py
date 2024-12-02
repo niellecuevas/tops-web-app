@@ -120,11 +120,11 @@ def save_booking(request):
         additional_notes = request.session.get('additional_notes')
         round_trip = request.session.get('round_trip', False)
 
-          # Retrieve new data for destination from POST request
-        dest_image = request.POST.get('dest_image')
-        destination1 = request.POST.get('destination1')
-        destination2 = request.POST.get('destination2')
-        transportation_fee = request.POST.get('transportation_fee')
+        # Retrieve data from the form
+        destination1 = request.POST.get("destination1")
+        destination2 = request.POST.get("destination2")
+        transportation_fee = request.POST.get("transportation_fee")
+        final_fee = request.POST.get('final_fee')
 
 
         # Create and save the booking
@@ -135,10 +135,10 @@ def save_booking(request):
             pickup_datetime=pickup_datetime,
             additional_notes=additional_notes,
             round_trip=round_trip,
-            dest_image=dest_image,  # Assuming this field exists
             destination1=destination1,
             destination2=destination2,
             transportation_fee=transportation_fee,
+            final_fee=final_fee
         )
         
         # Optionally, clear the session data
