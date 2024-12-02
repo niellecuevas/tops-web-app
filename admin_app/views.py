@@ -238,162 +238,178 @@ def delete_destination(request, destination_id):
 
     return redirect('destination')  # Redirect if not a POST request
 
-
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import numpy as np
 from django.shortcuts import render
 import pandas as pd
 from prophet import Prophet
 
+# Utility function to calculate dynamic pricing based on forecasted demand
 def calculate_dynamic_price(base_price, forecasted_pax):
-        try:
-            if forecasted_pax < 50:  # Low demand
-                return base_price * 0.9  # 10% discount
-            elif 50 <= forecasted_pax <= 100:  # Moderate demand
-                return base_price  # No change
-            else:  # High demand
-                return base_price * 1.2  # 20% increase
-        except Exception as e:
-            print(f"Error in dynamic pricing calculation: {e}")
-            return base_price  # Fallback to base price
+    try:
+        if forecasted_pax < 50:  # Low demand
+            return base_price * 0.9  # 10% discount
+        elif 50 <= forecasted_pax <= 100:  # Moderate demand
+            return base_price  # No change
+        else:  # High demand
+            return base_price * 1.2  # 20% increase
+    except Exception as e:
+        print(f"Error in dynamic pricing calculation: {e}")
+        return base_price  # Fallback to base price
 
+# View function for generating and rendering statistics
 def statistics_view(request):
-    # Load CSV
-    df = pd.read_csv('media/datasets/final_data.csv', names=['DATE', 'DESTINATION', 'PAX', 'AMOUNT', 'TOTAL', 'AGENCY'])
-    
-    # Remove header row if mixed
-    df = df[df['DATE'] != 'DATE']
+    # =============================
+    # 1. Load and Preprocess Data
+    # =============================
 
-    # Handle invalid dates
+    # Load CSV file
+    df = pd.read_csv('media/datasets/final_data.csv', names=['DATE', 'DESTINATION', 'PAX', 'AMOUNT', 'TOTAL', 'AGENCY'])
+
+    # Remove header row if mixed and handle invalid dates
+    df = df[df['DATE'] != 'DATE']
     df['DATE'] = pd.to_datetime(df['DATE'], format='%m/%d/%Y', errors='coerce')
     df = df.dropna(subset=['DATE'])
-    
-    # Convert numeric columns
+
+    # Convert numeric columns and drop rows with invalid data
     df['PAX'] = pd.to_numeric(df['PAX'], errors='coerce')
     df['AMOUNT'] = pd.to_numeric(df['AMOUNT'], errors='coerce')
     df['TOTAL'] = pd.to_numeric(df['TOTAL'], errors='coerce')
-
-    # Drop rows with invalid PAX or TOTAL
     df = df.dropna(subset=['PAX', 'TOTAL'])
 
     # Group bookings by month and destination
     df['MONTH'] = df['DATE'].dt.to_period('M').dt.to_timestamp()
     actual_data = df.groupby(['MONTH', 'DESTINATION'])['PAX'].sum().reset_index()
 
-    # Get top 10 destinations by total bookings
+    # Identify top 10 destinations
     top_destinations = actual_data.groupby('DESTINATION')['PAX'].sum().nlargest(10).index
-    
-    # Rearrange top_destinations so that charts 5-10 appear first, followed by charts 1-4
     reordered_destinations = top_destinations[4:].tolist() + top_destinations[:4].tolist()
 
-    # Define holidays (example: you can add more or use a holiday API)
+    # =============================
+    # 2. Define Holidays for Forecasting
+    # =============================
+
     holidays = pd.DataFrame({
-        'holiday': ['New Year', 'Christmas', 'Easter'],  # Example holidays
-        'ds': pd.to_datetime(['2024-01-01', '2024-12-25', '2024-04-09']),  # Example holiday dates (use the actual dates you need)
-        'lower_window': 0,  # Holiday effect starts on the holiday date
-        'upper_window': 1   # Holiday effect continues for one day after
+        'holiday': ['New Year', 'Christmas', 'Easter'],
+        'ds': pd.to_datetime(['2024-01-01', '2024-12-25', '2024-04-09']),
+        'lower_window': 0,
+        'upper_window': 1
     })
 
-    # Initialize the forecasts dictionary to store forecast data
-    forecasts = {}
+    # =============================
+    # 3. Forecasting and Visualization Data
+    # =============================
+
+    forecasts = {}  # To store forecast data
+
+    # Lists to store overall forecasted and actual values
+    all_forecasted_pax = []
+    all_actual_pax_values = []
+    all_mape_values = []
+
+    default_base_price = 1800  # Default base price
+    base_prices = {
+        destination: default_base_price for destination in df['DESTINATION'].unique()
+    }
+    base_prices.update({'PPC-EN': 5000, 'EN-PPC': 5000, 'MILAN': 5000, 'FRENDZ': 1800})
 
     for destination in reordered_destinations:
-        # Actual data for this destination
         dest_actual = actual_data[actual_data['DESTINATION'] == destination]
-        
-        # Prepare forecast data for this destination
         dest_data = df[df['DESTINATION'] == destination]
         prophet_df = pd.DataFrame({'ds': dest_data['DATE'], 'y': dest_data['PAX']}).sort_values('ds')
 
         if not prophet_df.empty:
-            # Create and train the Prophet model
+            # Train Prophet model
             model = Prophet(yearly_seasonality=True, weekly_seasonality=True, holidays=holidays)
             model.fit(prophet_df)
 
-            # Calculate the number of periods until the end of 2024
-            last_date = dest_data['DATE'].max()  # Get the latest date in the data
-            end_of_2024 = pd.to_datetime('2024-12-31')  # Define the end of 2024
-            periods = (end_of_2024 - last_date).days  # Calculate the number of days between the last date and 12/31/2024
-            
-            # Generate future dates for prediction until the end of 2024
-            future_dates = model.make_future_dataframe(periods=periods, freq='D')  # Ensure daily frequency for the prediction
+            # Generate future dates for prediction
+            last_date = dest_data['DATE'].max()
+            periods = (pd.to_datetime('2024-12-31') - last_date).days
+            future_dates = model.make_future_dataframe(periods=periods, freq='D')
             forecast = model.predict(future_dates)
 
-            # Dynamically get all unique destinations from the data
-            unique_destinations = df['DESTINATION'].unique()
-
-            # Define a default base price
-            default_base_price = 1800
-
-            # Create a dictionary of base prices for each destination dynamically
-            base_prices = {destination: default_base_price for destination in unique_destinations}
-
-            # Update specific destination base prices
-            base_prices.update({
-                'PPC-EN': 5000,
-                'EN-PPC': 5000,
-                'MILAN': 5000,
-                'FRENDZ': 1800
-            })
-
-            base_price = base_prices.get(destination, default_base_price)  # Get base price dynamically
-
-            # Combine the forecasted dates and predicted passenger numbers
+            base_price = base_prices.get(destination, default_base_price)
             combined_data = [
-                {'date': date, 
-                 'forecasted_pax': pax,
-                 'dynamic_price': calculate_dynamic_price(base_price, pax)
+                {
+                    'date': date,
+                    'forecasted_pax': pax,
+                    'dynamic_price': calculate_dynamic_price(base_price, pax)
                 }
                 for date, pax in zip(forecast['ds'].dt.strftime('%Y-%m-%d'), forecast['yhat'])
             ]
 
-            # Store the forecast data in the forecasts dictionary
             forecasts[destination] = {
-                'dates': forecast['ds'].dt.strftime('%Y-%m-%d').tolist(),  # Convert datetime to string
-                'yhat': forecast['yhat'].tolist(),  # Forecasted passenger numbers
-                'actual_data': {str(k): v for k, v in dest_actual.set_index('MONTH')['PAX'].to_dict().items()},  # Actual PAX for the destination
-                'combined_data': combined_data, # Combined list of date and forecasted pax
-                'base_price': base_price,  
+                'dates': forecast['ds'].dt.strftime('%Y-%m-%d').tolist(),
+                'yhat': forecast['yhat'].tolist(),
+                'actual_data': {str(k): v for k, v in dest_actual.set_index('MONTH')['PAX'].to_dict().items()},
+                'combined_data': combined_data,
+                'base_price': base_price,
             }
+# Now we calculate the accuracy (MAE) for the model prediction
+            # Ensure that we have the actual PAX values for the forecasted dates
+            forecast_dates = forecast['ds'].dt.strftime('%Y-%m-%d').tolist()
+            forecasted_pax = forecast['yhat'].tolist()
 
-            # Prepare data for visualization
-            visualization_data = [
-                {
-                    'destination': destination,
-                    'dynamic_price': calculate_dynamic_price(
-                        base_prices.get(destination, default_base_price),
-                        sum([entry['forecasted_pax'] for entry in data['combined_data']])
-                    ),
-                    'base_price': base_prices.get(destination, default_base_price),
-                    'forecasted_pax': sum([entry['forecasted_pax'] for entry in data['combined_data']])  
-                }
-                for destination, data in forecasts.items()
-            ]
+            # Actual PAX values from the dataset for the forecasted dates
+            actual_pax_values = [dest_actual[dest_actual['MONTH'] == pd.to_datetime(date)].iloc[0]['PAX'] if not dest_actual[dest_actual['MONTH'] == pd.to_datetime(date)].empty else 0 for date in forecast_dates]
 
-            labels = [item['destination'] for item in visualization_data]
-            data = [item['dynamic_price'] for item in visualization_data]
-            base_prices_list = [item['base_price'] for item in visualization_data]
-            forecasted_pax = [item['forecasted_pax'] for item in visualization_data]
+            # Append to the overall lists
+            all_forecasted_pax.extend(forecasted_pax)
+            all_actual_pax_values.extend(actual_pax_values)
 
-             # Filter the data for the PPC-EN destination
-            ppc_en_data = next((item for item in visualization_data if item['destination'] == 'PPC-EN'), None)
-            milan_data = next((item for item in visualization_data if item['destination'] == 'MILAN'), None)
-            frendz_data = next((item for item in visualization_data if item['destination'] == 'FRENDZ'), None)
-            
-            # Store the ppc_en_data in the session
-            if ppc_en_data:
-                request.session['ppc_en_data'] = ppc_en_data
-            else:
-                print("No data found for PPC-EN.")
+            # Calculate Mean Absolute Error (MAE) and RMSE for this destination
+            mae = mean_absolute_error(actual_pax_values, forecasted_pax)
+            rmse = np.sqrt(mean_squared_error(actual_pax_values, forecasted_pax))
+            # Calculate MAPE for this destination
+            mape = np.mean([abs((true - forecasted) / true) * 100 if true != 0 else 0 for true, forecasted in zip(actual_pax_values, forecasted_pax)])
 
-            if milan_data:
-                request.session['milan_data'] = milan_data
-            else:
-                print("No data found for MILAN.")
+            # Append MAPE to the list
+            all_mape_values.append(mape)
 
-            if frendz_data:
-                request.session['frendz_data'] = frendz_data
-            else:
-                print("No data found for FRENDZ.")
 
+            # Store the accuracy metrics for each destination
+            forecasts[destination]['mae'] = mae
+            forecasts[destination]['rmse'] = rmse
+            forecasts[destination]['mape'] = mape
+
+            print(f"Accuracy for {destination} - MAE: {mae}, RMSE: {rmse}, MAPE: {mape}")
+
+    # Prepare visualization data
+    visualization_data = [
+        {
+            'destination': destination,
+            'dynamic_price': calculate_dynamic_price(
+                base_prices.get(destination, default_base_price),
+                sum([entry['forecasted_pax'] for entry in data['combined_data']])
+            ),
+            'base_price': base_prices.get(destination, default_base_price),
+            'forecasted_pax': sum([entry['forecasted_pax'] for entry in data['combined_data']])
+        }
+        for destination, data in forecasts.items()
+    ]
+
+    # Calculate overall accuracy for all forecasts
+    overall_mae = mean_absolute_error(all_actual_pax_values, all_forecasted_pax)
+    overall_rmse = np.sqrt(mean_squared_error(all_actual_pax_values, all_forecasted_pax))
+    overall_mape = np.mean(all_mape_values)
+    
+    print(f"Overall Accuracy - MAE: {overall_mae}, RMSE: {overall_rmse}, MAPE: {overall_mape}")
+
+    # =============================
+    # 4. Store Specific Data in Session
+    # =============================
+
+    for key in ['PPC-EN', 'MILAN', 'FRENDZ']:
+        specific_data = next((item for item in visualization_data if item['destination'] == key), None)
+        if specific_data:
+            request.session[f'{key.lower()}_data'] = specific_data
+        else:
+            print(f"No data found for {key}.")
+
+    # =============================
+    # 5. Calculate Totals and Summaries
+    # =============================
 
     def calculate_total(row):
         try:
@@ -402,28 +418,34 @@ def statistics_view(request):
             else:
                 return row['PAX'] * row['AMOUNT']
         except:
-            return 0  # Handle any errors gracefully
+            return 0
 
-    # Apply the calculation to each row
     df['calculated_total'] = df.apply(calculate_total, axis=1)
-
-    # Group by DESTINATION for charts
     destination_summary = df.groupby('DESTINATION').agg(
         total_bookings=('PAX', 'count'),
         total_passengers=('PAX', 'sum'),
         total_revenue=('calculated_total', 'sum')
     ).reset_index()
 
-    # Calculate total summary metrics for container boxes
     total_bookings = df['PAX'].count()
     total_passengers = df['PAX'].sum()
     total_revenue = df['calculated_total'].sum()
 
-    # Pass the forecasts data to the HTML template
+    # =============================
+    # 6. Render the Template
+    # =============================
+
+    labels = [item['destination'] for item in visualization_data]
+    data = [item['dynamic_price'] for item in visualization_data]
+    base_prices_list = [item['base_price'] for item in visualization_data]
+    forecasted_pax = [item['forecasted_pax'] for item in visualization_data]
+
     return render(request, 'admin_app/adminstatistics.html', {
+        'overall_mae': overall_mae,
+        'overall_rmse': overall_rmse,
         'visualization_data': visualization_data,
-        'labels': labels,  # List of destinations
-        'data': data,      # List of dynamic prices
+        'labels': labels,
+        'data': data,
         'base_prices': base_prices_list,
         'forecasted_pax': forecasted_pax,
         'forecasts': forecasts,
@@ -431,4 +453,3 @@ def statistics_view(request):
         'total_passengers': total_passengers,
         'total_revenue': total_revenue,
     })
-

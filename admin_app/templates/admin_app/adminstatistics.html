@@ -34,10 +34,6 @@
             margin-top: 0;
         }
 
-        h4{
-            color: palevioletred;
-        }
-
 
         body.dark-mode .box {
             background-color: #717171;
@@ -205,8 +201,8 @@
                                 {x: '{{ month }}', y: {{ pax }}},
                             {% endfor %}
                         ],
-                        borderColor: 'pink',
-                        backgroundColor: 'pink',
+                        borderColor: 'blue',
+                        backgroundColor: 'blue',
                         showLine: true,
                     },
                     {
@@ -216,8 +212,8 @@
                                 {x: '{{ item.date }}', y: {{ item.forecasted_pax }}},
                             {% endfor %}
                         ],
-                        borderColor: 'yellow',
-                        backgroundColor: 'yellow',
+                        borderColor: 'red',
+                        backgroundColor: 'red',
                         showLine: true,
                     }
                 ]
