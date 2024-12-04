@@ -173,3 +173,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gfstravelista@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'lkzy vzpv lkkd zfss'  # Your email password or app password
                                           
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}

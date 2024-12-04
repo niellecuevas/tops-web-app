@@ -172,23 +172,29 @@ def admin_bookings(request):
     # Filter `Booking` entries by status
     pending_bookings = Booking.objects.filter(status='Pending')
     confirmed_bookings = Booking.objects.filter(status='Confirmed')
+    cancelled_bookings = Booking.objects.filter(status='Cancelled')
     
     # Filter `CustomBooking` entries by status
     pending_custom_bookings = CustomBooking.objects.filter(custom_status='Pending')
     confirmed_custom_bookings = CustomBooking.objects.filter(custom_status='Confirmed')
+    cancelled_custom_bookings = CustomBooking.objects.filter(custom_status='Cancelled')
 
     # Apply search query to both Booking and CustomBooking models
     if query:
         pending_bookings = pending_bookings.filter(full_name__icontains=query)
         confirmed_bookings = confirmed_bookings.filter(full_name__icontains=query)
+        cancelled_bookings = cancelled_bookings.filter(full_name__icontains=query)
         pending_custom_bookings = pending_custom_bookings.filter(full_name__icontains=query)
         confirmed_custom_bookings = confirmed_custom_bookings.filter(full_name__icontains=query)
+        cancelled_custom_bookings = cancelled_custom_bookings.filter(full_name__icontains=query)
 
     return render(request, 'admin_app/adminbookings.html', {
         'pending_custom_bookings': pending_custom_bookings,
         'confirmed_custom_bookings': confirmed_custom_bookings,
+        'cancelled_custom_bookings': cancelled_custom_bookings,
         'pending_bookings': pending_bookings,
         'confirmed_bookings': confirmed_bookings,
+        'cancelled_bookings': cancelled_bookings,
     })
 
 
@@ -199,11 +205,24 @@ def confirm_booking(request, booking_id):
     booking.save()
     return redirect('admin_bookings')
 
+def cancel_booking(request, booking_id):
+    # Cancel a booking
+    booking = get_object_or_404(Booking, id=booking_id)
+    booking.status = 'Cancelled'  # Change status to "Cancelled"
+    booking.save()
+    return redirect('admin_bookings')
 
 def confirm_custom_booking(request, booking_id):
     # Confirm a custom booking
     custom_booking = get_object_or_404(CustomBooking, id=booking_id)
     custom_booking.custom_status = 'Confirmed'  # Change custom_status to "Confirmed"
+    custom_booking.save()
+    return redirect('admin_bookings')
+
+def cancel_custom_booking(request, booking_id):
+    # Cancel a booking
+    custom_booking = get_object_or_404(CustomBooking, id=booking_id)
+    custom_booking.custom_status = 'Cancelled'  # Change status to "Cancelled"
     custom_booking.save()
     return redirect('admin_bookings')
 
