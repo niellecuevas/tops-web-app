@@ -12,6 +12,11 @@ class Booking(models.Model):
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, default='1')
     payment_mode = models.CharField(max_length=50)
     proof_of_payment = models.FileField(upload_to='payments/', blank=True, null=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed')],
+        default='Pending'  # Default status is "Pending"
+    )
 
     # New fields for destination information
     destination1 = models.CharField(max_length=255, blank=True, null=True)
@@ -31,4 +36,9 @@ class CustomBooking(models.Model):
     additional_notes = models.TextField(blank=True, null=True)
     round_trip = models.BooleanField(default=False)
     van = models.ForeignKey(Van, on_delete=models.CASCADE, default='0')
+    custom_status = models.CharField(
+        max_length=10,
+        choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed')],
+        default='Pending'  # Default status is "Pending"
+    )
 

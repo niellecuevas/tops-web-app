@@ -117,3 +117,19 @@ table tbody tr:hover {
     }
 }
 
+.tab {
+    display: none;
+}
+.tab.active {
+    display: block;
+}
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+.tab-button.active {
+    background-color: #ddd;
+}
