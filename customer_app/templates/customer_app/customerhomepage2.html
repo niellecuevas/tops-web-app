@@ -59,10 +59,8 @@
 </section>
 
 
-<section class="hidden-section">
-  <h2 class="booking-text">Want to book a private ride?</h2>
-  <div class="van-card-container">
-    <!-- Card 1 -->
+<section class="hidden-section" id="private-ride">
+  <div class="card-container">
     <div class="van-card">
       <div class="van-img">
         <img src="{{ dest1.file_upload.url }}" alt="Destination Image">
@@ -73,7 +71,7 @@
         {% if ppc_en_data %}
           <p><strong>One Way Price:</strong> ₱{{ ppc_en_data.dynamic_price }}</p>
         {% else %}
-          <p><strong>No pricing information available for PPC-EN.</strong></p>
+          <p>No pricing information available for PPC-EN.</p>
         {% endif %}
       </div>
       <div class="book-btn">
@@ -81,7 +79,6 @@
       </div>
     </div>
 
-    <!-- Card 2 -->
     <div class="van-card">
       <div class="van-img">
         <img src="{{ dest2.file_upload.url }}" alt="Destination Image">
@@ -92,7 +89,7 @@
         {% if milan_data %}
           <p><strong>One Way Price:</strong> ₱{{ milan_data.dynamic_price }}</p>
         {% else %}
-          <p><strong>No pricing information available for MILAN.</strong></p>
+          <p>No pricing information available for MILAN.</p>
         {% endif %}
       </div>
       <div class="book-btn">
@@ -100,8 +97,7 @@
       </div>
     </div>
 
-    <!-- Card 3 (Promo Card with Ribbon) -->
-    <div class="van-card promo-card">
+    <div class="promo-card">
       <div class="ribbon"><span>10% OFF</span></div>
       <div class="van-img">
         <img src="{{ dest3.file_upload.url }}" alt="Destination Image">

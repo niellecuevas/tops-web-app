@@ -167,18 +167,27 @@ a:hover {
   margin-bottom: 20px; /* Margin around text */
 }
 
-/* Container for van cards */
-.van-cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin: 20px auto;
-  max-width: 1200px;
-  padding: 10px;
+/* General Card Styling for Large Screens */
+.card-container {
+  display: flex; /* Align cards horizontally */
+  flex-wrap: wrap; /* Allow wrapping if necessary */
+  gap: 20px; /* Add spacing between cards */
+  justify-content: space-around; /* Space out cards evenly */
 }
 
-/* General Promo Card Styling */
+/* Individual Card Styling */
+.van-card, .promo-card {
+  flex: 1 1 calc(30% - 20px); /* Flex-basis to take 30% of container width */
+  max-width: 30%; /* Ensure the cards don't stretch too much */
+  margin: 10px; /* Small margin for spacing */
+  box-sizing: border-box; /* Include padding and border in size calculation */
+  background-color: #fff; /* Ensure card background is white */
+  border: 1px solid #ccc; /* Light border around the cards */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for card depth */
+}
+
+/* Promo Card Styling */
 .promo-card {
   position: relative;
   border: 4px solid #FF6F61; /* Ribbon color */
@@ -186,12 +195,10 @@ a:hover {
   overflow: visible; /* Allow the ribbon to overflow outside the card */
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: inline-block;
 }
 
-/* Discount Ribbon */
+/* Add the discount ribbon */
 .promo-card .ribbon {
   position: absolute;
   top: -5px; /* Move the ribbon further out of the card */
@@ -211,31 +218,47 @@ a:hover {
   text-align: center;
 }
 
-/* Original Price */
-.promo-card .original-price {
+.original-price {
   font-size: 16px;
   color: #999; /* Grey color to indicate it's the old price */
   text-decoration: line-through;
   margin: 0;
 }
 
-/* Image Styling for Consistency */
-.van-card .van-img img,
-.promo-card .van-img img {
+/* Vertical Stacking for Small Screens */
+@media screen and (max-width: 768px) {
+  .card-container {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center; /* Center align for better visuals */
+  }
+
+  .van-card, .promo-card {
+    flex: 1 1 100%; /* Full width for vertical alignment */
+    max-width: 100%;
+    margin: 10px 0; /* Adjust margins for vertical layout */
+  }
+}
+
+/* Individual Card Details */
+.van-img img {
   width: 100%;
-  height: 200px; /* Fixed height for all images */
-  object-fit: cover;
+  height: 200px; /* Set a fixed height to make images uniform in size */
+  object-fit: cover; /* Ensure images cover the area without distortion */
   border-radius: 10px 10px 0 0;
 }
 
-/* Shared Book Button Styling */
+.van-details {
+  padding: 15px;
+  font-family: "Inclusive Sans", sans-serif;
+}
+
 .book-btn {
   padding: 10px;
-  margin-bottom: 15px;
   text-align: center;
 }
 
 .book-btn button {
+  font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0;
   color: white;
   border: none;
@@ -249,19 +272,6 @@ a:hover {
 .book-btn button:hover {
   background: #fcd23c;
 }
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  .van-card, .promo-card {
-    width: 100%;
-    margin: 10px 0;
-  }
-
-  .book-btn {
-    margin-bottom: 20px;
-  }
-}
-
 
 
 /* Custom Booking Section */
