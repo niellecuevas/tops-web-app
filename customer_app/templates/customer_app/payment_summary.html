@@ -184,6 +184,8 @@
                 <p><strong>BPI Account Number: 1234-5678-9012</strong></p>
             </div>
 
+    <form action="{% url 'save_booking' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
             <div id="proof-of-payment" class="proof-of-payment">
                 <label for="proof">Proof of Payment (upload):</label>
                 <input type="file" id="proof" name="proof">
@@ -239,8 +241,6 @@
 
             <div class="summary-section">
                 <p><strong>Mode of Payment:</strong> <span id="selected-payment-method">Cash</span></p>
-                <form action="{% url 'save_booking' %}" method="post">
-                    {% csrf_token %}
 
                     <input type="hidden" name="destination1" id="form-destination1">
                     <input type="hidden" name="destination2" id="form-destination2">

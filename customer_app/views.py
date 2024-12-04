@@ -126,6 +126,13 @@ def save_booking(request):
         transportation_fee = request.POST.get("transportation_fee")
         final_fee = request.POST.get('final_fee')
 
+        proof_of_payment = request.FILES.get('proof')
+        terms_accepted = request.POST.get('terms') == 'on'
+
+        # If terms not accepted, return an error (optional)
+        if not terms_accepted:
+            return HttpResponse("You must accept the terms and conditions.", status=400)
+
 
         # Create and save the booking
         booking = Booking.objects.create(
@@ -138,7 +145,8 @@ def save_booking(request):
             destination1=destination1,
             destination2=destination2,
             transportation_fee=transportation_fee,
-            final_fee=final_fee
+            final_fee=final_fee,
+            proof_of_payment=proof_of_payment
         )
         
         # Optionally, clear the session data

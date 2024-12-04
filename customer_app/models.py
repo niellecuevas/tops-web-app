@@ -14,7 +14,7 @@ class Booking(models.Model):
     proof_of_payment = models.FileField(upload_to='payments/', blank=True, null=True)
     status = models.CharField(
         max_length=10,
-        choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed')],
+        choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'), ('Cancelled', 'Cancelled'),],
         default='Pending'  # Default status is "Pending"
     )
 
@@ -38,7 +38,7 @@ class CustomBooking(models.Model):
     van = models.ForeignKey(Van, on_delete=models.CASCADE, default='0')
     custom_status = models.CharField(
         max_length=10,
-        choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed')],
+        choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'),('Cancelled', 'Cancelled'),],
         default='Pending'  # Default status is "Pending"
     )
 

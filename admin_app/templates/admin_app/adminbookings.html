@@ -4,14 +4,16 @@
 
 <div class="container">
     <link rel="stylesheet" type="text/css" href="{% static 'admin_app/css/adminbookings.css' %}">
-
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Search Bar -->
+    <h1>Bookings Dashboard</h1>
     <form method="get">
         <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}">
         <button type="submit">Search</button>
     </form>
 
-    <h1>Bookings Dashboard</h1>
+    
 
     <!-- Fixed Destination Booking Section -->
     <div>
@@ -19,13 +21,13 @@
         
         <!-- Tab Navigation for Fixed Destination Booking -->
         <div>
-            <button class="tab-button active" data-tab="pending-tab" onclick="showTab('pending-tab')">Pending Tab</button>
-            <button class="tab-button" data-tab="confirmed-tab" onclick="showTab('confirmed-tab')">Confirmed Tab</button>
+            <button class="tab-button active" data-tab="pending-tab" onclick="showTab('pending-tab')">Pending Bookings</button>
+            <button class="tab-button" data-tab="confirmed-tab" onclick="showTab('confirmed-tab')">Confirmed Bookings</button>
+            <button class="tab-button" data-tab="cancelled-tab" onclick="showTab('cancelled-tab')">Cancelled Bookings</button>
         </div>
 
         <!-- Pending Bookings Tab (Fixed Destination) -->
         <div id="pending-tab" class="tab active">
-            <h3>Pending Bookings</h3>
             <table border="1">
                 <thead>
                     <tr>
@@ -40,6 +42,7 @@
                         <th>Round Trip</th>
                         <th>Amount</th>
                         <th>Grand Total</th>
+                        <th>Proof of Payment</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -58,8 +61,39 @@
                         <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
                         <td>{{ booking.transportation_fee }}</td>
                         <td>{{ booking.final_fee }}</td>
+                        <td>
+                            {% if booking.proof_of_payment %}
+                                <!-- Clickable text -->
+                                <a href="#" data-toggle="modal" data-target="#imageModal">Click Payment Proof</a>
+                        
+                                <!-- Modal -->
+                                <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="imageModalLabel">Proof of Payment by <b> {{ booking.full_name }}</b></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Display larger image inside modal -->
+                                                <img src="{{ booking.proof_of_payment.url }}" alt="Proof of Payment" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                No proof of payment uploaded.
+                            {% endif %}
+                        </td>
+                        
                         <td>{{ booking.status }}</td>
-                        <td><a href="{% url 'confirm_booking' booking.id %}">Confirm</a></td>
+                        <td>
+                            <a href="{% url 'confirm_booking' booking.id %}">Confirm</a>
+                            <a href="{% url 'cancel_booking' booking.id %}" style="color: red;">Cancel</a>
+                        </td>
+                        
                     </tr>
                     {% empty %}
                     <tr>
@@ -72,7 +106,6 @@
 
         <!-- Confirmed Bookings Tab (Fixed Destination) -->
         <div id="confirmed-tab" class="tab">
-            <h3>Confirmed Bookings</h3>
             <table border="1">
                 <thead>
                     <tr>
@@ -87,6 +120,7 @@
                         <th>Round Trip</th>
                         <th>Amount</th>
                         <th>Grand Total</th>
+                        <th>Proof of Payment</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -104,7 +138,35 @@
                         <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
                         <td>{{ booking.transportation_fee }}</td>
                         <td>{{ booking.final_fee }}</td>
+                        <td>
+                            {% if booking.proof_of_payment %}
+                                <!-- Clickable text -->
+                                <a href="#" data-toggle="modal" data-target="#imageModal">Click Payment Proof</a>
+                        
+                                <!-- Modal -->
+                                <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="imageModalLabel">Proof of Payment</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Display larger image inside modal -->
+                                                <img src="{{ booking.proof_of_payment.url }}" alt="Proof of Payment" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                No proof of payment uploaded.
+                            {% endif %}
+                        </td>
+                        
                         <td>{{ booking.status }}</td>
+                        
                     </tr>
                     {% empty %}
                     <tr>
@@ -113,8 +175,79 @@
                     {% endfor %}
                 </tbody>
             </table>
+</div>
+        <!-- Cancelled Bookings Tab (Fixed Destination) -->
+        <div id="cancelled-tab" class="tab">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Full Name</th>
+                        <th>Passenger Count</th>
+                        <th>Contact Number</th>
+                        <th>Pickup DateTime</th>
+                        <th>Starting Point</th>
+                        <th>Destination</th>
+                        <th>Additional Notes</th>
+                        <th>Round Trip</th>
+                        <th>Amount</th>
+                        <th>Grand Total</th>
+                        <th>Proof of Payment</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in cancelled_bookings %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.full_name }}</td>
+                        <td>{{ booking.passenger_count }}</td>
+                        <td>{{ booking.contact_number }}</td>
+                        <td>{{ booking.pickup_datetime }}</td>
+                        <td>{{ booking.destination1 }}</td>
+                        <td>{{ booking.destination2 }}</td>
+                        <td>{{ booking.additional_notes }}</td>
+                        <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
+                        <td>{{ booking.transportation_fee }}</td>
+                        <td>{{ booking.final_fee }}</td>
+                        <td>
+                            {% if booking.proof_of_payment %}
+                                <!-- Clickable text -->
+                                <a href="#" data-toggle="modal" data-target="#imageModal">Click Payment Proof</a>
+                        
+                                <!-- Modal -->
+                                <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="imageModalLabel">Proof of Payment</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Display larger image inside modal -->
+                                                <img src="{{ booking.proof_of_payment.url }}" alt="Proof of Payment" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                No proof of payment uploaded.
+                            {% endif %}
+                        </td>
+                        
+                        <td>{{ booking.status }}</td>
+                        
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="12">No cancelled bookings available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div>
 
     <!-- Custom Booking Section -->
     <div>
@@ -122,13 +255,12 @@
 
         <!-- Tab Navigation for Custom Booking -->
         <div>
-            <button class="tab-button active" data-tab="pending-custom-tab" onclick="showTab('pending-custom-tab')">Pending Tab</button>
-            <button class="tab-button" data-tab="confirmed-custom-tab" onclick="showTab('confirmed-custom-tab')">Confirmed Tab</button>
+            <button class="tab-button active" data-tab="pending-custom-tab" onclick="showTab('pending-custom-tab')">Pending Bookings</button>
+            <button class="tab-button" data-tab="confirmed-custom-tab" onclick="showTab('confirmed-custom-tab')">Confirmed Bookings</button>
         </div>
 
         <!-- Pending Custom Bookings Tab -->
         <div id="pending-custom-tab" class="tab active">
-            <h3>Pending Custom Bookings</h3>
             <table border="1">
                 <thead>
                     <tr>
@@ -175,7 +307,6 @@
 
         <!-- Confirmed Custom Bookings Tab -->
         <div id="confirmed-custom-tab" class="tab">
-            <h3>Confirmed Custom Bookings</h3>
             <table border="1">
                 <thead>
                     <tr>
@@ -229,5 +360,9 @@
         document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
     }
 </script>
+<!-- Bootstrap JS and dependencies (jQuery, Popper.js) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 {% endblock %}
