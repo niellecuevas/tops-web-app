@@ -201,6 +201,7 @@ def success(request):
     # Optionally, you can pass more context if needed
     return render(request, 'customer_app/success.html')
 
+from admin_app.models import DynamicPricing
 
 def customer_homepage2(request):
     came_from_payment = request.GET.get('came_from_payment', 'false')  # Defaults to 'false'
@@ -211,10 +212,11 @@ def customer_homepage2(request):
     dest2 = get_object_or_404(Destination, id=2)
     dest3 = get_object_or_404(Destination, id=3)
 
-     # Retrieve the ppc_en_data from the session
-    ppc_en_data = request.session.get('ppc_en_data', None)
-    milan_data = request.session.get('milan_data', None)
-    frendz_data = request.session.get('frendz_data', None)
+    # Query the dynamic pricing for the three destinations
+    ppc_en_data = DynamicPricing.objects.filter(destination='PPC-EN').order_by('-date').first()  # Get the most recent data
+    milan_data = DynamicPricing.objects.filter(destination='MILAN').order_by('-date').first()  # Get the most recent data
+    frendz_data = DynamicPricing.objects.filter(destination='FRENDZ').order_by('-date').first()  # Get the most recent data
+
     
     context = {
         'came_from_payment': came_from_payment,

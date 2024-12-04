@@ -397,17 +397,6 @@ def statistics_view(request):
     print(f"Overall Accuracy - MAE: {overall_mae}, RMSE: {overall_rmse}, MAPE: {overall_mape}")
 
     # =============================
-    # 4. Store Specific Data in Session
-    # =============================
-
-    for key in ['PPC-EN', 'MILAN', 'FRENDZ']:
-        specific_data = next((item for item in visualization_data if item['destination'] == key), None)
-        if specific_data:
-            request.session[f'{key.lower()}_data'] = specific_data
-        else:
-            print(f"No data found for {key}.")
-
-    # =============================
     # 5. Calculate Totals and Summaries
     # =============================
 
