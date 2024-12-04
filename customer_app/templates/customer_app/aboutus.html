@@ -1,0 +1,70 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital@0;1&display=swap" rel="stylesheet">
+  <title>About Us</title>
+  <link rel="stylesheet" href="{% static 'customer_app/css/aboutus.css' %}">
+  <link rel="stylesheet" href="{% static 'customer_app/css/customerhomepage2.css' %}">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <!-- Checkbox for toggling menu -->
+    <input type="checkbox" id="check">
+    <!-- Menu icon -->
+    <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+    </label>
+    <!-- Site logo -->
+    <label class="logo">GFS Travelista</label>
+    <!-- Navigation links -->
+    <ul>
+        <li><a class="nav-link" href="{% url 'customerhomepage2' %}">Home</a></li>
+        <li><a class="nav-link" href="{% url 'customerhomepage2' %}">Private Ride</a></li>
+        <li><a class="nav-link" href="{% url 'cstmrbookingdetails' %}">Booking Search</a></li>
+        <li><a class="nav-link" href="#home">About Us</a></li>
+    </ul>
+  </nav>
+
+  <section class="about-us" id = "home">
+    <div class="about-us-content">
+      <div class="about-us-container">
+        <div class="about-us-text">
+          <h2>Who We Are</h2>
+          <br><h3>Welcome to GFS Travelista!</h3>
+          <br><p>Your trusted partner for seamless, comfortable, and reliable travel experiences. 
+              Whether you're planning a shared van ride or seeking a private rental, 
+              GFS Travelista ensures that your journey from Puerto Princesa (PPS) to El Nido is nothing short of exceptional. 
+              We offer flexible options to suit your travel style, 
+              from shared rides for a more affordable experience to private bookings for those who desire comfort and privacy. 
+              Let us take care of your travel needs, so you can focus on enjoying the breathtaking beauty of Palawan.
+
+              <br><br>With GFS Travelista, every ride is an adventure waiting to happen. Join us for a stress-free and unforgettable trip!</p>
+        </div>
+
+        <div class="business-credentials">
+          <h2>Proudly Compliant!</h2>
+          <p>At GFS TRAVELISTA, we prioritize transparency and legitimacy in all our operations. 
+              Here's a glimpse of our official documents—BIR registration, DTI certificate, and Mayor's Permit.  
+              Thank you for trusting us as your safe and reliable travel partner. Let’s continue creating amazing journeys together!</p>
+          
+          <div class="credentials-img-wrapper">
+            <img class="credentials-img" src="{% static 'images/gfstravelista_credentials.jpg' %}" alt="Business Credentials">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% include 'customer_app/footer.html' %}
+  
+</body>
+</html>
+

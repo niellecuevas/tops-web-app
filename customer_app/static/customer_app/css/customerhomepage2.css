@@ -130,6 +130,7 @@ a:hover {
   z-index: 5; /* Ensure the image appears below the navbar */
 }
 
+/* Stats Section */
 .stats-section {
   display: flex;
   justify-content: space-around;
@@ -147,7 +148,7 @@ a:hover {
 .stat-item h3 {
   font-size: 36px;
   margin: 0;
-  color: #d229a2;
+  color: #0d6efd;
   transition: color 0.3s ease;
 }
 
@@ -157,8 +158,7 @@ a:hover {
   margin-top: 5px;
 }
 
-
-
+/* Van Card Section */
 .booking-text {
   font-family: "Inclusive Sans", sans-serif;
   text-align: center; /* Center text */
@@ -167,6 +167,7 @@ a:hover {
   margin-bottom: 20px; /* Margin around text */
 }
 
+<<<<<<< HEAD
 /* General Card Styling for Large Screens */
 .card-container {
   display: flex; /* Align cards horizontally */
@@ -240,23 +241,47 @@ a:hover {
 }
 
 /* Individual Card Details */
+=======
+.carousel{
+  margin-right: 50px;
+  margin-left: 50px;
+  margin-top: 10px;
+}
+
+.van-card {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: calc(33.33% - 20px); /* Three cards per row with some margin */
+  margin: 50px;
+  margin-bottom: 40px;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+>>>>>>> parent of 29c5d1d (fixed van card in customerhomepage)
 .van-img img {
   width: 100%;
   height: 200px; /* Set a fixed height to make images uniform in size */
   object-fit: cover; /* Ensure images cover the area without distortion */
   border-radius: 10px 10px 0 0;
 }
-
 .van-details {
   padding: 15px;
   font-family: "Inclusive Sans", sans-serif;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 29c5d1d (fixed van card in customerhomepage)
 .book-btn {
   padding: 10px;
   text-align: center;
 }
-
 .book-btn button {
   font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0;
@@ -268,13 +293,42 @@ a:hover {
   font-size: 16px;
   transition: background 0.3s;
 }
-
 .book-btn button:hover {
   background: #fcd23c;
 }
 
+<<<<<<< HEAD
+=======
+/* On small screens, show one card per row and scale down controls */
+@media screen and (max-width: 768px) {
+  .van-card {
+    width: calc(100% - 20px); /* One card per row */
+    margin: 10px auto;
+  }
+  
+  .book-btn button {
+    padding: 8px 15px; /* Smaller button for booking */
+    font-size: 14px; /* Smaller font size for button */
+  }
 
-/* Custom Booking Section */
+  .van-details {
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+}
+
+/* Extra small screens, further adjust if needed */
+@media screen and (max-width: 480px) {
+>>>>>>> parent of 29c5d1d (fixed van card in customerhomepage)
+
+  .book-btn button {
+    padding: 6px 12px; /* Smaller button padding */
+    font-size: 12px; /* Smaller font size */
+  }
+
+  .van-details {
+    padding: 8px; /* More compact padding */
+  }
+}
 .custom-booking-container {
   text-align: center; /* Center the button */
   margin-top: 10px; /* Space above the button */
