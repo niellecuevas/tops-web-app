@@ -138,8 +138,6 @@ def reset_password(request):
         except Driver.DoesNotExist:
             return render(request, 'driver_app/reset_password.html', {'error': 'Invalid email.', 'email': email})
 
-    return redirect('driver_app:forgot_password')
-
 
 def driver_dashboard(request, driver_id):
     # Fetch the driver and associated bookings
