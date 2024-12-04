@@ -109,13 +109,15 @@ def verify_otp(request):
             # OTP is correct, proceed to reset password
             return render(request, 'driver_app/reset_password.html', {'email': email})
         else:
-            # OTP mismatch
+            # OTP mismatch - Render the same page with an error message
             return render(request, 'driver_app/verify_otp.html', {
                 'error': 'Invalid OTP. Please try again.',
                 'email': email
             })
 
-    return redirect('driver_app:forgot_password')  # Redirect to forgot password page if not POST
+    # Avoid redirecting inappropriately
+    return render(request, 'driver_app/verify_otp.html', {'email': email})
+
 
 
 

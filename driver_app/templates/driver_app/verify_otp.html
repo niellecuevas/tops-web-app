@@ -8,7 +8,7 @@
       <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
 
-    <form method="POST">
+    <form method="POST" action="{% url 'driver_app:verify_otp' %}">
       {% csrf_token %}
       
       <div class="form-group mb-3">
