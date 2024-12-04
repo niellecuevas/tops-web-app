@@ -1,94 +1,233 @@
-<!-- adminbookings.html -->
 {% extends 'admin_app/admin_dashboard.html' %}
 {% load static %}
 {% block content %}
 
 <div class="container">
-<link rel="stylesheet" type="text/css" href="{% static 'admin_app/css/adminbookings.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'admin_app/css/adminbookings.css' %}">
 
-<form method="GET" action="{% url 'admin_bookings' %}">
-    <input type="text" name="q" placeholder="Search bookings..." required>
-    <button type="submit">Search</button>
-</form>
+    <!-- Search Bar -->
+    <form method="get">
+        <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
 
-<table>
-    <p>Fixed Destination Bookings</p>
-    <thead>
-        <tr>
-            <th>Booking ID</th>
-            <th>Full Name</th>
-            <th>Passenger Count</th>
-            <th>Contact Number</th>
-            <th>Pickup DateTime</th>
-            <th>Starting Point</th>
-            <th>Destination</th>
-            <th>Additional Notes</th>
-            <th>Round Trip</th>
-            <th>Amount</th>
-            <th>Grand Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for booking in bookings %}
-        <tr>
-            <td>{{ booking.id }}</td>
-            <td>{{ booking.full_name }}</td>
-            <td>{{ booking.passenger_count }}</td>
-            <td>{{ booking.contact_number }}</td>
-            <td>{{ booking.pickup_datetime }}</td>
-            <td>{{ booking.destination1 }}</td>
-            <td>{{ booking.destination2 }}</td>
-            <td>{{ booking.additional_notes }}</td>
-            <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
-            <td>{{ booking.transportation_fee }}</td>
-            <td>{{ booking.final_fee  }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="14">No bookings available.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <h1>Bookings Dashboard</h1>
 
-<table>
-    <p>Custom Bookings</p>
-    <thead>
-        <tr>
-            <th>Full Name</th>
-            <th>Contact Number</th>
-            <th>Email</th>
-            <th>Pickup Date & Time</th>
-            <th>Passenger Count</th>
-            <th>Pickup Address</th>
-            <th>Dropoff Address</th>
-            <th>Round Trip</th>
-            <th>Van</th>
-            <th>Driver</th> 
-            <th>Additional Notes</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for booking in custombookings %}
-            <tr>
-                <td>{{ booking.full_name }}</td>
-                <td>{{ booking.contact_number }}</td>
-                <td>{{ booking.email_address }}</td>
-                <td>{{ booking.pickup_datetime }}</td>
-                <td>{{ booking.passenger_count }}</td>
-                <td>{{ booking.pickup_address }}</td>
-                <td>{{ booking.dropoff_address }}</td>
-                <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
-                <td>{{ booking.van.model }}</td>
-                <td>{{ booking.van.driver.name }}</td>
-                <td>{{ booking.additional_notes }}</td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="10">No bookings available.</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <!-- Fixed Destination Booking Section -->
+    <div>
+        <h2>Fixed Destination Booking</h2>
+        
+        <!-- Tab Navigation for Fixed Destination Booking -->
+        <div>
+            <button class="tab-button active" data-tab="pending-tab" onclick="showTab('pending-tab')">Pending Tab</button>
+            <button class="tab-button" data-tab="confirmed-tab" onclick="showTab('confirmed-tab')">Confirmed Tab</button>
+        </div>
+
+        <!-- Pending Bookings Tab (Fixed Destination) -->
+        <div id="pending-tab" class="tab active">
+            <h3>Pending Bookings</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Full Name</th>
+                        <th>Passenger Count</th>
+                        <th>Contact Number</th>
+                        <th>Pickup DateTime</th>
+                        <th>Starting Point</th>
+                        <th>Destination</th>
+                        <th>Additional Notes</th>
+                        <th>Round Trip</th>
+                        <th>Amount</th>
+                        <th>Grand Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in pending_bookings %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.full_name }}</td>
+                        <td>{{ booking.passenger_count }}</td>
+                        <td>{{ booking.contact_number }}</td>
+                        <td>{{ booking.pickup_datetime }}</td>
+                        <td>{{ booking.destination1 }}</td>
+                        <td>{{ booking.destination2 }}</td>
+                        <td>{{ booking.additional_notes }}</td>
+                        <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
+                        <td>{{ booking.transportation_fee }}</td>
+                        <td>{{ booking.final_fee }}</td>
+                        <td>{{ booking.status }}</td>
+                        <td><a href="{% url 'confirm_booking' booking.id %}">Confirm</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="13">No pending bookings available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Confirmed Bookings Tab (Fixed Destination) -->
+        <div id="confirmed-tab" class="tab">
+            <h3>Confirmed Bookings</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Full Name</th>
+                        <th>Passenger Count</th>
+                        <th>Contact Number</th>
+                        <th>Pickup DateTime</th>
+                        <th>Starting Point</th>
+                        <th>Destination</th>
+                        <th>Additional Notes</th>
+                        <th>Round Trip</th>
+                        <th>Amount</th>
+                        <th>Grand Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in confirmed_bookings %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.full_name }}</td>
+                        <td>{{ booking.passenger_count }}</td>
+                        <td>{{ booking.contact_number }}</td>
+                        <td>{{ booking.pickup_datetime }}</td>
+                        <td>{{ booking.destination1 }}</td>
+                        <td>{{ booking.destination2 }}</td>
+                        <td>{{ booking.additional_notes }}</td>
+                        <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
+                        <td>{{ booking.transportation_fee }}</td>
+                        <td>{{ booking.final_fee }}</td>
+                        <td>{{ booking.status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="12">No confirmed bookings available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Custom Booking Section -->
+    <div>
+        <h2>Custom Booking</h2>
+
+        <!-- Tab Navigation for Custom Booking -->
+        <div>
+            <button class="tab-button active" data-tab="pending-custom-tab" onclick="showTab('pending-custom-tab')">Pending Tab</button>
+            <button class="tab-button" data-tab="confirmed-custom-tab" onclick="showTab('confirmed-custom-tab')">Confirmed Tab</button>
+        </div>
+
+        <!-- Pending Custom Bookings Tab -->
+        <div id="pending-custom-tab" class="tab active">
+            <h3>Pending Custom Bookings</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Full Name</th>
+                        <th>Passenger Count</th>
+                        <th>Contact Number</th>
+                        <th>Email Address</th>
+                        <th>Pickup DateTime</th>
+                        <th>Pickup Address</th>
+                        <th>Dropoff Address</th>
+                        <th>Additional Notes</th>
+                        <th>Round Trip</th>
+                        <th>Van</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in pending_custom_bookings %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.full_name }}</td>
+                        <td>{{ booking.passenger_count }}</td>
+                        <td>{{ booking.contact_number }}</td>
+                        <td>{{ booking.email_address }}</td>
+                        <td>{{ booking.pickup_datetime }}</td>
+                        <td>{{ booking.pickup_address }}</td>
+                        <td>{{ booking.dropoff_address }}</td>
+                        <td>{{ booking.additional_notes }}</td>
+                        <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
+                        <td>{{ booking.van }}</td>
+                        <td>{{ booking.custom_status }}</td>
+                        <td><a href="{% url 'confirm_custom_booking' booking.id %}">Confirm</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="13">No pending custom bookings available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Confirmed Custom Bookings Tab -->
+        <div id="confirmed-custom-tab" class="tab">
+            <h3>Confirmed Custom Bookings</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Full Name</th>
+                        <th>Passenger Count</th>
+                        <th>Contact Number</th>
+                        <th>Email Address</th>
+                        <th>Pickup DateTime</th>
+                        <th>Pickup Address</th>
+                        <th>Dropoff Address</th>
+                        <th>Additional Notes</th>
+                        <th>Round Trip</th>
+                        <th>Van</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in confirmed_custom_bookings %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.full_name }}</td>
+                        <td>{{ booking.passenger_count }}</td>
+                        <td>{{ booking.contact_number }}</td>
+                        <td>{{ booking.email_address }}</td>
+                        <td>{{ booking.pickup_datetime }}</td>
+                        <td>{{ booking.pickup_address }}</td>
+                        <td>{{ booking.dropoff_address }}</td>
+                        <td>{{ booking.additional_notes }}</td>
+                        <td>{{ booking.round_trip|yesno:"Yes,No" }}</td>
+                        <td>{{ booking.van }}</td>
+                        <td>{{ booking.custom_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="12">No confirmed custom bookings available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+        document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+    }
+</script>
+
 {% endblock %}
