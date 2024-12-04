@@ -167,41 +167,50 @@ a:hover {
   margin-bottom: 20px; /* Margin around text */
 }
 
-.carousel{
-  margin-right: 50px;
-  margin-left: 50px;
-  margin-top: 10px;
+/* Container for van cards */
+.van-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 10px;
 }
 
+/* Individual van card styling */
 .van-card {
   background: white;
   border: 1px solid #ccc;
   border-radius: 10px;
-  width: calc(33.33% - 20px); /* Three cards per row with some margin */
-  margin: 50px;
-  margin-bottom: 40px;
-  margin-top: 10px;
+  width: calc(33.33% - 20px); /* Three cards per row on large screens */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 }
 
-
+/* Image and text details */
 .van-img img {
   width: 100%;
   border-radius: 10px 10px 0 0;
 }
+
 .van-details {
   padding: 15px;
   font-family: "Inclusive Sans", sans-serif;
-}
-.book-btn {
-  padding: 10px;
   text-align: center;
 }
+
+/* Buttons */
+.book-btn {
+  padding: 10px; /* Space inside the button container */
+  margin-bottom: 15px; /* Space between the button and the card's bottom edge */
+  text-align: center;
+}
+
 .book-btn button {
-  font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0;
   color: white;
   border: none;
@@ -211,39 +220,28 @@ a:hover {
   font-size: 16px;
   transition: background 0.3s;
 }
+
 .book-btn button:hover {
   background: #fcd23c;
 }
 
-/* On small screens, show one card per row and scale down controls */
+/* Responsive Adjustments */
 @media screen and (max-width: 768px) {
+  .van-cards-container {
+    flex-direction: column; /* Stack cards vertically */
+  }
+
   .van-card {
-    width: calc(100% - 20px); /* One card per row */
-    margin: 10px auto;
-  }
-  
-  .book-btn button {
-    padding: 8px 15px; /* Smaller button for booking */
-    font-size: 14px; /* Smaller font size for button */
+    width: 100%; /* Full width for smaller screens */
   }
 
-  .van-details {
-    padding: 10px; /* Adjust padding for smaller screens */
+  .book-btn {
+    margin-bottom: 20px; /* Slightly more space on smaller screens for better readability */
   }
 }
 
-/* Extra small screens, further adjust if needed */
-@media screen and (max-width: 480px) {
 
-  .book-btn button {
-    padding: 6px 12px; /* Smaller button padding */
-    font-size: 12px; /* Smaller font size */
-  }
-
-  .van-details {
-    padding: 8px; /* More compact padding */
-  }
-}
+/* Custom Booking Section */
 .custom-booking-container {
   text-align: center; /* Center the button */
   margin-top: 10px; /* Space above the button */

@@ -1,0 +1,112 @@
+/* General body styling */
+body {
+    font-family: 'Inclusive Sans', sans-serif !important;
+    background-color: #ce40b0 !important; /* Base magenta background */
+    background-image: url('../../../../static/images/foggy-birds.png') !important; /* Bird pattern */
+    background-repeat: repeat !important; /* Repeat the pattern */
+    color: #333 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Card styling */
+  body .card {
+    max-width: 500px !important;
+    margin: 50px auto !important; /* Center the card with space at the top */
+    padding: 20px !important;
+    background-color: white !important; /* Set the card background to white */
+    border-radius: 10px !important; /* Rounded corners for the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow */
+  }
+  
+  /* Card headings and form elements */
+  body .card h2 {
+    color: #ce40b0 !important; /* Magenta heading color */
+  }
+  
+  body .form-control {
+    border-radius: 5px !important; /* Rounded corners for inputs */
+    border: 1px solid #ce40b0 !important; /* Magenta border */
+  }
+  
+  body .form-control:focus {
+    border-color: #ff80c0 !important; /* Lighter magenta on focus */
+  }
+  
+  /* Custom button styling */
+  body .btn-custom {
+    background-color: #ce40b0 !important;
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 10px 20px !important;
+    transition: background-color 0.3s ease !important;
+    border: none !important; /* Remove border for the button */
+  }
+  
+  body .btn-custom:hover {
+    background-color: #ff80c0 !important; /* Lighter magenta on hover */
+  }
+  
+  /* Alert styling */
+  body .alert-danger {
+    background-color: #ff4d94 !important; /* Custom alert color */
+    color: white !important;
+    border-radius: 5px !important;
+  }
+  
+  /* Link styling */
+  body a {
+    color: #ce40b0 !important; /* Magenta link color */
+    text-decoration: none !important;
+  }
+  
+  body a:hover {
+    color: #ff80c0 !important; /* Lighter magenta on hover */
+  }
+  
+  /* Additional spacing and container styling */
+  body .container {
+    margin-top: 100px !important; /* Ensure there's some space at the top */
+  }
+  
+  /* Extra padding for page margins */
+  body .mt-3 {
+    margin-top: 30px !important;
+  }
+  
+  body .mb-4 {
+    margin-bottom: 20px !important;
+  }
+  
+  /* Forgot Password form specific styles */
+  body .form-group {
+    margin-bottom: 1.5rem !important; /* Spacing between form fields */
+  }
+  
+  body .text-center p {
+    color: #333 !important; /* Text color for paragraph */
+  }
+  
+  /* Adjusted form for Forgot Password page */
+  body .btn-primary {
+    background-color: #ce40b0 !important; /* Magenta button */
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 10px 20px !important;
+    width: 100% !important;
+    transition: background-color 0.3s ease !important;
+  }
+  
+  body .btn-primary:hover {
+    background-color: #ff80c0 !important; /* Lighter magenta on hover */
+  }
+  
+  body .form-control {
+    border-radius: 5px !important;
+    border: 1px solid #ce40b0 !important;
+  }
+  
+  body .form-control:focus {
+    border-color: #ff80c0 !important;
+  }
+  
