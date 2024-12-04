@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
+from django.utils.crypto import get_random_string
 
 class Driver(models.Model):
     DRIVER_ID_PREFIX = 'DRV'  # Prefix for the driver ID
@@ -10,6 +12,8 @@ class Driver(models.Model):
     file_upload = models.ImageField(upload_to='driver_images/', blank=False, default='N/A')
     name = models.CharField(max_length=100)
     license = models.CharField(max_length=50, default='N/A')  # Default value set
+    email = models.EmailField(unique=True, blank=True, null=True)
+    password = models.CharField(max_length=128, blank=True, null=True)  # Hashed password
 
     def save(self, *args, **kwargs):
         # Automatically generate the driver ID
@@ -19,6 +23,14 @@ class Driver(models.Model):
         if not self.license:
             self.license = 'N/A'
         super().save(*args, **kwargs)
+    
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+        self.save()
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
+
 
     def __str__(self):
         return f"{self.name} - {self.driver_id}"

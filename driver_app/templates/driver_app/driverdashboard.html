@@ -37,13 +37,13 @@
                     <p><strong>Name:</strong> {{ driver.name }}</p>
                 </div>
                 <h3>Navigation</h3>
-                <a class="nav-item" href="{% url 'driver_dashboard' driver.driver_id %}">
+                <a class="nav-item" href="{% url 'driver_app:driver_dashboard' driver.driver_id %}">
                     <i class="fas fa-book"></i> Bookings
                 </a>
-                <a class="nav-item" href="{% url 'driver_my_vans' driver.driver_id %}">
+                <a class="nav-item" href="{% url 'driver_app:driver_my_vans' driver.driver_id %}">
                     <i class="fas fa-car"></i> My Vans
                 </a>
-                <a class="nav-item logout" href="{% url 'logout' %}">
+                <a class="nav-item logout" href="{% url 'driver_app:logout' %}">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>

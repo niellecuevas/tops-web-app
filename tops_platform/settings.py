@@ -165,3 +165,11 @@ SESSION_COOKIE_AGE = 3600  # Example: 1 hour (3600 seconds)
 
 # Ensure the session persists across browser restarts
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Or your email provider
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'gfstravelista@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'lkzy vzpv lkkd zfss'  # Your email password or app password
+                                          
