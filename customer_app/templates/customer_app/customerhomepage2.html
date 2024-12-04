@@ -131,8 +131,8 @@
                     <div class="van-details">
                         <p><strong>Starting Point:</strong> <span id="starting-point2">{{ dest3.destination1 }}</span></p>
                         <p><strong>Target Destination:</strong> <span id="target-destination2">{{ dest3.destination2 }}</span></p>
-                        {% if frendz_data %}
-                            <p class="original-price"><strong>Original Fee: </strong>₱{{ frendz_data.base_price }}</p>
+                            <p class="original-price"><strong>Original Fee: </strong>₱{{ frendz.base_price }}</p>
+                            {% if frendz_data %}
                             <p><strong>One Way Price NOW: </strong>₱{{ frendz_data.dynamic_price }}</p>
                         {% else %}
                             <p>No pricing information available for FRENDZ.</p>

@@ -494,7 +494,6 @@ a:hover {
   }
 }
 
-/* Promo card gift styling */
 #promo-card {
   position: relative;
   border: 4px solid #FF6F61; /* Ribbon color */
@@ -504,3 +503,29 @@ a:hover {
   background-color: #fff;
   display: inline-block;
 }
+
+/* Add the discount ribbon */
+#promo-card .ribbon {
+  position: absolute;
+  top: -5px; /* Move the ribbon further out of the card */
+  right: -30px; /* Move the ribbon further out of the card */
+  background-color: #FF6F61;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px 20px;
+  transform: rotate(45deg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensure the ribbon is above other elements */
+}
+
+#promo-card .ribbon span {
+  display: block;
+  text-align: center;
+}
+
+.original-price {
+  font-size: 16px;
+  color: #999; /* Grey color to indicate it's the old price */
+  text-decoration: line-through;
+  margin: 0; }
