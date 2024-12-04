@@ -173,8 +173,23 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gfstravelista@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'lkzy vzpv lkkd zfss'  # Your email password or app password
                                           
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+
+# Determine which cache backend to use based on the environment
+if os.getenv('DJANGO_ENV') == 'production':
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://red-ct8chipopnds739u1am0:6379',  # Use your Redis URL here
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            },
+            'TIMEOUT': 300,  # 5 minutes timeout for OTPs
+        }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'TIMEOUT': 300,  # Optional: Timeout for cache entries (e.g., 5 minutes)
+        }
+    }
