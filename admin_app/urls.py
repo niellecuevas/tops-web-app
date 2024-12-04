@@ -17,6 +17,7 @@ urlpatterns = [
     path('confirm/<int:booking_id>/', views.confirm_booking, name='confirm_booking'),
     path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
     path('confirm_custom_booking/<int:booking_id>/', views.confirm_custom_booking, name='confirm_custom_booking'),
+    path('cancel_custom_booking/<int:booking_id>/', views.cancel_custom_booking, name='cancel_custom_booking'),
     path('update-driver/', views.updateDriverForm, name='update_driver'),
     path('driver_management/delete/<str:driver_id>/', views.delete_driver, name='delete_driver'),
     path('van_management/', views.van_management, name='van_management'),  
