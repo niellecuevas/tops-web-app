@@ -157,6 +157,7 @@ def customisebook(request):
         vans = Van.objects.filter(is_company_van=False)
     else:
         vans = Van.objects.all()
+        vans = Van.objects.filter(availability=True)
     return render(request, 'customer_app/customisebook.html', {'vans': vans})
 
 def cstmrbookingdetails(request):

@@ -48,6 +48,7 @@
         <!-- Vans Display Section -->
         <div class="vans-display">
             {% for van in vans %}
+            {% if van.availability %}
             <div class="van-card">
                 <img src="{{ van.file_upload.url }}" alt="Van Image" class="van-image">
                 <div class="van-info">
@@ -61,6 +62,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
             {% empty %}
             <p>No vans available based on your filter selection.</p>
             {% endfor %}
