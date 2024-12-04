@@ -5,7 +5,7 @@ from .views import customer_homepage2
 
 urlpatterns = [
     path('cstmrbookingdetails/', views.cstmrbookingdetails, name='cstmrbookingdetails'),
-    path('success/', views.success, name='success'),
+    path('success/<int:booking_id>/', views.success, name='success'),
     path('customerhomepage2/', customer_homepage2, name='customerhomepage2'), 
     path('bookvanform/', views.bookvanform, name='bookvanform'),
     path('bookdestination/', views.bookdestination, name='bookdestination'),

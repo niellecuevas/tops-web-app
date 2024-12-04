@@ -145,7 +145,7 @@ def save_booking(request):
         request.session.flush()
 
         # Redirect or show a success message
-        return redirect('success')  # Create a URL for a confirmation page if desired
+        return redirect('success', booking_id=booking.id)  # Create a URL for a confirmation page if desired
 
     return HttpResponse("Invalid request method.", status=405)
 
@@ -198,9 +198,14 @@ def search_standard_booking(request):
     })
 
 
-def success(request):
-    # Optionally, you can pass more context if needed
-    return render(request, 'customer_app/success.html')
+def success(request, booking_id):
+    try:
+        # Retrieve the booking instance by its ID
+        booking = Booking.objects.get(id=booking_id)
+    except Booking.DoesNotExist:
+        booking = None  # Handle case where booking ID is invalid
+    
+    return render(request, 'customer_app/success.html', {'booking': booking})
 
 from admin_app.models import DynamicPricing
 
