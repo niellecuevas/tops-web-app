@@ -1,0 +1,51 @@
+body {
+    background: #c1c1c1 url('../../../../static/images/foggy-birds.png') repeat;
+}
+
+/* About Us Section */
+.about-us {
+    padding-top: 3rem; /* Adds space between the navbar and the section */
+  }
+  
+  .about-us-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .about-us-content {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  .about-us-container {
+    max-width: 900px; /* Adjust the width of the content container */
+    width: 100%;
+    text-align: center;
+    background-color: white; /* White background */
+    border: 3px solid #ce40b0; /* #ce40b0 colored outline */
+    border-radius: 10px; /* Optional: rounded corners for the container */
+    padding: 2rem; /* Adds padding inside the container */
+  }
+  
+  .about-us-text {
+    margin-bottom: 2rem;
+  }
+  
+  .business-credentials {
+    margin-top: 3rem;
+  }
+  
+  .credentials-img-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .credentials-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Optional: for rounded corners */
+    max-width: 600px; /* Adjust this value as needed */
+  }
+  

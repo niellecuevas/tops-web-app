@@ -281,6 +281,9 @@ def payment_summary(request):
     }
     return render(request, 'payment_summary.html', context)
 
+def about_us(request):
+    return render(request, 'customer_app/aboutus.html')
+
 
 def terms_and_conditions(request):
     # Load the XML file
