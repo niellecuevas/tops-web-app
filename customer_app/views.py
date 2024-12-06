@@ -9,9 +9,6 @@ from django.shortcuts import render
 import xml.etree.ElementTree as ET
 from django.templatetags.static import static
 
-def about_us(request):
-    return render(request, 'customer_app/aboutus.html')
-
 def bookvanform(request):
     if request.method == 'POST':
         # Retrieve data from the form
