@@ -171,6 +171,18 @@ a:hover {
   margin-right: 50px;
   margin-left: 50px;
   margin-top: 10px;
+  overflow: hidden;
+}
+
+/* Carousel slide (holds the cards) */
+.carousel-container {
+  display: flex;
+  margin-left: 40px;
+}
+
+.carousel-slide {
+  display: flex;
+  transition: transform 0.5s ease; /* Smooth scrolling effect */
 }
 
 .van-card {
@@ -219,11 +231,39 @@ a:hover {
 
 /* On small screens, show one card per row and scale down controls */
 @media screen and (max-width: 768px) {
-  .van-card {
-    width: calc(100% - 20px); /* One card per row */
-    margin: 10px auto;
-  }
-  
+  .carousel-slide {
+    display: flex;
+    width: 100%; /* One card at a time */
+}
+
+.van-card {
+  flex: 0 0 100%; /* One card takes up full width */
+  margin: 0; /* Remove extra spacing for mobile */
+}
+
+/* Prev/Next Buttons (Visible only on mobile view) */
+.carousel-prev, .carousel-next {
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+}
+
+.carousel-prev {
+    left: 10px; /* Position to the left */
+}
+
+.carousel-next {
+    right: 10px; /* Position to the right */
+}
+
   .book-btn button {
     padding: 8px 15px; /* Smaller button for booking */
     font-size: 14px; /* Smaller font size for button */
@@ -246,6 +286,14 @@ a:hover {
     padding: 8px; /* More compact padding */
   }
 }
+
+/* Hide buttons on larger screens */
+@media screen and (min-width: 769px) {
+  .carousel-prev, .carousel-next {
+    display: none;
+  }
+}
+
 .custom-booking-container {
   text-align: center; /* Center the button */
   margin-top: 10px; /* Space above the button */
@@ -517,6 +565,7 @@ a:hover {
   transform: rotate(45deg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   z-index: 10; /* Ensure the ribbon is above other elements */
+  overflow: visible;
 }
 
 #promo-card .ribbon span {

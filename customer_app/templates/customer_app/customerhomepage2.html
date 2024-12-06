@@ -154,6 +154,9 @@
                 </div>
             </div>
         </div>
+          <!-- Prev/Next Buttons (Visible only on mobile) -->
+        <button class="carousel-prev" onclick="prevCard()">&#10094;</button>
+        <button class="carousel-next" onclick="nextCard()">&#10095;</button>
     </div>
     </section>
 
@@ -219,6 +222,54 @@
     <script src="{% static 'customer_app/js/stats.js' %}"></script>
     <script src="{% static 'customer_app/js/switchdestination.js' %}"></script>
     <script src="{% static 'customer_app/js/modal.js' %}"></script>
+    <script>
+        // Initialize variables
+        let currentIndex = 0; // Tracks the current card
+        const cards = document.querySelectorAll('.carousel-slide .van-card');
+        const totalCards = cards.length;
+
+        // Function to update the carousel position
+        function updateCarousel() {
+            // Get the width of a single card
+            const slideWidth = cards[0].offsetWidth;
+            
+            // Calculate the correct transform value to center the current card
+            const newTransform = -currentIndex * slideWidth;
+
+            // Update the transform property to move the carousel
+            document.querySelector('.carousel-slide').style.transform = `translateX(${newTransform}px)`;
+        }
+
+        // Function to go to the previous card
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--; // Move to the previous card
+                updateCarousel();
+            }
+        }
+
+        // Function to go to the next card
+        function nextCard() {
+            if (currentIndex < totalCards - 1) {
+                currentIndex++; // Move to the next card
+                updateCarousel();
+            }
+        }
+
+        // Initialize the carousel by centering the first card
+        updateCarousel();
+        // Reset carousel for desktop view (no sliding)
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 768) {
+                document.querySelector('.carousel-slide').style.transform = 'translateX(0)';
+                currentIndex = 0; // Reset to the first card on desktop
+            } else {
+                updateCarousel();
+            }
+        });
+
+
+    </script>
 
 </body>
 </html>
