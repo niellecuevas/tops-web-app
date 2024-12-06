@@ -59,43 +59,67 @@
 </section>
 
 
-<section class="hidden-section" id="private-ride">
-  <div class="card-container">
-    <div class="van-card">
-      <div class="van-img">
-        <img src="{{ dest1.file_upload.url }}" alt="Destination Image">
-      </div>
-      <div class="van-details">
-        <p><strong>Starting Point:</strong> {{ dest1.destination1 }}</p>
-        <p><strong>Target Destination:</strong> {{ dest1.destination2 }}</p>
-        {% if ppc_en_data %}
-          <p><strong>One Way Price:</strong> ₱{{ ppc_en_data.dynamic_price }}</p>
-        {% else %}
-          <p>No pricing information available for PPC-EN.</p>
-        {% endif %}
-      </div>
-      <div class="book-btn">
-        <button type="button" onclick="openModal(event)">Book</button>
-      </div>
-    </div>
-
-    <div class="van-card">
-      <div class="van-img">
-        <img src="{{ dest2.file_upload.url }}" alt="Destination Image">
-      </div>
-      <div class="van-details">
-        <p><strong>Starting Point:</strong> {{ dest2.destination1 }}</p>
-        <p><strong>Target Destination:</strong> {{ dest2.destination2 }}</p>
-        {% if milan_data %}
-          <p><strong>One Way Price:</strong> ₱{{ milan_data.dynamic_price }}</p>
-        {% else %}
-          <p>No pricing information available for MILAN.</p>
-        {% endif %}
-      </div>
-      <div class="book-btn">
-        <button type="button" onclick="openModal(event)">Book</button>
-      </div>
-    </div>
+    <section class="hidden-section">
+         <h2 class="booking-text">Want to book a private ride?</h2>
+    </section>
+    <section class="hidden-section" id="private-ride">
+    <div class="carousel">
+        <div class="carousel-container">
+            <div class="carousel-slide">
+                <div class="van-card">
+                    <div class="van-img">
+                        <img id="destination-image" src="{{ dest1.file_upload.url }}" alt="Destination Image">
+                    </div>
+                    <div class="van-details">
+                        <p><strong>Starting Point:</strong> <span id="starting-point">{{ dest1.destination1 }}</span></p>
+                        <p><strong>Target Destination:</strong> <span id="target-destination">{{ dest1.destination2 }}</span></p>
+                        {% if ppc_en_data %}
+                            <p><strong>One Way Price:</strong> ₱{{ ppc_en_data.dynamic_price }}</p>
+                        {% else %}
+                            <p><strong>No pricing information available for PPC-EN.</strong></p>
+                        {% endif %}
+                    </div>
+                    <div class="book-btn">
+                        <button type="button" class="book-button"
+                                data-destination-image="{{ dest1.file_upload.url }}"
+                                data-destination2="{{ dest1.destination1 }}"
+                                data-destination1="{{ dest1.destination2 }}"
+                                data-transportation-fee="{{ ppc_en_data.dynamic_price  }}"
+                                onclick="openModal(event)">
+                            Book
+                        </button>
+                    </div>
+                    <div class="switch-btn">
+                        <button type="button" onclick="switchDestinations()">Switch Destination</button>
+                    </div>
+                </div>
+                <div class="van-card">
+                    <div class="van-img">
+                        <img id="destination-image" src="{{ dest2.file_upload.url }}" alt="Destination Image">
+                    </div>
+                    <div class="van-details">
+                        <p><strong>Starting Point:</strong> <span id="starting-point1">{{ dest2.destination1 }}</span></p>
+                        <p><strong>Target Destination:</strong> <span id="target-destination1">{{ dest2.destination2 }}</span></p>
+                        {% if milan_data %}
+                            <p><strong>One Way Price: </strong>₱{{ milan_data.dynamic_price }}</p>
+                        {% else %}
+                            <p>No pricing information available for MILAN.</p>
+                        {% endif %}
+                    </div>
+                    <div class="book-btn">
+                        <button type="button" class="book-button"
+                        data-destination-image="{{ dest2.file_upload.url }}"
+                        data-destination2="{{ dest2.destination1 }}"
+                        data-destination1="{{ dest2.destination2 }}"
+                        data-transportation-fee="{{ milan_data.dynamic_price }}"
+                        onclick="openModal(event)">
+                    Book
+                        </button>
+                    </div>
+                    <div class="switch-btn">
+                        <button type="button" onclick="switchDestinations1()">Switch Destination</button>
+                    </div>
+                </div>
 
                 <div class="van-card" id="promo-card">
                     <div class="ribbon">
@@ -107,8 +131,8 @@
                     <div class="van-details">
                         <p><strong>Starting Point:</strong> <span id="starting-point2">{{ dest3.destination1 }}</span></p>
                         <p><strong>Target Destination:</strong> <span id="target-destination2">{{ dest3.destination2 }}</span></p>
-                            <p class="original-price"><strong>Original Fee: </strong>₱{{ frendz.base_price }}</p>
-                            {% if frendz_data %}
+                        {% if frendz_data %}
+                            <p class="original-price"><strong>Original Fee: </strong>₱{{ frendz_data.base_price }}</p>
                             <p><strong>One Way Price NOW: </strong>₱{{ frendz_data.dynamic_price }}</p>
                         {% else %}
                             <p>No pricing information available for FRENDZ.</p>

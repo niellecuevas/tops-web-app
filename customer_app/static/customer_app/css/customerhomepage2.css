@@ -194,7 +194,6 @@ a:hover {
   object-fit: cover; /* Ensure images cover the area without distortion */
   border-radius: 10px 10px 0 0;
 }
-
 .van-details {
   padding: 15px;
   font-family: "Inclusive Sans", sans-serif;
@@ -203,7 +202,6 @@ a:hover {
   padding: 10px;
   text-align: center;
 }
-
 .book-btn button {
   font-family: "Inclusive Sans", sans-serif;
   background: #ce40b0;
@@ -215,7 +213,6 @@ a:hover {
   font-size: 16px;
   transition: background 0.3s;
 }
-
 .book-btn button:hover {
   background: #fcd23c;
 }
