@@ -269,22 +269,19 @@ def delete_destination(request, destination_id):
 
     return redirect('destination')  # Redirect if not a POST request
 
-import base64
-import io
 from django.shortcuts import render
-import matplotlib.pyplot as plt
-from io import BytesIO
 import pandas as pd
 import numpy as np
+import base64
+from io import BytesIO
+import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-
-# View function for generating and rendering statistics
 def statistics_view(request):
-    # Your forecast generation logic goes here
+    # Load data
     df = pd.read_csv('media/datasets/cleanvandata.csv')
 
-    # Apply cleaning and forecasting as in your original code
+    # Clean DATE column
     def clean_date(date_str):
         date_str = date_str.replace('\\', '')
         if '20223' in date_str:
@@ -296,7 +293,73 @@ def statistics_view(request):
     df['DATE'] = df['DATE'].apply(clean_date)
     df['DATE'] = pd.to_datetime(df['DATE'], format='%m/%d/%Y')
     df['PAX'] = df['PAX'].fillna(0).astype(int)
-    df = df.sort_values('DATE')
+
+    # Calculate revenue based on TYPE
+    df['REVENUE'] = np.where(
+        df['TYPE'] == 'SHARED', 
+        df['PAX'] * 500,  # Shared: PAX * 500
+        df['COST']        # Private: Fixed cost
+    )
+
+    # Aggregate revenue by destination
+    df_revenue = df.groupby('DESTINATION')['REVENUE'].sum().reset_index()
+
+    # Get the top 5 destinations based on revenue
+    top_destinations = df_revenue.nlargest(5, 'REVENUE')
+
+    from matplotlib.ticker import FuncFormatter
+
+    # Custom currency format for the y-axis
+    def currency_format(x, pos):
+        return f'₱{x:,.0f}'
+
+    # Create bar chart for top 5 destinations
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.bar(top_destinations['DESTINATION'], top_destinations['REVENUE'], color='#CDC1FF')
+    ax.set_title('Top 5 Destinations by Revenue')
+    ax.set_xlabel('Destination')
+    ax.set_ylabel('Revenue (₱)')
+    ax.grid(True)
+
+    # Apply the custom formatter to the y-axis
+    ax.yaxis.set_major_formatter(FuncFormatter(currency_format))
+
+    # Convert plot to base64
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    revenue_chart_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+
+    # Aggregate the number of successful trips by agency
+    df_agency_trips = df.groupby('AGENCY').size().reset_index(name='TRIPS')
+
+    # Get the top 6 agencies based on the number of successful trips
+    top_agencies = df_agency_trips.nlargest(6, 'TRIPS')
+
+    # Create horizontal bar chart for top 6 agencies
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.barh(top_agencies['AGENCY'], top_agencies['TRIPS'], color='#FFCCE1')
+    ax.set_title('Top 6 Agencies by Successful Trips')
+    ax.set_xlabel('Number of Trips')
+    ax.set_ylabel('Agency')
+    ax.grid(True)
+
+    # Convert horizontal bar chart to base64
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    agency_chart_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+
+
+
+    # Descriptive analytics
+    total_revenue = df['REVENUE'].sum()  # Total revenue
+    total_destinations = df['DESTINATION'].nunique()  # Total unique destinations
+    total_agencies = df['AGENCY'].nunique()  # Total unique agencies
+    total_trips = len(df)  # Total trips made
+
 
     # Aggregate PAX per month and destination
     df['Month'] = df['DATE'].dt.to_period('M')
@@ -347,5 +410,16 @@ def statistics_view(request):
             'destination': destination,
             'forecast_image': img_base64,
         })
-    
-    return render(request, 'admin_app/adminstatistics.html', {'forecasts': forecasts})
+
+    # Pass analytics and forecasts to the template
+    context = {
+        'forecasts': forecasts,
+        'total_revenue': total_revenue,
+        'total_destinations': total_destinations,
+        'total_agencies': total_agencies,
+        'total_trips': total_trips,
+        'revenue_chart': revenue_chart_base64,
+        'agency_chart': agency_chart_base64,
+    }
+
+    return render(request, 'admin_app/adminstatistics.html', context)

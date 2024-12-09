@@ -1,0 +1,102 @@
+.analytics {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.analytic-item {
+    text-align: center;
+    padding: 10px;
+}
+
+.revenue-chart-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;  /* Adds space between the charts */
+    margin-top: 20px;
+}
+
+.chart-item {
+    flex: 1;  /* Makes both items take equal space */
+    max-width: 48%;  /* Limits the width of each chart item */
+    text-align: center;  /* Centers the chart title and image */
+}
+
+.chart-item img {
+    width: 100%;  /* Makes the image scale according to the container width */
+    height: auto;  /* Maintains aspect ratio of the image */
+}
+
+
+/* Main container for all charts */
+.forecast-container {
+    display: flex;
+    gap: 20px; /* Adds space between the charts */
+    overflow-x: auto; /* Enables horizontal scrolling if needed */
+    padding: 10px; /* Adds padding around the container */
+}
+
+/* Individual forecast card */
+.forecast {
+    flex: 0 0 auto; /* Prevents the cards from shrinking or growing unevenly */
+    text-align: center; /* Center the text and chart inside each card */
+    width: 300px; /* Fixed width for each card */
+    border: 1px solid #ddd; /* Optional: Add a border */
+    border-radius: 8px; /* Optional: Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    padding: 1px; /* Optional: Add padding inside each card */
+    background-color: #fff; /* Optional: Background color */
+}
+
+/* Ensure the images scale correctly */
+.forecast img {
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    transition: transform 0.2s ease;
+    max-width: 100%; /* Prevents the image from overflowing */
+    height: auto; /* Maintains the image aspect ratio */
+    border-radius: 5px; /* Optional: Round the chart edges */
+}
+
+
+/* Modal styling */
+.image-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content (the image) */
+.image-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button */
+.image-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+
