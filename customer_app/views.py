@@ -227,10 +227,9 @@ def customer_homepage2(request):
     dest3 = get_object_or_404(Destination, id=3)
 
     # Query the dynamic pricing for the three destinations
-    ppc_en_data = DynamicPricing.objects.filter(destination='PPC-EN').order_by('-date').first()  # Get the most recent data
-    milan_data = DynamicPricing.objects.filter(destination='MILAN').order_by('-date').first()  # Get the most recent data
-    frendz_data = DynamicPricing.objects.filter(destination='FRENDZ').order_by('-date').first()  # Get the most recent data
-    frendz = Destination.objects.all()
+    ppc_en_data = 6000
+    milan_data = 1000
+    frendz_data = 3150
     context = {
         'came_from_payment': came_from_payment,
         'full_name': request.session.get('full_name', ''),
@@ -249,7 +248,6 @@ def customer_homepage2(request):
         'ppc_en_data': ppc_en_data,
         'milan_data': milan_data,
         'frendz_data': frendz_data,
-        'frendz': frendz
     }
 
     # Check if the user came from the payment page

@@ -74,11 +74,10 @@
                     <div class="van-details">
                         <p><strong>Starting Point:</strong> <span id="starting-point">{{ dest1.destination1 }}</span></p>
                         <p><strong>Target Destination:</strong> <span id="target-destination">{{ dest1.destination2 }}</span></p>
-                        {% if ppc_en_data %}
-                            <p><strong>One Way Price:</strong> ₱{{ ppc_en_data.dynamic_price }}</p>
-                        {% else %}
-                            <p><strong>No pricing information available for PPC-EN.</strong></p>
-                        {% endif %}
+                        
+                            <p><strong>One Way Price:</strong> ₱{{ ppc_en_data }}</p>
+                       
+                        
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
@@ -101,11 +100,10 @@
                     <div class="van-details">
                         <p><strong>Starting Point:</strong> <span id="starting-point1">{{ dest2.destination1 }}</span></p>
                         <p><strong>Target Destination:</strong> <span id="target-destination1">{{ dest2.destination2 }}</span></p>
-                        {% if milan_data %}
-                            <p><strong>One Way Price: </strong>₱{{ milan_data.dynamic_price }}</p>
-                        {% else %}
-                            <p>No pricing information available for MILAN.</p>
-                        {% endif %}
+                        
+                            <p><strong>One Way Price: </strong>₱{{milan_data}} </p>
+                      
+                          
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
@@ -132,12 +130,11 @@
                     <div class="van-details">
                         <p><strong>Starting Point:</strong> <span id="starting-point2">{{ dest3.destination1 }}</span></p>
                         <p><strong>Target Destination:</strong> <span id="target-destination2">{{ dest3.destination2 }}</span></p>
-                        {% if frendz_data %}
-                            <p class="original-price"><strong>Original Fee: </strong>₱{{ frendz_data.base_price }}</p>
-                            <p><strong>One Way Price NOW: </strong>₱{{ frendz_data.dynamic_price }}</p>
-                        {% else %}
-                            <p>No pricing information available for FRENDZ.</p>
-                        {% endif %}
+                        
+                            <p class="original-price"><strong>Original Fee: </strong>₱ 3500</p>
+                            <p><strong>One Way Price NOW: </strong>₱{{ frendz_data }}</p>
+                    
+                        
                     </div>
                     <div class="book-btn">
                         <button type="button" class="book-button"
