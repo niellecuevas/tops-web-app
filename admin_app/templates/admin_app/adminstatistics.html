@@ -37,7 +37,7 @@
 
 <hr>
 
-<h2 style="margin-top: 10px;">Top 3 Forecasted Destinations</h2>
+<h2 style="margin-top: 10px;">Top 3 In-demand Destinations</h2>
 
 <div class="forecast-container">
     {% for forecast in forecasts %}
@@ -45,7 +45,8 @@
             <h3>{{ forecast.destination }}</h3>
             <img src="data:image/png;base64,{{ forecast.forecast_image }}" alt="Forecast for {{ forecast.destination }}">
         </div>
-    {% endfor %}
+{% endfor %}
+
 </div>
 
 <!-- Modal for image view -->
@@ -54,6 +55,27 @@
     <img src="" alt="Enlarged Forecast">
 </div>
 
+<table>
+    <h2>Dynamic Pricing Table</h2>
+    <thead>
+        <p>{{ data.current_month }}</p>
+      <tr>
+        <th>Destination</th>
+        <th>Rate (₱)</th>
+        <th>Dynamic Price (₱)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for data in dynamic_pricing_all_dest %}
+        <tr>
+          <td>{{ data.destination }}</td>
+          <td>₱ {{ data.original_price|intcomma }}</td>
+          <td>₱ {{ data.dynamic_price|intcomma }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
 
 <script>
     // JavaScript to handle image modal

@@ -276,6 +276,7 @@ import base64
 from io import BytesIO
 import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+from datetime import datetime
 
 def statistics_view(request):
     # Load data
@@ -306,6 +307,12 @@ def statistics_view(request):
 
     # Get the top 5 destinations based on revenue
     top_destinations = df_revenue.nlargest(5, 'REVENUE')
+    current_month = datetime.now().strftime('%Y-%m')
+
+    # Filter for 'PRIVATE' type bookings for dynamic pricing
+    private_df = df[df['TYPE'] == 'PRIVATE']
+
+    dynamic_pricing_data = []
 
     from matplotlib.ticker import FuncFormatter
 
@@ -352,14 +359,11 @@ def statistics_view(request):
     agency_chart_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
     buf.close()
 
-
-
     # Descriptive analytics
     total_revenue = df['REVENUE'].sum()  # Total revenue
     total_destinations = df['DESTINATION'].nunique()  # Total unique destinations
     total_agencies = df['AGENCY'].nunique()  # Total unique agencies
     total_trips = len(df)  # Total trips made
-
 
     # Aggregate PAX per month and destination
     df['Month'] = df['DATE'].dt.to_period('M')
@@ -370,46 +374,89 @@ def statistics_view(request):
     top_destinations = df_monthly_dest.groupby('DESTINATION')['PAX'].sum().nlargest(3).index
 
     forecasts = []
-    for destination in top_destinations:
+
+    dynamic_pricing_all_dest = []
+
+    # Loop over all unique destinations for dynamic pricing
+    all_destinations = private_df['DESTINATION'].unique()
+
+    for destination in all_destinations:
         # Filter data for the current destination
         df_dest = df_monthly_dest[df_monthly_dest['DESTINATION'] == destination]
         df_dest.set_index('Month', inplace=True)
 
-        # Fit the SARIMA model
-        model = SARIMAX(df_dest['PAX'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
-        model_fit = model.fit()
+        # Forecasting using SARIMA for the top 3 destinations
+        if destination in top_destinations:
+            # Fit the SARIMA model for the top destinations
+            model = SARIMAX(df_dest['PAX'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+            model_fit = model.fit()
 
-        # Forecast the next 12 months
-        forecast = model_fit.get_forecast(steps=12)
-        forecast_mean = forecast.predicted_mean
-        forecast_ci = forecast.conf_int()
+            # Forecast the next 12 months
+            forecast = model_fit.get_forecast(steps=12)
+            forecast_mean = forecast.predicted_mean
+            forecast_ci = forecast.conf_int()
 
-        # Ensure predictions are non-negative
-        forecast_mean = np.maximum(forecast_mean, 0)
+            # Ensure predictions are non-negative
+            forecast_mean = np.maximum(forecast_mean, 0)
 
-        # Create plot
-        fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(df_dest['PAX'], label=f'Historical Data - {destination}')
-        ax.plot(forecast_mean.index, forecast_mean, label=f'Forecast - {destination}', color='red')
-        ax.fill_between(forecast_ci.index, forecast_ci.iloc[:, 0], forecast_ci.iloc[:, 1], color='pink', alpha=0.3)
-        ax.set_title(f"SARIMA Forecast of Passenger Demand for {destination}")
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Passenger Count")
-        ax.legend()
-        ax.grid()
+            # Create plot
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.plot(df_dest['PAX'], label=f'Historical Data - {destination}')
+            ax.plot(forecast_mean.index, forecast_mean, label=f'Forecast - {destination}', color='red')
+            ax.fill_between(forecast_ci.index, forecast_ci.iloc[:, 0], forecast_ci.iloc[:, 1], color='pink', alpha=0.3)
+            ax.set_title(f"SARIMA Forecast of Passenger Demand for {destination}")
+            ax.set_xlabel("Date")
+            ax.set_ylabel("Passenger Count")
+            ax.legend()
+            ax.grid()
 
-        # Convert plot to base64
-        buf = BytesIO()
-        plt.savefig(buf, format='png')
-        buf.seek(0)
-        img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
-        buf.close()
+            # Convert plot to base64
+            buf = BytesIO()
+            plt.savefig(buf, format='png')
+            buf.seek(0)
+            img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+            buf.close()
 
-        # Append the base64 image to the list of forecasts
-        forecasts.append({
-            'destination': destination,
-            'forecast_image': img_base64,
-        })
+            # Append the forecast image
+            forecasts.append({
+                'destination': destination,
+                'forecast_image': img_base64,
+            })
+
+        # Calculate dynamic pricing adjustment for private trips
+        private_dest_data = private_df[private_df['DESTINATION'] == destination]
+        private_latest_price = private_dest_data['COST'].iloc[-1] if not private_dest_data.empty else 0
+
+        avg_demand = df_dest['PAX'].mean()
+        price_adjustment = 1  # Default to no adjustment
+
+        # Dynamic pricing logic based on forecasted demand
+        if destination in all_destinations:
+            for month, demand in forecast_mean.items():
+                if month.strftime('%Y-%m') == current_month:
+                    price_adjustment = 1.20  # Increase by 20%
+                elif demand > avg_demand and month.strftime('%Y-%m') == current_month:
+                    price_adjustment = 0.90  # Decrease by 10%
+
+            dynamic_price = private_latest_price * price_adjustment if private_latest_price > 0 else 0
+
+            # Append the dynamic price data for the current destination
+            dynamic_pricing_all_dest.append({
+                'destination': destination,
+                'current_month': current_month,
+                'dynamic_price': dynamic_price,
+                'original_price': private_latest_price
+            })
+
+            # Sort dynamic_pricing_all_dest by dynamic_price in descending order
+            dynamic_pricing_all_dest = sorted(
+                dynamic_pricing_all_dest,
+                key=lambda x: x['dynamic_price'],  # Sort by dynamic price
+                reverse=True  # Descending order
+            )
+
+            # Limit to the top 20 destinations
+            dynamic_pricing_all_dest = dynamic_pricing_all_dest[:20]
 
     # Pass analytics and forecasts to the template
     context = {
@@ -420,6 +467,9 @@ def statistics_view(request):
         'total_trips': total_trips,
         'revenue_chart': revenue_chart_base64,
         'agency_chart': agency_chart_base64,
+        'dynamic_pricing_data': dynamic_pricing_data,
+        'dynamic_pricing_all_dest': dynamic_pricing_all_dest
     }
 
     return render(request, 'admin_app/adminstatistics.html', context)
+
