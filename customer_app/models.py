@@ -24,6 +24,8 @@ class Booking(models.Model):
     transportation_fee = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     final_fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True,blank=True, null=True)  # Add created_at field
+
 
 class CustomBooking(models.Model):
     full_name = models.CharField(max_length=255)

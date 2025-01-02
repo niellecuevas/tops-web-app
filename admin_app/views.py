@@ -279,10 +279,10 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from datetime import datetime
 
 def statistics_view(request):
-    # Load data
-    df = pd.read_csv('media/datasets/cleanvandata.csv')
+     # 1. Load historical data from the CSV file
+    historical_data = pd.read_csv('media/datasets/cleanvandata.csv')
 
-    # Clean DATE column
+    # Clean DATE column in CSV
     def clean_date(date_str):
         date_str = date_str.replace('\\', '')
         if '20223' in date_str:
@@ -291,26 +291,50 @@ def statistics_view(request):
             date_str = '02/28/2023'
         return date_str
 
-    df['DATE'] = df['DATE'].apply(clean_date)
-    df['DATE'] = pd.to_datetime(df['DATE'], format='%m/%d/%Y')
-    df['PAX'] = df['PAX'].fillna(0).astype(int)
+    historical_data['DATE'] = historical_data['DATE'].apply(clean_date)
+    historical_data['DATE'] = pd.to_datetime(historical_data['DATE'], format='%m/%d/%Y')
+    historical_data['PAX'] = historical_data['PAX'].fillna(0).astype(int)
 
-    # Calculate revenue based on TYPE
-    df['REVENUE'] = np.where(
-        df['TYPE'] == 'SHARED', 
-        df['PAX'] * 500,  # Shared: PAX * 500
-        df['COST']        # Private: Fixed cost
+    # Add REVENUE column based on TYPE
+    historical_data['REVENUE'] = np.where(
+        historical_data['TYPE'] == 'SHARED',
+        historical_data['PAX'] * 500,  # Shared: PAX * 500
+        historical_data['COST']  # Private: Fixed cost
     )
 
+    # 2. Fetch real-time booking data from the database
+    booking_data = Booking.objects.filter(status='Confirmed')  # Use only confirmed bookings
+    real_time_data = pd.DataFrame(list(booking_data.values('passenger_count', 'pickup_datetime', 'destination')))
+
+    # Rename columns to match historical data
+    if not real_time_data.empty:
+        real_time_data.rename(columns={
+            'passenger_count': 'PAX',
+            'pickup_datetime': 'DATE',
+            'destination': 'DESTINATION'
+        }, inplace=True)
+
+        # Add TYPE and REVENUE columns for real-time data
+        real_time_data['TYPE'] = 'PRIVATE'  # Assume all database bookings are private
+        real_time_data['COST'] = 0  # Default cost for dynamic pricing calculation
+        real_time_data['REVENUE'] = 0  # Placeholder for revenue (calculated later)
+        real_time_data['DATE'] = pd.to_datetime(real_time_data['DATE'])
+
+    # 3. Combine historical and real-time data
+    combined_data = pd.concat([historical_data, real_time_data], ignore_index=True)
+    combined_data['DATE'] = pd.to_datetime(combined_data['DATE'], errors='coerce')
+    combined_data['Month'] = combined_data['DATE'].dt.to_period('M')
+
+
     # Aggregate revenue by destination
-    df_revenue = df.groupby('DESTINATION')['REVENUE'].sum().reset_index()
+    df_revenue = combined_data.groupby('DESTINATION')['REVENUE'].sum().reset_index()
 
     # Get the top 5 destinations based on revenue
     top_destinations = df_revenue.nlargest(5, 'REVENUE')
     current_month = datetime.now().strftime('%Y-%m')
 
     # Filter for 'PRIVATE' type bookings for dynamic pricing
-    private_df = df[df['TYPE'] == 'PRIVATE']
+    private_df = combined_data[combined_data['TYPE'] == 'PRIVATE']
 
     dynamic_pricing_data = []
 
@@ -339,7 +363,7 @@ def statistics_view(request):
     buf.close()
 
     # Aggregate the number of successful trips by agency
-    df_agency_trips = df.groupby('AGENCY').size().reset_index(name='TRIPS')
+    df_agency_trips = combined_data.groupby('AGENCY').size().reset_index(name='TRIPS')
 
     # Get the top 6 agencies based on the number of successful trips
     top_agencies = df_agency_trips.nlargest(6, 'TRIPS')
@@ -360,14 +384,14 @@ def statistics_view(request):
     buf.close()
 
     # Descriptive analytics
-    total_revenue = df['REVENUE'].sum()  # Total revenue
-    total_destinations = df['DESTINATION'].nunique()  # Total unique destinations
-    total_agencies = df['AGENCY'].nunique()  # Total unique agencies
-    total_trips = len(df)  # Total trips made
+    total_revenue = combined_data['REVENUE'].sum()  # Total revenue
+    total_destinations = combined_data['DESTINATION'].nunique()  # Total unique destinations
+    total_agencies = combined_data['AGENCY'].nunique()  # Total unique agencies
+    total_trips = len(combined_data)  # Total trips made
 
     # Aggregate PAX per month and destination
-    df['Month'] = df['DATE'].dt.to_period('M')
-    df_monthly_dest = df.groupby(['Month', 'DESTINATION'])['PAX'].sum().reset_index()
+    combined_data['Month'] = combined_data['DATE'].dt.to_period('M')
+    df_monthly_dest = combined_data.groupby(['Month', 'DESTINATION'])['PAX'].sum().reset_index()
     df_monthly_dest['Month'] = df_monthly_dest['Month'].dt.to_timestamp()
 
     # Find the top 3 destinations based on total PAX
