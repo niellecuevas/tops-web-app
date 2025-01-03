@@ -277,8 +277,10 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from datetime import datetime
+from matplotlib.ticker import FuncFormatter
 
-def statistics_view(request):
+# Assuming you load or define combined_data here
+def load_combined_data():
      # 1. Load historical data from the CSV file
     historical_data = pd.read_csv('media/datasets/cleanvandata.csv')
 
@@ -324,8 +326,19 @@ def statistics_view(request):
     combined_data = pd.concat([historical_data, real_time_data], ignore_index=True)
     combined_data['DATE'] = pd.to_datetime(combined_data['DATE'], errors='coerce')
     combined_data['Month'] = combined_data['DATE'].dt.to_period('M')
+    return combined_data
 
+def statistics_view(request):
+    combined_data = load_combined_data()  # Load combined data here
 
+    selected_date = request.GET.get('date')
+
+    # Process the data based on the selected date
+    if selected_date:
+        combined_data['DATE'] = pd.to_datetime(combined_data['DATE'])
+        # Filter to include all data up to the selected date
+        combined_data = combined_data[combined_data['DATE'] <= selected_date]
+        
     # Aggregate revenue by destination
     df_revenue = combined_data.groupby('DESTINATION')['REVENUE'].sum().reset_index()
 
@@ -337,8 +350,6 @@ def statistics_view(request):
     private_df = combined_data[combined_data['TYPE'] == 'PRIVATE']
 
     dynamic_pricing_data = []
-
-    from matplotlib.ticker import FuncFormatter
 
     # Custom currency format for the y-axis
     def currency_format(x, pos):
@@ -388,6 +399,7 @@ def statistics_view(request):
     total_destinations = combined_data['DESTINATION'].nunique()  # Total unique destinations
     total_agencies = combined_data['AGENCY'].nunique()  # Total unique agencies
     total_trips = len(combined_data)  # Total trips made
+
 
     # Aggregate PAX per month and destination
     combined_data['Month'] = combined_data['DATE'].dt.to_period('M')
@@ -484,6 +496,8 @@ def statistics_view(request):
 
     # Pass analytics and forecasts to the template
     context = {
+        'combined_data': combined_data,
+        'selected_date': selected_date,
         'forecasts': forecasts,
         'total_revenue': total_revenue,
         'total_destinations': total_destinations,
